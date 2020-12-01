@@ -7,7 +7,7 @@ output:
     theme: cerulean
 ---
 
-### Assessing trends in adult vaccination: the flu vaccine
+###Assessing trends in adult vaccination: the flu vaccine
 #### A project exploring the relationship between quantitative and qualitative analysis
 
 Welcome to our p8105 final project. We (Adam, Maria, Ronaé) looked at data concerning flu vaccines, the people who choose to get them and who choose not to get them, and how they feel about vaccines from their candid expressions.  We started this project during a tumultuous year, when a COVID-19 vaccine seemed nearly impossible and wearing a mask was a radical gesture in some areas.  Coming from different departments, we consider this to be a mixed methods approach to data science.  The data provided some interesting findings, and our website highlights some of those for you. We believe that adult immunizations are important, and it’s engagement will push us towards achieving health equity for all. 
