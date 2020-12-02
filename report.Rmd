@@ -67,7 +67,7 @@ Access data set here: https://data.cityofnewyork.us/Health/Emergency-Department-
 
 #### Twitter
 Using rverst, data were scraped from the website. 
-Access data set here: https://twitter.com
+
 
 
 ###	Overview of research design
