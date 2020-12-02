@@ -1,0 +1,316 @@
+---
+title: "Storyboard Page"
+output: flexdashboard::flex_dashboard
+---
+
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(haven)
+library(plotly)
+
+brfss_df =
+  read_xpt("./final_project_large_data/LLCP2019.xpt") %>%
+  janitor::clean_names()%>%
+  mutate(
+    state = as.factor(state),
+    flushot_yn = as.factor(flushot7)
+  )%>%
+  mutate(
+    state = recode(state,
+         "1" = "Alabama",
+         "2" = "Alaska",
+         "4" = "Arizona",
+         "5" = "Arkansas",
+         "6" = "California",
+         "8" = "Colorado",
+         "9" = "Connecticut",
+         "10" = "Delaware",
+         "11" = "District of Columbia",
+         "12" = "Florida",
+         "13" = "Georgia",
+         "15" = "Hawaii",
+         "16" = "Idaho",
+         "17" = "Illinois",
+         "18" = "Indiana",
+         "19" = "Iowa",
+         "20" = "Kansas",
+         "21" = "Kentucky",
+         "22" = "Louisiana",
+         "23" = "Maine",
+         "24" = "Maryland",
+         "25" = "Massachusetts",
+         "26" = "Michigan",
+         "27" = "Minnesota",
+         "28" = "Mississippi",
+         "29" = "Missouri",
+         "30" = "Montana",
+         "31" = "Nebraska",
+         "32" = "Nevada",
+         "33" = "New Hampshire",
+         "35" = "New Mexico",
+         "36" = "New York",
+         "37" = "North Carolina",
+         "38" = "North Dakota",
+         "39" = "Ohio",
+         "40" = "Oklahoma",
+         "41" = "Oregon",
+         "42" = "Pennsylvania",
+         "44" = "Rhode Island",
+         "45" = "South Carolina",
+         "46" = "South Dakota",
+         "47" = "Tennessee",
+         "48" = "Texas",
+         "49" = "Utah",
+         "50" = "Vermont",
+         "51" = "Virginia",
+         "53" = "Washington",
+         "54" = "West Virginia",
+         "55" = "Wisconsin",
+         "56" = "Wyoming",
+         "66" = "Guam",
+         "72" = "Puerto Rico"),
+    flushot_yn = recode(flushot_yn,
+          "1" = "Yes",
+          "2" = "No",
+          "7" = "Don't know/not sure",
+          "9" = "Refused")
+  )
+```
+
+BRFSS visual inspection: Where did people get their flu vaccine in 2019? {.storyboard}
+=========================================
+
+###  At what kind of place did you get your last flu shot or vaccine?
+
+```{r}
+brfss_df %>%
+  select(seqno, state, sexvar, genhlth, physhlth, menthlth, hlthpln1, persdoc2, medcost, checkup1,
+         flushot7, imfvpla1, urbstat) %>%
+  mutate(
+    flu_vacc_loc = as.factor(imfvpla1)
+  ) %>%
+  drop_na(flu_vacc_loc) %>%
+  mutate(
+    flu_vacc_loc = recode(flu_vacc_loc,
+                          '1' = "Doctor's office/HMO",
+                          '2' = "Health dept",
+                          '3' = "Clinic/health center",
+                          '4' = "Senior, rec, or community center",
+                          '5' = "Supermarket/pharmacy",
+                          '6' = "Hospital",
+                          '7' = "ER",
+                          '8' = "Workplace",
+                          '9' = "Elsewhere",
+                          '10' = "Canada/Mexico",
+                          '11' = "A school",
+                          '77' = "Don't know/not sure",
+                          '99' = "Refused"),
+  )%>% 
+  count(flu_vacc_loc)%>%
+  mutate(flu_vacc_loc = fct_reorder(flu_vacc_loc, n)) %>%
+    plot_ly(x = ~flu_vacc_loc, y = ~n, color = ~flu_vacc_loc, type = "bar", colors = "plasma") %>%
+  layout(
+    xaxis = list(title = "Flu vaccine location"),
+    yaxis = list(title = "Count (n)")
+  )
+
+```
+
+***
+
+We wanted to look at where people were receiving their flu vaccines nationally. By looking purely at counts,
+we can see that the leading locations are at doctor's offices and at supermarkets/vaccines, although other
+options do exist. Interestingly enough, 3 people reported getting their flu vaccine in either Canada or Mexico.
+
+Another location-related question that came up was if there were any differences in percentages of the surveyed 
+population among the regions of the United States. Click along on the other frames in this dashboard to see how 
+these percentages compare among the regions.
+
+
+### Northeastern United States
+
+```{r}
+
+plot_northeast =
+ brfss_df %>%
+  filter(
+    state == c("Connecticut","District of Columbia", "Delaware","Maine", "Massachusetts", "Maryland",
+               "New Hampshire", "New Jersey", "New York", "Pennsylvania",
+               "Rhode Island", "Vermont")
+    )%>%
+  drop_na(flushot_yn, state) %>%
+  select (state, flushot_yn) %>%
+  group_by(state, flushot_yn)%>%
+  summarize(n_obs = n()) %>%
+  mutate(
+    pct = n_obs/sum(n_obs)
+  )%>%
+  filter(flushot_yn != "Don't know/not sure")%>%
+  filter(flushot_yn != "Refused")%>%
+  ggplot(aes(fill = flushot_yn, y = pct, x = state))+
+  geom_bar(position="stack", stat = "identity")+
+  ylim(0, 1.0)+
+  theme_bw()+
+  labs(
+    x = "State",
+    y = "Proportion response",
+    title = "Frequency of flu vaccinations in the Northeastern region of the U.S."
+  )+
+  scale_fill_discrete(name = "Flu shot?")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1)) 
+ggplotly(plot_northeast)
+
+```
+
+***
+Looking through the states in the region, what trends do you see?
+
+- The split seems to be approximately equal between those who did/did not get the flu shot
+- How do these trends compare with the other regions?
+- Toggle over the graph to get the exact number of the proportion response
+- Of note: this graphic excludes missing values, ie people that did not answer or refused we not included
+
+### Midwestern United States
+
+```{r}
+
+#Midwest
+plot_midwest =
+  brfss_df %>%
+  filter(
+    state == c("Illinois", "Indiana", "Iowa", "Kansas", "Michigan", "Minnesota",
+               "Missouri", "Nebraska", "North Dakota", "Ohio", "South Dakota",
+               "Wisconsin")
+    )%>%
+  drop_na(flushot_yn, state) %>%
+  select (state, flushot_yn) %>%
+  group_by(state, flushot_yn)%>%
+  summarize(n_obs = n()) %>%
+  mutate(
+    pct = n_obs/sum(n_obs)
+  )%>%
+  filter(flushot_yn != "Don't know/not sure")%>%
+  filter(flushot_yn != "Refused")%>%
+  ggplot(aes(fill = flushot_yn, y = pct, x = state))+
+  geom_bar(position="stack", stat = "identity")+
+  ylim(0, 1.0)+
+  theme_bw()+
+  labs(
+    x = "State",
+    y = "% Response",
+    title = "Frequency of flu vaccinations in the Midwestern region of the U.S"
+  )+
+  scale_fill_discrete(name = "Flu shot?")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1))
+ 
+ggplotly(plot_midwest) 
+
+```   
+
+***
+Looking through the states in the region, what trends do you see?
+
+- The split seems to be approximately equal between those who did/did not get the flu shot
+- How do these trends compare with the other regions?
+- Toggle over the graph to get the exact number of the proportion response
+- Of note: this graphic excludes missing values, ie people that did not answer or refused we not included
+
+### Western United States
+
+```{r}
+plot_west =
+ brfss_df %>%
+  filter(
+    state == c("Alaska", "Arizona", "California", "Colorado","Hawaii", "Idaho", "Montana",
+               "Nevada", "New Mexico", "Oregon", "Utah", "Washington",
+               "Wyoming")
+    )%>%
+  drop_na(flushot_yn, state) %>%
+  select (state, flushot_yn) %>%
+  group_by(state, flushot_yn)%>%
+  summarize(n_obs = n()) %>%
+  mutate(
+    pct = n_obs/sum(n_obs)
+  )%>%
+  filter(flushot_yn != "Don't know/not sure")%>%
+  filter(flushot_yn != "Refused")%>%
+  ggplot(aes(fill = flushot_yn, y = pct, x = state))+
+  geom_bar(position="stack", stat = "identity")+
+  ylim(0, 1.0)+
+  theme_bw()+
+  labs(
+    x = "State",
+    y = "Proportion response",
+    title = "Frequency of flu vaccinations in the Western region of the U.S."
+  )+
+  scale_fill_discrete(name = "Flu shot?")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1))
+ggplotly(plot_west)
+
+```
+
+***
+Looking through the states in the region, what trends do you see?
+
+- The split seems to be approximately equal between those who did/did not get the flu shot
+- How do these trends compare with the other regions?
+- Toggle over the graph to get the exact number of the proportion response
+- Of note: this graphic excludes missing values, ie people that did not answer or refused we not included
+
+### Southern United States
+
+```{r}
+plot_south =
+ brfss_df %>%
+  filter(
+    state == c("Alabama","Arkansas", "Florida", "Kentucky", "Louisiana", 
+               "Mississippi", "North Carolina", "Oklahoma", "South Carolina",
+               "Tennessee", "Texas", "Virginia", "West Virginia")
+    )%>%
+  drop_na(flushot_yn, state) %>%
+  select (state, flushot_yn) %>%
+  group_by(state, flushot_yn)%>%
+  summarize(n_obs = n()) %>%
+  mutate(
+    pct = n_obs/sum(n_obs)
+  )%>%
+  filter(flushot_yn != "Don't know/not sure")%>%
+  filter(flushot_yn != "Refused")%>%
+  ggplot(aes(fill = flushot_yn, y = pct, x = state))+
+  geom_bar(position="stack", stat = "identity")+
+  ylim(0, 1.0)+
+  theme_bw()+
+  labs(
+    x = "State",
+    y = "Proportion response",
+    title = "Frequency of flu vaccinations in the Southern region of the U.S."
+  )+
+  scale_fill_discrete(name = "Flu shot?")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1))
+
+ggplotly(plot_south)
+```
+
+***
+Looking through the states in the region, what trends do you see?
+
+- The split seems to be approximately equal between those who did/did not get the flu shot
+- How do these trends compare with the other regions?
+- Toggle over the graph to get the exact number of the proportion response
+- Of note: this graphic excludes missing values, ie people that did not answer or refused we not included
+
+
+**Using the BRFSS dataset, we visually inspected only a few variables that could influence decision to vaccinate. Generally,
+it is important to visually inspect and explore the data prior to performing statistical analyses. The questions that this graph 
+and that the other plots in this dashboard beg the questions:**
+
+- Is there a significant difference between getting and not getting a flu shot depending on your geographic region?
+- Is there a significant difference between getting and not getting a flu shot depending on location accessibility?
+- What other variables might be influential in an individuals decision to get vaccinated?
+
+And finally, we would also be interested in what *motivated* people, ie, what were some *qualitative* reasons that drive the data
+that we are inspecting visually?
+
+
