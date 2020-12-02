@@ -6,6 +6,7 @@ output:
     toc_float: true
     theme: cosmo
 ---
+## Intro
 
 ### Assessing trends in adult vaccination: the flu vaccine  
 #### A project exploring the relationship between quantitative and qualitative analysis
@@ -16,7 +17,7 @@ All the best,
 
 *Adam, Maria, Ronaé*
 
-#### Project inspiration
+## Project inspiration
 
 <center>
 <iframe width="840" height="472" src="https://www.youtubetrimmer.com/view/?v=qAWtUu88ug4&start=305&end=343" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
