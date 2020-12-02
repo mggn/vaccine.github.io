@@ -18,6 +18,8 @@ All the best,
 
 #### Project inspiration
 
+***hi i think we should remove this video from this intro/abstract page. and instead insert a large image concerning the flu stuff. then below we can place hyperlinks to the other pages of our website.  let me know what you think. --ronae.  delete after reading***
+
 <center>
 <iframe width="840" height="472" src="https://www.youtubetrimmer.com/view/?v=qAWtUu88ug4&start=305&end=343" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
