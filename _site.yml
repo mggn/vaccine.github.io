@@ -5,8 +5,6 @@ navbar:
   right:
     - text: "Welcome"
       href: index.html
-    - text: "Background"
-      href: background.html
     - text: "Exploratory Analysis"
       href: methods.html
     - text: "Statistical Analysis"
