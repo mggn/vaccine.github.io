@@ -7,8 +7,14 @@ navbar:
       href: index.html
     - text: "Background"
       href: background.html
-    - text: "Methods"
+    - text: "Exploratory Analysis"
       href: methods.html
+    - text: "Statistical Analysis"
+      href: stat.html
+    - text: "Extras"
+      href: extras.html
+    - text: "Report"
+      href: report.html
     - icon: fa-envelope fa-lg
       href: mailto:<you@youremail.com>
     - icon: fa-github fa-lg
