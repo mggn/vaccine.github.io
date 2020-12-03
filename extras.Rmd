@@ -12,12 +12,11 @@ output:
 ## Student Bios:
 
 
-Maria is an Epidemiology student with a focus on Applied Biostatistics. Born in Ecuador and raised in Connecticut, Maria is obsessed with pugs, especially her dog Frankie. Maria cares about using data to asses and tailor health programs with the goal of improving access to care. In her free time she enjoys knitting and thrifting. 
+**Maria Guzman**: Maria is an Epidemiology student with a focus on Applied Biostatistics. Born in Ecuador and raised in Connecticut, Maria is obsessed with pugs, especially her dog Frankie. Maria cares about using data to asses and tailor health programs with the goal of improving access to care. In her free time she enjoys knitting and thrifting. 
 
 
 **Ronaé McLin**: Ronae is a Population and Family Health student with a focus on Research Methods. She doesn’t have a hometown, but lukewarmly claims Ohio.  Ronae is passionate about ensuring that minoritized groups have equal access to and treatment within healthcare.  In her free time she enjoys technical baking and making lists.  
 
-<br></br>
 
 **Adam Whalen**: Adam is an Epidemiology student with a focus on Applied Biostatistics.  Orginially from California, Adam loves to talk about single payer healthcare.  In his free time he spends his time playing Settlers of Catan and drinking craft beer. 
 
