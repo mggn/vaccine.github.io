@@ -9,7 +9,7 @@ output:
 **need to clean up alot, just added to see for right now**
 
 
-## Student Bios:
+## Student Bios
 
 
 **Maria Guzman**: Maria is an Epidemiology student with a focus on Applied Biostatistics. Born in Ecuador and raised in Connecticut, Maria is obsessed with pugs, especially her dog Frankie. Maria cares about using data to asses and tailor health programs with the goal of improving access to care. In her free time she enjoys knitting and thrifting. 
@@ -18,31 +18,15 @@ output:
 **Ronaé McLin**: Ronae is a Population and Family Health student with a focus on Research Methods. She doesn’t have a hometown, but lukewarmly claims Ohio.  Ronae is passionate about ensuring that minoritized groups have equal access to and treatment within healthcare.  In her free time she enjoys technical baking and making lists.  
 
 
-**Adam Whalen**: Adam is an Epidemiology student with a focus on Applied Biostatistics.  Orginially from California, Adam loves to talk about single payer healthcare.  In his free time he spends his time playing Settlers of Catan and drinking craft beer. 
+**Adam Whalen**: Adam is an Epidemiology student with a focus on Applied Biostatistics.  Orginially from California, Adam loves to talk about single payer healthcare. He is interested in studying the social and spatial distribution of factors that impact health outcomes, specifically for civilian interactions with the police. In his free time he enjoys playing Settlers of Catan and drinking craft beer. 
 
-## Fun:
+## Fun
 
 Check out our playlist, features music we like to code to 
 
 <iframe src="https://open.spotify.com/embed/playlist/4jaJwJZELmM2jDbkluVzUX" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
 Check out our hexsticker (has not been made yet)
-
-## Resources:
-
-Below are resources at your disposable regarding vaccines!
-
--	Communication resources
-o	https://www.cdc.gov/flu/resource-center/index.htm
--	Vaccine finder
-o	https://vaccinefinder.org/find-vaccine
--	For persons with vulnerable health statuses
-o	https://www.cdc.gov/flu/highrisk/index.htm
--	Where to get a low or no cost immunizations in NYC clinics regardless of immigration status
-o	https://www1.nyc.gov/site/doh/services/immunization-clinics.page
-
--	Reading to combat Anti- Vaxxers
-o	https://www.theatlantic.com/health/archive/2020/10/how-change-mind-anti-vaxxer/616722/
 
 
 
