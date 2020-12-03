@@ -15,7 +15,7 @@ output:
 **need to add descriptions and analysis of what the graph is displaying**
 **need to figure out how to make the color magma**
 
-```{r include=FALSE}
+```{r setup, include=FALSE}
 library(tidyverse)
 library(plotly)
 library(wesanderson)
@@ -26,10 +26,6 @@ library(magick)
 library(png)
 library(patchwork)
 library(ggridges)
-
-```
-
-```{r include=FALSE}
 
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
 
@@ -44,7 +40,7 @@ scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ```{r include=FALSE}
-  adult_df = 
+adult_df = 
   read_csv("adult19.csv")
 ```
 
@@ -53,26 +49,25 @@ flu_adult_df =
   adult_df %>% 
   janitor::clean_names() %>% 
   select(
-    srvy_yr,agep_a, age65, sex_a, educ_a,hisp_a, hispallp_a, hisdetp_a,phstat_a,bmicat_a, notcov_a, cover_a, usualpl_a, usplkind_a,  pregfluyr_a, shtflu12m_a, shtflum_a, shtfluy_a, flupreg2_a, raceallp_a, pregnow_a, disab3_a, socerrnds_a, cover65_a, lastdr_a, emerg12mtc_a, urgnt12mtc_a, natusborn_a,citznstp_a, povrattc_a, pregnow_a, paybll12m_a, hhx
+    srvy_yr,agep_a, age65, sex_a, educ_a,hisp_a, hispallp_a, 
+    hisdetp_a,phstat_a,bmicat_a, notcov_a, cover_a, usualpl_a, 
+    usplkind_a,  pregfluyr_a, shtflu12m_a, shtflum_a, shtfluy_a, 
+    flupreg2_a, raceallp_a, pregnow_a, disab3_a, socerrnds_a, 
+    cover65_a, lastdr_a, emerg12mtc_a, urgnt12mtc_a, natusborn_a,
+    citznstp_a, povrattc_a, pregnow_a, paybll12m_a, hhx
   ) %>% 
   mutate(
-   id = hhx,  
-    age =  as.factor(agep_a), 
-      age65 = case_when(
-      age65 == "1" ~ "Less than 65",
-      age65 == "2" ~ "65 or older",
-      age65 == "7" ~ "No response",
-      age65 == "8" ~ "Not applicable",
-      age65 == "9" ~ "Don't know"),
-      
-      sex = case_when(
+    id = hhx,  
+    age =  as.numeric(agep_a), 
+    age65 = case_when(
+      age < 65  ~ "Less than 65",
+      age >= 65 ~ "65 or older"
+      ),
+    sex = case_when(
       sex_a == "1" ~ "Male",
-      sex_a == "2" ~ "Female",
-      sex_a == "7" ~ "No response",
-      sex_a == "8" ~ "Not applicable",
-      sex_a == "9" ~ "Don't know"),
-      
-      education = case_when(
+      sex_a == "2" ~ "Female"
+      ),
+    education = case_when(
       educ_a == "0" ~ "never attended",
       educ_a == "1" ~ "Grades 1-11",
       educ_a == "2" ~ "12th grade, no dipolma",
@@ -84,93 +79,65 @@ flu_adult_df =
       educ_a == "8" ~ "Bachelor's degree",
       educ_a == "9" ~ "Master's degree",
       educ_a == "10" ~ "Professional school",
-      educ_a == "11" ~ "Doctoral degree",
-      educ_a == "97" ~ "No response",
-      educ_a == "98" ~ "Not applicable",
-      educ_a == "99" ~ "Don't know"),
-      
-      hispanic = case_when(
+      educ_a == "11" ~ "Doctoral degree"
+      ),
+    hispanic = case_when(
       hisp_a == "1" ~ "Yes",
-      hisp_a == "2" ~ "No",
-     hisp_a == "7" ~ "No response",
-     hisp_a == "8" ~ "Not applicable",
-      hisp_a == "9" ~ "Don't know"),
-     
-     nh_race = case_when(
+      hisp_a == "2" ~ "No"
+      ),
+    nh_race = case_when(
       hispallp_a == "1" ~ "hispanic",
       hispallp_a == "2" ~ "NH white",
-     hispallp_a == "3" ~ "NH black", 
-     hispallp_a == "4" ~ "NH asian",
-     hispallp_a == "5" ~ "NH AIAN",
+      hispallp_a == "3" ~ "NH black", 
+      hispallp_a == "4" ~ "NH asian",
+      hispallp_a == "5" ~ "NH AIAN",
       hispallp_a == "6" ~ "NH AIAN and other",
-      hispallp_a == "7" ~ "multiple races",
-       hispallp_a == "97" ~ "No response",
-     hispallp_a == "98" ~ "Not applicable",
-      hispallp_a == "99" ~ "Don't know"),
-     
-      hispanic_type = case_when(
+      hispallp_a == "7" ~ "multiple races"
+      ),
+    hispanic_type = case_when(
       hisdetp_a == "1" ~ "hispanic mexican",
       hisdetp_a == "2" ~ "hispanic all others",
-     hisdetp_a == "3" ~ "Not hispanic", 
-        hisdetp_a == "7" ~ "No response",
-     hisdetp_a == "8" ~ "Not applicable",
-      hisdetp_a == "9" ~ "Don't know"),
-     
-     health =  case_when(
+      hisdetp_a == "3" ~ "Not hispanic"
+      ),
+    health =  case_when(
       phstat_a == "1" ~ "excellent",
       phstat_a == "2" ~ "very good",
       phstat_a == "3" ~ "good",
       phstat_a == "4" ~ "fair",
-      phstat_a == "5" ~ "poor",
-      phstat_a == "7" ~ "no response",
-      phstat_a == "8" ~ "not applicable",
-      phstat_a == "9" ~ "Don't know"),
-     
-      bmi =  case_when(
+      phstat_a == "5" ~ "poor"
+      ),
+    bmi =  case_when(
       bmicat_a == "1" ~ "underweight",
       bmicat_a == "2" ~ "healthy weight",
-       bmicat_a == "3" ~ "overweight",
-       bmicat_a == "4" ~ "obese",
-       bmicat_a == "9" ~ "unknown"),
-     
-  insurance = case_when(
-    notcov_a == "1" ~ "not covered",
-    notcov_a == "2" ~ "covered",
-    notcov_a == "7" ~ "no response",
-    notcov_a == "8" ~ "not applicable",
-    notcov_a == "9" ~ "don't know"),
-  
+      bmicat_a == "3" ~ "overweight",
+      bmicat_a == "4" ~ "obese"
+      ),
+    insurance = case_when(
+      notcov_a == "1" ~ "not covered",
+      notcov_a == "2" ~ "covered"
+      ),
     coverage = case_when(
       cover_a == "1" ~ "private",
       cover_a == "2" ~ "medicaid/other public",
       cover_a == "3" ~ "other",
-      cover_a == "4" ~ "uninsured",
-      cover_a == "5" ~ "don't know"),
-  
-  facility_type = case_when(
-    usplkind_a == "1" ~ "Doctor office/health center",
-    usplkind_a == "2" ~ "Urgent care/clinic in store",
-    usplkind_a == "3" ~ "emergency room",
-    usplkind_a == "4" ~ "VA center ",
-    usplkind_a == "5" ~ "other",
-    usplkind_a == "6" ~ "varies",
-    usplkind_a == "8" ~ "not applicable",
-    usplkind_a == "9" ~ "don't know"),
-  
-  pregfluyr_a = case_when(
-  pregfluyr_a == "1" ~ "yes",
-  pregfluyr_a == "2" ~ "no",
-  pregfluyr_a == "7" ~ "no response",
-  pregfluyr_a == "8" ~ "not applicable",
-  pregfluyr_a == "9" ~ "don't know"),
-  
-  flu_shot  = case_when(
-  shtflu12m_a == "1" ~ "yes",
-  shtflu12m_a == "2" ~ "no",
-  shtflu12m_a == "7" ~ "no response",
-  shtflu12m_a == "8" ~ "not applicable",
-  shtflu12m_a == "9" ~ "don't know"),
-  
+      cover_a == "4" ~ "uninsured"
+      ),
+    facility_type = case_when(
+      usplkind_a == "1" ~ "Doctor office/health center",
+      usplkind_a == "2" ~ "Urgent care/clinic in store",
+      usplkind_a == "3" ~ "emergency room",
+      usplkind_a == "4" ~ "VA center",
+      usplkind_a == "5" ~ "other",
+      usplkind_a == "6" ~ "varies"
+      ),
+    pregfluyr_a = case_when(
+      pregfluyr_a == "1" ~ "yes",
+      pregfluyr_a == "2" ~ "no"
+      ),
+    flu_shot  = case_when(
+      shtflu12m_a == "1" ~ "yes",
+      shtflu12m_a == "2" ~ "no"
+      ),
     flu_shot_month = case_when(
       shtflum_a == "1" ~ "January",
       shtflum_a == "2" ~ "February",
@@ -183,209 +150,116 @@ flu_adult_df =
       shtflum_a == "9" ~ "September",
       shtflum_a == "10" ~ "October",
       shtflum_a == "11" ~ "November",
-      shtflum_a == "12" ~ "December",
-      shtflum_a == "97" ~ "No response",
-      shtflum_a == "98" ~ "Not applicable",
-      shtflum_a == "99" ~ "Don't know"),
-  
-   flu_shot_year = case_when(
-    shtfluy_a == "9997" ~ "no response",
-    shtfluy_a == "9998" ~ "not applicable",
-    shtfluy_a == "9999" ~ "don't know"),
-  
-  flushot_preg = case_when(
-    flupreg2_a == "1" ~ "before pregnancy",
-    flupreg2_a == "2" ~ "during pregnancy",
-    flupreg2_a == "3" ~ "after pregnancy",
-    flupreg2_a == "7" ~ "no response",
-    flupreg2_a == "8" ~ "not applicable",
-    flupreg2_a == "9" ~ "don't know"),
-
-usual_place = case_when(
-    usualpl_a == "1" ~ "yes",
-    usualpl_a == "2" ~ "no",
-    usualpl_a == "3" ~ "more than one place",
-    usualpl_a == "7" ~ "no response",
-    usualpl_a == "8" ~ "not applicable",
-    usualpl_a == "9" ~ "don't know"))
-
-
-```
-
-    
-```{r include=FALSE}
-flu_adult_df = 
-flu_adult_df %>% 
-   mutate(
-      pregnant = case_when(
+      shtflum_a == "12" ~ "December"
+      ),
+    flu_shot_year = na_if(shtfluy_a, 9999),
+    flushot_preg = case_when(
+      flupreg2_a == "1" ~ "before pregnancy",
+      flupreg2_a == "2" ~ "during pregnancy",
+      flupreg2_a == "3" ~ "after pregnancy"
+      ),
+    usual_place = case_when(
+      usualpl_a == "1" ~ "yes",
+      usualpl_a == "2" ~ "no",
+      usualpl_a == "3" ~ "more than one place"
+      ),
+    pregnant = case_when(
       pregnow_a == "1" ~ "yes",
-      pregnow_a == "2" ~ "no",
-      pregnow_a == "7" ~ "No response",
-      pregnow_a == "8" ~ "Not applicable",
-      pregnow_a == "9" ~ "Don't know"),
-      
-      disability = case_when(
+      pregnow_a == "2" ~ "no"
+      ),
+    disability = case_when(
       disab3_a == "1" ~ "yes",
-      disab3_a == "2" ~ "no",
-      disab3_a == "9" ~ "don't know"),
-      
-      errands_alone_diff = case_when(
-    socerrnds_a == "1" ~ "none",
-    socerrnds_a == "2" ~ "some",
-    socerrnds_a == "3" ~ "a lot",
-    socerrnds_a == "4" ~ "cannot do at all",
-    socerrnds_a == "7" ~ "no response",
-    socerrnds_a == "8" ~ "not applicable",
-    socerrnds_a == "9" ~ "don't know"),
-    
+      disab3_a == "2" ~ "no"
+      ),
+    errands_alone_diff = case_when(
+      socerrnds_a == "1" ~ "none",
+      socerrnds_a == "2" ~ "some",
+      socerrnds_a == "3" ~ "a lot",
+      socerrnds_a == "4" ~ "cannot do at all"
+      ),
     coverage_65 = case_when(
-    cover65_a == "1" ~ "private",
-    cover65_a == "2" ~ "dual eligible",
-    cover65_a == "3" ~ "medicare advantage",
-    cover65_a == "4" ~ "medicare only",
-    cover65_a == "5" ~ "other",
-    cover65_a == "6" ~ "uninsured",
-    cover65_a == "7" ~ "don't know"))
-      
-      
-      
-      
-```
-
-```{r include=FALSE}
-flu_adult_df = 
-flu_adult_df %>% 
-  mutate(
-     last_drvisit = case_when(
-    lastdr_a == "0" ~ "never",
-    lastdr_a == "1" ~ "within past year",
-    lastdr_a == "2" ~ "within last 2 years",
-    lastdr_a == "3" ~ "within last 3 years",
-    lastdr_a == "4" ~ "within last 5 years",
-    lastdr_a == "5" ~ "within last 10 years",
-    lastdr_a == "6" ~ "10+ years",
-    lastdr_a == "7" ~ "refused",
-    lastdr_a == "8" ~ "not applicable",
-    lastdr_a == "9" ~ "don't know"),
-    
+      cover65_a == "1" ~ "private",
+      cover65_a == "2" ~ "dual eligible",
+      cover65_a == "3" ~ "medicare advantage",
+      cover65_a == "4" ~ "medicare only",
+      cover65_a == "5" ~ "other",
+      cover65_a == "6" ~ "uninsured"
+      ),
+    last_drvisit = case_when(
+      lastdr_a == "0" ~ "never",
+      lastdr_a == "1" ~ "within past year",
+      lastdr_a == "2" ~ "within last 2 years",
+      lastdr_a == "3" ~ "within last 3 years",
+      lastdr_a == "4" ~ "within last 5 years",
+      lastdr_a == "5" ~ "within last 10 years",
+      lastdr_a == "6" ~ "10+ years"
+      ),
     emergency_visits = case_when(
-    emerg12mtc_a == "0" ~ "never",
-    emerg12mtc_a == "1" ~ "once",
-    emerg12mtc_a == "2" ~ "twice",
-    emerg12mtc_a == "3" ~ "thrice",
-    emerg12mtc_a == "4" ~ "4+ times",
-    emerg12mtc_a == "7" ~ "refused",
-    emerg12mtc_a == "8" ~ "not applicable",
-    emerg12mtc_a == "9" ~ "don't know"),
-    
-     urgentcare_visits = case_when(
-    urgnt12mtc_a == "0" ~ "never",
-    urgnt12mtc_a == "1" ~ "once",
-    urgnt12mtc_a == "2" ~ "twice",
-    urgnt12mtc_a == "3" ~ "thrice",
-    urgnt12mtc_a == "4" ~ "4 times",
-    urgnt12mtc_a == "5" ~ "5+ times",
-    urgnt12mtc_a == "7" ~ "refused",
-    urgnt12mtc_a == "8" ~ "not applicable",
-    urgnt12mtc_a == "9" ~ "don't know")
-  )
-```
-
-```{r include=FALSE}
-flu_adult_df = 
-flu_adult_df %>% 
-  mutate(
-     usborn = case_when(
+      emerg12mtc_a == "0" ~ "never",
+      emerg12mtc_a == "1" ~ "once",
+      emerg12mtc_a == "2" ~ "twice",
+      emerg12mtc_a == "3" ~ "thrice",
+      emerg12mtc_a == "4" ~ "4+ times"
+      ),
+    urgentcare_visits = case_when(
+      urgnt12mtc_a == "0" ~ "never",
+      urgnt12mtc_a == "1" ~ "once",
+      urgnt12mtc_a == "2" ~ "twice",
+      urgnt12mtc_a == "3" ~ "thrice",
+      urgnt12mtc_a == "4" ~ "4 times",
+      urgnt12mtc_a == "5" ~ "5+ times"
+      ),
+    usborn = case_when(
       natusborn_a == "1" ~ "yes",
-      natusborn_a == "2" ~ "no",
-      natusborn_a == "7" ~ "No response",
-      natusborn_a == "8" ~ "Not applicable",
-      natusborn_a == "9" ~ "Don't know"),
-     
-     probs_paybill = case_when(
+      natusborn_a == "2" ~ "no"
+      ),
+    probs_paybill = case_when(
       paybll12m_a == "1" ~ "yes",
-      paybll12m_a == "2" ~ "no",
-      paybll12m_a == "7" ~ "No response",
-      paybll12m_a == "8" ~ "Not applicable",
-      paybll12m_a == "9" ~ "Don't know"))
-```
-
-```{r include=FALSE}
-flu_adult_df = 
-flu_adult_df %>% 
-  select(-agep_a, -sex_a, -educ_a,-hisp_a,-phstat_a,-bmicat_a, -cover_a, -usplkind_a,  -pregfluyr_a, -shtflu12m_a, -shtflum_a, -shtfluy_a, -flupreg2_a, -pregnow_a, -disab3_a, -socerrnds_a, -cover65_a, -lastdr_a, -emerg12mtc_a, -urgnt12mtc_a, -natusborn_a, -pregnow_a, -paybll12m_a
-  )
-```
-
-```{r include=FALSE}
-flu_adult_df = 
-  flu_adult_df %>% 
-  select(
-    -hispallp_a, -hisdetp_a, -citznstp_a, -povrattc_a, -raceallp_a, -usualpl_a, -notcov_a, -hhx
-  )
-```
-
-```{r include=FALSE}
-flu_adult_df = 
-  flu_adult_df %>% 
-  mutate(
+      paybll12m_a == "2" ~ "no"
+      ),
     sex = as.factor(sex),
     nh_race = as.factor(nh_race),
     health = as.factor(health),
     bmi = as.factor(bmi),
-    age = as.numeric(age)
-  )
-```
-
-```{r include=FALSE}
-flu_adult_df = 
-  flu_adult_df %>% 
-  mutate(
     coverage = as.factor(coverage),
     education = as.factor(education),
     insurance = as.factor(insurance),
     flu_shot = as.factor(flu_shot),
-    flu_shot_month = as.factor(flu_shot_month))
-```
+    flu_shot_month = as.factor(flu_shot_month),
+    bmi = fct_relevel(bmi, "underweight", "healthy weight", 
+                      "overweight", "obese"),
+    flu_shot_month = fct_relevel(flu_shot_month, "January", "February", "March", 
+                                 "April", "May", "June", "July", "August", 
+                                 "September", "October", "November", "December"),
+    last_drvisit = fct_relevel(last_drvisit, "within past year", 
+                               "within last 2 years", "within last 3 years", 
+                               "within last 5 years", "within last 10 years", 
+                               "10+ years", "never"),
+    education = fct_relevel(education, "never attended", "Grades 1-11", 
+                            "12th grade, no dipolma", "GED", "HS graduate", 
+                            "College, no degree", "Associate degree-tech", 
+                            "Associate degree-aca", "Bachelor's degree", 
+                            "Master's degree", "Professional school", 
+                            "Doctoral degree"),
+    flushot_preg = fct_relevel(flushot_preg, "before pregnancy", 
+                               "during pregnancy", "after pregnancy"),
+    emergency_visits = fct_relevel(emergency_visits, "never", "once", "twice", 
+                                   "thrice", "4+ times"),
+    urgentcare_visits = fct_relevel(urgentcare_visits, "never", "once", "twice", 
+                                    "thrice", "4 times", "5+ times"),
+    health = fct_relevel(health, "poor", "fair", "good", "very good", 
+                         "excellent"),
+    errands_alone_diff = fct_relevel(errands_alone_diff, "none", "some", 
+                                     "a lot", "cannot do at all")
+    ) %>% 
+  select(-c(agep_a, sex_a, educ_a, hisp_a, phstat_a, bmicat_a, cover_a, 
+            usplkind_a, pregfluyr_a, shtflu12m_a, shtflum_a, shtfluy_a, 
+            flupreg2_a, pregnow_a, disab3_a, socerrnds_a, cover65_a, lastdr_a, 
+            emerg12mtc_a, -urgnt12mtc_a, natusborn_a, pregnow_a, paybll12m_a, 
+            hispallp_a, hisdetp_a, citznstp_a, povrattc_a, raceallp_a, 
+            usualpl_a, notcov_a, hhx))
 
-```{r include=FALSE}
-flu_adult_df = 
-flu_adult_df %>% 
-   mutate(
-    bmi = fct_relevel(bmi, "underweight", "healthy weight", "overweight", "obese"),
-    
-    flu_shot_month = fct_relevel(flu_shot_month,"January","February","March","April","May","June","July","August","September","October","November","December"),
-    
-    last_drvisit = fct_relevel(last_drvisit,"within past year","within last 2 years","within last 3 years","within last 5 years","within last 10 years","10+ years", "never"),
-    
-    education = fct_relevel(education,
-      "never attended",
-       "Grades 1-11",
-       "12th grade, no dipolma",
-       "GED",
-       "HS graduate",
-      "College, no degree",
-      "Associate degree-tech",
-       "Associate degree-aca",
-      "Bachelor's degree",
-       "Master's degree",
-      "Professional school",
-       "Doctoral degree"),
-    
-    flushot_preg = fct_relevel(flushot_preg, "before pregnancy", "during pregnancy", "after pregnancy"),
-    
-    emergency_visits = fct_relevel(emergency_visits,
-                                  "never","once","twice","thrice","4+ times"),
-    
-    urgentcare_visits = fct_relevel(urgentcare_visits,
-                                   "never","once","twice","thrice","4 times","5+ times"),
-    
-    health = fct_relevel(health, "poor", "fair", "good", "very good", "excellent"),
-    
-    errands_alone_diff = fct_relevel(errands_alone_diff, "none", "some", "a lot", "cannot do at all")
-    
-    )
- 
+write_csv(flu_adult_df, "./final_project_large_data/flu_adult_df.csv")
 ```
 
 
