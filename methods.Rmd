@@ -1,5 +1,5 @@
 ---
-title: <center> "Exploratory Analysis"
+title: <center> "National Health Survey"
 output: 
   html_document:
     toc: true
@@ -7,13 +7,6 @@ output:
     theme: cosmo
 ---
 
-
-###	insert graphs 
-
-**how do we split the index?**
-
-**need to add descriptions and analysis of what the graph is displaying**
-**need to figure out how to make the color magma**
 
 ```{r setup, include=FALSE}
 library(tidyverse)
@@ -34,9 +27,9 @@ options(
   ggplot2.continuous.fill = "viridis"
 )
 
-scale_colour_discrete = scale_color_viridis_d
+scale_colour_discrete = scale_color_viridis_d(option = "plasma")
 
-scale_fill_discrete = scale_fill_viridis_d
+scale_fill_discrete = scale_fill_viridis_d(option = "plasma")
 ```
 
 ```{r include=FALSE}
@@ -263,11 +256,11 @@ write_csv(flu_adult_df, "./final_project_large_data/flu_adult_df.csv")
 ```
 
 
-# Looking at biological sex (1)
+# Biological Sex 
 
 Starting off we can see that females are more likely to get a flu shot than not, this does not appear to be the same trend with men.  Men are more likely to not receive a flu shot than to get one. 
 
-**DONE** 
+
 ```{r include=FALSE}
 sex_plot = 
 flu_adult_df %>% 
@@ -276,18 +269,13 @@ flu_adult_df %>%
   filter(flu_shot != "don't know") %>% 
   filter(sex != "No response") %>% 
   mutate(flu_shot = fct_infreq(flu_shot)) %>% 
-  ggplot(aes( x = flu_shot, fill = sex)) + geom_bar(position = "dodge")  +
-  transition_layers(layer_length = 1,
-  transition_length = 1,
-  keep_layers = TRUE,
-  from_blank = TRUE,
-  layer_order = NULL,
-  layer_names = "flu_shot") + enter_grow() + exit_shrink() + ease_aes('sine-in')  + 
+  ggplot(aes( x = flu_shot, fill = sex)) + geom_bar(position = "dodge") + 
   labs(
     title = "Flu shot engagement amongst males and females",
     x = "Did you receive a flu shot, yes or no?",
     y = "Total Amount",
-    caption = "Data from National Health Survey")
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
+
 
 ```
 
@@ -297,11 +285,10 @@ sex_plot
 ```
 
 
-# who's most at risk? let's think about vulnerable groups (2)
+# Vulnerable Groups 
 
 We know that the most vulnerable groups are those that are older and who  have a BMI that is not consider healthy. Let's consider those who did not receive a flu shot vs those who did. 
 
-**DONE**
 
 
 ```{r include=FALSE}
@@ -317,13 +304,7 @@ flu_adult_df %>%
     title = "Flu shot engagement by BMI for 65+",
     x = "BMI",
     y = "Total Amount",
-    caption = "Data from National Health Survey")  +
-  transition_layers(layer_length = 1,
-  transition_length = 1,
-  keep_layers = TRUE,
-  from_blank = TRUE,
-  layer_order = NULL,
-  layer_names = "bmi") + enter_grow() + exit_shrink() + ease_aes('sine-in') 
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma") 
 
 ```
 
@@ -332,11 +313,11 @@ age_plot
 ```
 
 
-# when are flu shots occurring? and insurance type (3)
+# Insurance
 
 Let's look at insurance in relation to flu shots. Most of those receiving a flu shot are covered under private insurance.  Shots typically occur in October, with November close behind.  
 
-**DONE**
+
 ```{r include=FALSE}
 coverage_plot = 
 flu_adult_df %>% 
@@ -351,20 +332,17 @@ flu_adult_df %>%
     title = "When did you get a flu shot, did insurance influence this decision?",
     x = "Month",
     y = "Insurance Coverage",
-    caption = "Data from National Health Survey") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + transition_states(
-   flu_shot_month,transition_length = 2, state_length = 1) + enter_grow() + exit_shrink() + ease_aes('sine-in-out')
-  
+    caption = "Data from National Health Survey") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + scale_colour_viridis_d(option = "plasma")
 ```
 
 ```{r}
 coverage_plot
 ```
 
-# money and bills (4)
+# Paying Bills
 
 for those who didn't receive a flu shot, most respondents did not have difficulty paying their hospital bill.  
 
-**DONE**
 ```{r include=FALSE}
 doctor_plot = 
 flu_adult_df %>% 
@@ -378,7 +356,7 @@ flu_adult_df %>%
     title = "No flu shot? When was the last time you went to a healthcare provider and did you have difficulty paying your bill?",
     x = "Total Amount",
     y = "When did you see them?",
-    caption = "Data from National Health Survey") 
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 
 
 ```
@@ -388,16 +366,16 @@ doctor_plot
 ```
 
 
-# Age distribution for getting a shot based on education (5)
+# Age Distribution
 
-**done**
+## Flu Shot Status: Yes
 
 ```{r include=FALSE}
 yes_age_plot = 
 flu_adult_df %>% 
   filter(flu_shot == "yes") %>% 
   filter(age > 17) %>% 
-plot_ly(y = ~age, color = ~education, type = "box", colors = "viridis") 
+plot_ly(y = ~age, color = ~education, type = "box", colors = "plasma") 
 ```
 
 ```{r include=FALSE}
@@ -405,12 +383,14 @@ no_age_plot =
 flu_adult_df %>% 
   filter(flu_shot == "no") %>% 
   filter(age > 17) %>% 
-plot_ly(y = ~age, color = ~education, type = "box", colors = "viridis") 
+plot_ly(y = ~age, color = ~education, type = "box", colors = "plasma") 
 ```
 
 ```{r}
 yes_age_plot
 ```
+
+## Flu Shot Status: No
 ```{r}
 no_age_plot
 ```
@@ -419,9 +399,8 @@ no_age_plot
 Seems like people are generally older when they receive a flu vaccine. 
 
 
-# plot for pregnant people and flu shots (6/7)
+# Pregnant
 
-**DONE**
 How many people are pregnant? and if they are, did they receive a flu shot at all during that year? What factors contribute to women deciding to receive a flu shot?
 
 ```{r include=FALSE}
@@ -435,22 +414,16 @@ flu_adult_df %>%
     title = "For pregnant persons, did you get a flu shot, did insurance infulence this?",
     x = "Insurance Coverage",
     y = "Total Amount",
-    caption = "Data from National Health Survey")  +
-  transition_layers(layer_length = 1,
-  transition_length = 1,
-  keep_layers = TRUE,
-  from_blank = TRUE,
-  layer_order = NULL,
-  layer_names = "coverage") + enter_grow() + exit_shrink() + ease_aes('sine-in')  
+    caption = "Data from National Health Survey")+ scale_fill_viridis_d(option = "plasma") 
 ```
-
+## Did you receive a shot?
 ```{r}
 pregnant_plot
 ```
 
 The majority of those who are pregnant receive their flu shot after pregnancy. This makes sense considering restricting of who can receive the vaccination.  
 
-**DONE**
+## Timing of Shot
 ```{r include=FALSE}
 pregnant2_plot = 
 flu_adult_df %>% 
@@ -462,7 +435,7 @@ flu_adult_df %>%
     title = "For pregnant persons, if you got a flu shot, when did this occur?",
     x = "Timing in relation to pregnancy",
     y = "Density",
-    caption = "Data from National Health Survey")
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
 ```{r}
@@ -470,11 +443,9 @@ pregnant2_plot
 ```
 
 
-# plot for emergency care and urgent care visits (8/9)
+# Care Visits
 
-emergency care
 
-**looks okay**
 ```{r include=FALSE}
 emergency_plot = 
 flu_adult_df %>% 
@@ -488,22 +459,15 @@ flu_adult_df %>%
     title = "Did you visit an emergency room, and what was your flu vaccine status?",
     x = "How many times did you visit",
     y = "Total Amount",
-    caption = "Data from National Health Survey")  +
-  transition_layers(layer_length = 1,
-  transition_length = 1,
-  keep_layers = TRUE,
-  from_blank = TRUE,
-  layer_order = NULL,
-  layer_names = "emergency_visits") + enter_grow() + exit_shrink() + ease_aes('sine-in')  
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
+## Emergency Care
 ```{r}
 emergency_plot
 ```
 
-urgent care
 
-**looks good**
 ```{r include=FALSE}
 urgent_plot = 
 flu_adult_df %>% 
@@ -517,20 +481,15 @@ flu_adult_df %>%
     title = "Did you visit an urgent care, and what was your flu vaccine status?",
     x = "How many times did you visit",
     y = "Total Amount",
-    caption = "Data from National Health Survey")  +
-  transition_layers(layer_length = 1,
-  transition_length = 1,
-  keep_layers = TRUE,
-  from_blank = TRUE,
-  layer_order = NULL,
-  layer_names = "urgentcare_visits") + enter_grow() + exit_shrink() + ease_aes('sine-in')
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
+## Urgent Care
 ```{r}
 urgent_plot
 ```
 
-# disabilitiies babes (11)
+# Disabilities
 
 for those with a disability, who got a flu shot? and where are they going for their services? how much difficulty are they having with completing errands on their own?
 
@@ -547,13 +506,8 @@ flu_adult_df %>%
     title = "For persons with disabilities, did you have diffculty completing errands on your own, and what was your flu vaccine status?",
     x = "How much difficulty?",
     y = "Total Amount",
-    caption = "Data from National Health Survey")  +
-  transition_layers(layer_length = 1,
-  transition_length = 1,
-  keep_layers = TRUE,
-  from_blank = TRUE,
-  layer_order = NULL,
-  layer_names = "urgentcare_visits") + enter_grow() + exit_shrink() + ease_aes('sine-in')
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
+
 ```
 
 ```{r}
