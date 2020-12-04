@@ -25,6 +25,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/table1-1.0/table1_defaults.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -358,8 +359,17 @@ div.tocify {
 <li>
   <a href="report.html">Report</a>
 </li>
-<li>
-  <a href="methods.html">Exploratory Analysis</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exploratory Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="methods.html">National Health Survey Data</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="test_storyboard.html">Exploratory Analysis II: BRFSS dashboard</a>
@@ -367,8 +377,20 @@ div.tocify {
 <li>
   <a href="stat.html">Statistical Analysis</a>
 </li>
-<li>
-  <a href="extras.html">Extras</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Bonus Stuff
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extras.html">Extras</a>
+    </li>
+    <li>
+      <a href="resources.html">Resources</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="http://github.com/&lt;YOUR_GH_NAME&gt;/">
@@ -391,7 +413,611 @@ div.tocify {
 </div>
 
 
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>To learn more about what influences adults to obtain an influenza vaccine, we will conduct additional statistical analyses of the National Health Survey data set. We will be using the tidied data from our earlier <a href="methods.html">exploratory analysis</a>.</p>
+</div>
+<div id="univariate-analysis" class="section level2">
+<h2>Univariate Analysis</h2>
+<pre class="r"><code>flu_adult_df = 
+  read_csv(&quot;./final_project_large_data/flu_adult_df.csv&quot;) %&gt;% 
+  mutate(
+    flu_shot = case_when(
+      flu_shot == &quot;yes&quot; ~ 1,
+      flu_shot == &quot;no&quot;  ~ 0
+    )
+  )
 
+table1(~ age + sex + hispanic + nh_race + health + insurance + 
+         last_drvisit + education + usborn | flu_shot, 
+       data = flu_adult_df)</code></pre>
+<div class="Rtable1"><table class="Rtable1">
+<thead>
+<tr>
+<th class='rowlabel firstrow lastrow'></th>
+<th class='firstrow lastrow'><span class='stratlabel'>0<br><span class='stratn'>(N=15549)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>1<br><span class='stratn'>(N=16063)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=31997)</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>age</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>Mean (SD)</td>
+<td>47.1 (16.9)</td>
+<td>56.9 (18.5)</td>
+<td>52.1 (18.5)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Median [Min, Max]</td>
+<td class='lastrow'>46.0 [18.0, 99.0]</td>
+<td class='lastrow'>60.0 [18.0, 99.0]</td>
+<td class='lastrow'>53.0 [18.0, 99.0]</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>sex</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>Female</td>
+<td>7821 (50.3%)</td>
+<td>9225 (57.4%)</td>
+<td>17261 (53.9%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Male</td>
+<td>7725 (49.7%)</td>
+<td>6838 (42.6%)</td>
+<td>14733 (46.0%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Missing</td>
+<td class='lastrow'>3 (0.0%)</td>
+<td class='lastrow'>0 (0%)</td>
+<td class='lastrow'>3 (0.0%)</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>hispanic</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>No</td>
+<td>13094 (84.2%)</td>
+<td>14430 (89.8%)</td>
+<td>27845 (87.0%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Yes</td>
+<td class='lastrow'>2455 (15.8%)</td>
+<td class='lastrow'>1633 (10.2%)</td>
+<td class='lastrow'>4152 (13.0%)</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>nh_race</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>hispanic</td>
+<td>2455 (15.8%)</td>
+<td>1633 (10.2%)</td>
+<td>4152 (13.0%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>multiple races</td>
+<td>183 (1.2%)</td>
+<td>149 (0.9%)</td>
+<td>339 (1.1%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>NH AIAN</td>
+<td>94 (0.6%)</td>
+<td>115 (0.7%)</td>
+<td>212 (0.7%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>NH AIAN and other</td>
+<td>139 (0.9%)</td>
+<td>107 (0.7%)</td>
+<td>248 (0.8%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>NH asian</td>
+<td>726 (4.7%)</td>
+<td>901 (5.6%)</td>
+<td>1648 (5.2%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>NH black</td>
+<td>1978 (12.7%)</td>
+<td>1440 (9.0%)</td>
+<td>3483 (10.9%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>NH white</td>
+<td class='lastrow'>9974 (64.1%)</td>
+<td class='lastrow'>11718 (73.0%)</td>
+<td class='lastrow'>21915 (68.5%)</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>health</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>excellent</td>
+<td>3887 (25.0%)</td>
+<td>3285 (20.5%)</td>
+<td>7258 (22.7%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>fair</td>
+<td>1659 (10.7%)</td>
+<td>2073 (12.9%)</td>
+<td>3783 (11.8%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>good</td>
+<td>4243 (27.3%)</td>
+<td>4539 (28.3%)</td>
+<td>8893 (27.8%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>poor</td>
+<td>480 (3.1%)</td>
+<td>768 (4.8%)</td>
+<td>1274 (4.0%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>very good</td>
+<td>5272 (33.9%)</td>
+<td>5393 (33.6%)</td>
+<td>10767 (33.7%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Missing</td>
+<td class='lastrow'>8 (0.1%)</td>
+<td class='lastrow'>5 (0.0%)</td>
+<td class='lastrow'>22 (0.1%)</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>insurance</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>covered</td>
+<td>13244 (85.2%)</td>
+<td>15456 (96.2%)</td>
+<td>29015 (90.7%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>not covered</td>
+<td>2260 (14.5%)</td>
+<td>584 (3.6%)</td>
+<td>2887 (9.0%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Missing</td>
+<td class='lastrow'>45 (0.3%)</td>
+<td class='lastrow'>23 (0.1%)</td>
+<td class='lastrow'>95 (0.3%)</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>last_drvisit</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>10+ years</td>
+<td>285 (1.8%)</td>
+<td>23 (0.1%)</td>
+<td>311 (1.0%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>never</td>
+<td>64 (0.4%)</td>
+<td>34 (0.2%)</td>
+<td>99 (0.3%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>within last 10 years</td>
+<td>304 (2.0%)</td>
+<td>32 (0.2%)</td>
+<td>336 (1.1%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>within last 2 years</td>
+<td>1553 (10.0%)</td>
+<td>594 (3.7%)</td>
+<td>2162 (6.8%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>within last 3 years</td>
+<td>614 (3.9%)</td>
+<td>145 (0.9%)</td>
+<td>769 (2.4%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>within last 5 years</td>
+<td>471 (3.0%)</td>
+<td>97 (0.6%)</td>
+<td>570 (1.8%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>within past year</td>
+<td>12218 (78.6%)</td>
+<td>15121 (94.1%)</td>
+<td>27551 (86.1%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Missing</td>
+<td class='lastrow'>40 (0.3%)</td>
+<td class='lastrow'>17 (0.1%)</td>
+<td class='lastrow'>199 (0.6%)</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>education</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>12th grade, no dipolma</td>
+<td>254 (1.6%)</td>
+<td>210 (1.3%)</td>
+<td>471 (1.5%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Associate degree-aca</td>
+<td>1418 (9.1%)</td>
+<td>1467 (9.1%)</td>
+<td>2909 (9.1%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Associate degree-tech</td>
+<td>648 (4.2%)</td>
+<td>598 (3.7%)</td>
+<td>1261 (3.9%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Bachelor's degree</td>
+<td>3140 (20.2%)</td>
+<td>3728 (23.2%)</td>
+<td>6952 (21.7%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>College, no degree</td>
+<td>2709 (17.4%)</td>
+<td>2450 (15.3%)</td>
+<td>5216 (16.3%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Doctoral degree</td>
+<td>208 (1.3%)</td>
+<td>446 (2.8%)</td>
+<td>655 (2.0%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>GED</td>
+<td>430 (2.8%)</td>
+<td>337 (2.1%)</td>
+<td>776 (2.4%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Grades 1-11</td>
+<td>1242 (8.0%)</td>
+<td>1113 (6.9%)</td>
+<td>2390 (7.5%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>HS graduate</td>
+<td>3976 (25.6%)</td>
+<td>3337 (20.8%)</td>
+<td>7425 (23.2%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Master's degree</td>
+<td>1260 (8.1%)</td>
+<td>1949 (12.1%)</td>
+<td>3231 (10.1%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>never attended</td>
+<td>42 (0.3%)</td>
+<td>49 (0.3%)</td>
+<td>93 (0.3%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Professional school</td>
+<td>136 (0.9%)</td>
+<td>302 (1.9%)</td>
+<td>439 (1.4%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Missing</td>
+<td class='lastrow'>86 (0.6%)</td>
+<td class='lastrow'>77 (0.5%)</td>
+<td class='lastrow'>179 (0.6%)</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>usborn</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>no</td>
+<td>2630 (16.9%)</td>
+<td>2214 (13.8%)</td>
+<td>4863 (15.2%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>yes</td>
+<td>12661 (81.4%)</td>
+<td>13611 (84.7%)</td>
+<td>26328 (82.3%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Missing</td>
+<td class='lastrow'>258 (1.7%)</td>
+<td class='lastrow'>238 (1.5%)</td>
+<td class='lastrow'>806 (2.5%)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="logistic-regression-modeling" class="section level2">
+<h2>Logistic Regression Modeling</h2>
+<p>To further investigate the data, we will run a logistic regression to look into what variables significantly influence the odds that an individual will obtain the flu vaccine.</p>
+<pre class="r"><code>logreg_mod_me = 
+  glm(flu_shot ~ insurance, data = flu_adult_df, family = &quot;binomial&quot;) %&gt;% 
+  broom::tidy() %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(
+    term = str_replace(term, &quot;insurance&quot;, &quot;Insurance Coverage: &quot;)
+  ) %&gt;% 
+  select(-c(std_error, statistic)) %&gt;% 
+  knitr::kable()
+
+logreg_mod_full = 
+  glm(flu_shot ~ insurance + sex + education + nh_race + health + bmi + 
+                  last_drvisit + usborn, 
+                 data = flu_adult_df, family = &quot;binomial&quot;) %&gt;% 
+  broom::tidy() %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(
+    term = str_replace(term, &quot;insurance&quot;, &quot;Insurance Coverage: &quot;),
+    term = str_replace(term, &quot;education&quot;, &quot;Education: &quot;),
+    term = str_replace(term, &quot;nh_race&quot;, &quot;Race/Ethnicity: &quot;),
+    term = str_replace(term, &quot;health&quot;, &quot;Health: &quot;),
+    term = str_replace(term, &quot;bmi&quot;, &quot;BMI: &quot;),
+    term = str_replace(term, &quot;last_drvisit&quot;, &quot;Last Doctor Visit: &quot;),
+    term = str_replace(term, &quot;usborn&quot;, &quot;US Born: &quot;),
+  ) %&gt;% 
+  select(-c(std_error, statistic)) %&gt;% 
+  knitr::kable()
+
+logreg_mod_me</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">p_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">0.1544527</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Insurance Coverage: not covered</td>
+<td align="right">-1.5076718</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>logreg_mod_full</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">p_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-2.4920427</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Insurance Coverage: not covered</td>
+<td align="right">-1.0648026</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">sexMale</td>
+<td align="right">-0.2132399</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Education: Associate degree-aca</td>
+<td align="right">0.0304207</td>
+<td align="right">0.7818382</td>
+</tr>
+<tr class="odd">
+<td align="left">Education: Associate degree-tech</td>
+<td align="right">-0.0622675</td>
+<td align="right">0.6000049</td>
+</tr>
+<tr class="even">
+<td align="left">Education: Bachelor’s degree</td>
+<td align="right">0.1867943</td>
+<td align="right">0.0777515</td>
+</tr>
+<tr class="odd">
+<td align="left">Education: College, no degree</td>
+<td align="right">-0.0745837</td>
+<td align="right">0.4840630</td>
+</tr>
+<tr class="even">
+<td align="left">Education: Doctoral degree</td>
+<td align="right">0.8058028</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Education: GED</td>
+<td align="right">-0.2201714</td>
+<td align="right">0.0873824</td>
+</tr>
+<tr class="even">
+<td align="left">Education: Grades 1-11</td>
+<td align="right">0.0423660</td>
+<td align="right">0.7053732</td>
+</tr>
+<tr class="odd">
+<td align="left">Education: HS graduate</td>
+<td align="right">-0.1042831</td>
+<td align="right">0.3220325</td>
+</tr>
+<tr class="even">
+<td align="left">Education: Master’s degree</td>
+<td align="right">0.3918271</td>
+<td align="right">0.0003540</td>
+</tr>
+<tr class="odd">
+<td align="left">Education: never attended</td>
+<td align="right">0.4002859</td>
+<td align="right">0.1242195</td>
+</tr>
+<tr class="even">
+<td align="left">Education: Professional school</td>
+<td align="right">0.8581920</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Race/Ethnicity: multiple races</td>
+<td align="right">0.0671832</td>
+<td align="right">0.5859865</td>
+</tr>
+<tr class="even">
+<td align="left">Race/Ethnicity: NH AIAN</td>
+<td align="right">0.4827081</td>
+<td align="right">0.0021264</td>
+</tr>
+<tr class="odd">
+<td align="left">Race/Ethnicity: NH AIAN and other</td>
+<td align="right">0.0379067</td>
+<td align="right">0.7919186</td>
+</tr>
+<tr class="even">
+<td align="left">Race/Ethnicity: NH asian</td>
+<td align="right">0.4176357</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Race/Ethnicity: NH black</td>
+<td align="right">-0.1767479</td>
+<td align="right">0.0009428</td>
+</tr>
+<tr class="even">
+<td align="left">Race/Ethnicity: NH white</td>
+<td align="right">0.3355221</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Health: fair</td>
+<td align="right">0.4348794</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Health: good</td>
+<td align="right">0.2785579</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Health: poor</td>
+<td align="right">0.6041616</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Health: very good</td>
+<td align="right">0.1559597</td>
+<td align="right">0.0000029</td>
+</tr>
+<tr class="odd">
+<td align="left">BMI: obese</td>
+<td align="right">0.0940911</td>
+<td align="right">0.0030124</td>
+</tr>
+<tr class="even">
+<td align="left">BMI: overweight</td>
+<td align="right">0.1079640</td>
+<td align="right">0.0004003</td>
+</tr>
+<tr class="odd">
+<td align="left">BMI: underweight</td>
+<td align="right">-0.1233499</td>
+<td align="right">0.2087998</td>
+</tr>
+<tr class="even">
+<td align="left">Last Doctor Visit: never</td>
+<td align="right">1.8313111</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Last Doctor Visit: within last 10 years</td>
+<td align="right">0.0196032</td>
+<td align="right">0.9485235</td>
+</tr>
+<tr class="even">
+<td align="left">Last Doctor Visit: within last 2 years</td>
+<td align="right">1.2119895</td>
+<td align="right">0.0000002</td>
+</tr>
+<tr class="odd">
+<td align="left">Last Doctor Visit: within last 3 years</td>
+<td align="right">0.8725965</td>
+<td align="right">0.0003718</td>
+</tr>
+<tr class="even">
+<td align="left">Last Doctor Visit: within last 5 years</td>
+<td align="right">0.7311168</td>
+<td align="right">0.0039574</td>
+</tr>
+<tr class="odd">
+<td align="left">Last Doctor Visit: within past year</td>
+<td align="right">2.2194788</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">US Born: yes</td>
+<td align="right">0.0714529</td>
+<td align="right">0.0893009</td>
+</tr>
+</tbody>
+</table>
+<p>This needs more work, but it’s a start.</p>
+</div>
 
 
 

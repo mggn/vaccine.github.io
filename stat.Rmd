@@ -7,4 +7,90 @@ output:
     theme: cosmo
 ---
 
+```{r setup, include = FALSE}
+library(tidyverse)
+library(modelr)
+library(table1)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_color_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+
+## Overview
+
+To learn more about what influences adults to obtain an influenza vaccine, we will conduct additional statistical analyses of the National Health Survey data set. We will be using the tidied data from our earlier [exploratory analysis](methods.html). 
+
+
+## Univariate Analysis
+
+```{r table1, message = FALSE, warning = FALSE}
+flu_adult_df = 
+  read_csv("./final_project_large_data/flu_adult_df.csv") %>% 
+  mutate(
+    flu_shot = case_when(
+      flu_shot == "yes" ~ 1,
+      flu_shot == "no"  ~ 0
+    )
+  )
+
+table1(~ age + sex + hispanic + nh_race + health + insurance + 
+         last_drvisit + education + usborn | flu_shot, 
+       data = flu_adult_df)
+```
+
+
+## Logistic Regression Modeling
+
+To further investigate the data, we will run a logistic regression to look into what variables significantly influence the odds that an individual will obtain the flu vaccine.
+
+```{r lr_mods}
+logreg_mod_me = 
+  glm(flu_shot ~ insurance, data = flu_adult_df, family = "binomial") %>% 
+  broom::tidy() %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    term = str_replace(term, "insurance", "Insurance Coverage: ")
+  ) %>% 
+  select(-c(std_error, statistic)) %>% 
+  knitr::kable()
+
+logreg_mod_full = 
+  glm(flu_shot ~ insurance + sex + education + nh_race + health + bmi + 
+                  last_drvisit + usborn, 
+                 data = flu_adult_df, family = "binomial") %>% 
+  broom::tidy() %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    term = str_replace(term, "insurance", "Insurance Coverage: "),
+    term = str_replace(term, "education", "Education: "),
+    term = str_replace(term, "nh_race", "Race/Ethnicity: "),
+    term = str_replace(term, "health", "Health: "),
+    term = str_replace(term, "bmi", "BMI: "),
+    term = str_replace(term, "last_drvisit", "Last Doctor Visit: "),
+    term = str_replace(term, "usborn", "US Born: "),
+  ) %>% 
+  select(-c(std_error, statistic)) %>% 
+  knitr::kable()
+
+logreg_mod_me
+logreg_mod_full
+```
+
+This needs more work, but it's a start.
+
+
 
