@@ -7,7 +7,7 @@ output:
     theme: cosmo
 ---
 
-## Resources
+# Resources
 
 Below are some additional resources at your disposable regarding vaccines!
 

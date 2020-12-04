@@ -1,5 +1,5 @@
 ---
-title: <center> "Exploratory Analysis"
+title: <center> "National Health Survey"
 output: 
   html_document:
     toc: true
@@ -27,9 +27,9 @@ options(
   ggplot2.continuous.fill = "viridis"
 )
 
-scale_colour_discrete = scale_color_viridis_d
+scale_colour_discrete = scale_color_viridis_d(option = "plasma")
 
-scale_fill_discrete = scale_fill_viridis_d
+scale_fill_discrete = scale_fill_viridis_d(option = "plasma")
 ```
 
 ```{r include=FALSE}
@@ -274,7 +274,8 @@ flu_adult_df %>%
     title = "Flu shot engagement amongst males and females",
     x = "Did you receive a flu shot, yes or no?",
     y = "Total Amount",
-    caption = "Data from National Health Survey")
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
+
 
 ```
 
@@ -303,7 +304,7 @@ flu_adult_df %>%
     title = "Flu shot engagement by BMI for 65+",
     x = "BMI",
     y = "Total Amount",
-    caption = "Data from National Health Survey")  
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma") 
 
 ```
 
@@ -331,8 +332,7 @@ flu_adult_df %>%
     title = "When did you get a flu shot, did insurance influence this decision?",
     x = "Month",
     y = "Insurance Coverage",
-    caption = "Data from National Health Survey") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
-  
+    caption = "Data from National Health Survey") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + scale_colour_viridis_d(option = "plasma")
 ```
 
 ```{r}
@@ -356,7 +356,7 @@ flu_adult_df %>%
     title = "No flu shot? When was the last time you went to a healthcare provider and did you have difficulty paying your bill?",
     x = "Total Amount",
     y = "When did you see them?",
-    caption = "Data from National Health Survey") 
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 
 
 ```
@@ -375,7 +375,7 @@ yes_age_plot =
 flu_adult_df %>% 
   filter(flu_shot == "yes") %>% 
   filter(age > 17) %>% 
-plot_ly(y = ~age, color = ~education, type = "box", colors = "viridis") 
+plot_ly(y = ~age, color = ~education, type = "box", colors = "plasma") 
 ```
 
 ```{r include=FALSE}
@@ -383,7 +383,7 @@ no_age_plot =
 flu_adult_df %>% 
   filter(flu_shot == "no") %>% 
   filter(age > 17) %>% 
-plot_ly(y = ~age, color = ~education, type = "box", colors = "viridis") 
+plot_ly(y = ~age, color = ~education, type = "box", colors = "plasma") 
 ```
 
 ```{r}
@@ -414,7 +414,7 @@ flu_adult_df %>%
     title = "For pregnant persons, did you get a flu shot, did insurance infulence this?",
     x = "Insurance Coverage",
     y = "Total Amount",
-    caption = "Data from National Health Survey")  
+    caption = "Data from National Health Survey")+ scale_fill_viridis_d(option = "plasma") 
 ```
 ## Did you receive a shot?
 ```{r}
@@ -435,7 +435,7 @@ flu_adult_df %>%
     title = "For pregnant persons, if you got a flu shot, when did this occur?",
     x = "Timing in relation to pregnancy",
     y = "Density",
-    caption = "Data from National Health Survey")
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
 ```{r}
@@ -459,7 +459,7 @@ flu_adult_df %>%
     title = "Did you visit an emergency room, and what was your flu vaccine status?",
     x = "How many times did you visit",
     y = "Total Amount",
-    caption = "Data from National Health Survey") 
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
 ## Emergency Care
@@ -481,7 +481,7 @@ flu_adult_df %>%
     title = "Did you visit an urgent care, and what was your flu vaccine status?",
     x = "How many times did you visit",
     y = "Total Amount",
-    caption = "Data from National Health Survey") 
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
 ## Urgent Care
@@ -506,7 +506,7 @@ flu_adult_df %>%
     title = "For persons with disabilities, did you have diffculty completing errands on your own, and what was your flu vaccine status?",
     x = "How much difficulty?",
     y = "Total Amount",
-    caption = "Data from National Health Survey") 
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 
 ```
 
