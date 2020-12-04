@@ -9,6 +9,10 @@ output:
 
 # Resources
 
+<img src="images/flu1.jpg" style="width:800px;height:500px" class="center">
+
+[**The influenza ward at the Walter Reed Hospital in Washington, circa 1918.**](https://www.nytimes.com/2020/03/20/world/europe/coronavirus-aids-spanish-flu-ebola-epidemics.html)
+
 Below are some additional resources at your disposable regarding vaccines!
 
 <ul><li> [Communication resources](https://www.cdc.gov/flu/resource-center/index.htm)
