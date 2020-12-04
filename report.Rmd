@@ -101,11 +101,22 @@ Highlights trends in flu vaccine data to ultimately support efforts in research 
 Our study utilizes data composed of a random sample of inhabitants from the United States, as BRFSS and NHS data consists of respondents from all US geographical and social communities.  However, for part of this study, the geographical community is specifically geared towards those in the NYC metro area.  We find this selection to be fitting considering our research question is aimed at understanding the attitudes, associations, and influences surrounding flu vaccination engagement.  This geographic awareness brings us to the current situation unfolding in the United States, that the country is leading the world in having one of the poorest responses to the current COVID-19 pandemic.  Consequently, we found it appropriate to explore any trends that might arise from this area. We are all students of Columbia University’s Mailman School of Public Health.  Attending a graduate institution located in NYC and being residents in the city allows for us to be particularly engaged with the study for its’ apparent relevance.  Dense, metropolitan areas tend to be the most affected during health crisis, lending support to our exploration of data regarding influenza like symptoms.  
 
 ### Data collection methods
-###	Measures
+
+#### Tidying data
+
+How did we clean the data? 
+
+#### Scraping Twitter
+
+**Maria can you describe the steps you took to scrape the twitter data, any problems that occurred and how you ultimately created a cvs file**
+
 ###	Analytical methods
 Analytical methods for the project can be obtained by visiting the page below.
 
 [Statistical information from National Health Survey](stat.html)
+
+**Adam can you add a few sentences or paragraph here of the steps you took? below is a guide of what you might want to briefly address**
+**Analytical Methods: Specify the types of methods that you are going to use to analyze your data (e.g., logistic regression, historical trends, and content analysis) and the reasons for your selection. Describe how these methods address specific aims. **
 
 ###	Ethical concerns and protection of human subjects
 
