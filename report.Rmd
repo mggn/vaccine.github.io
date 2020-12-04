@@ -8,15 +8,9 @@ output:
 ---
 
 
-Measures: Describe what measures will be used, the reliability of each measure, the suitability of each measure for the study population. 
-Analytical Methods: Specify the types of methods that you are going to use to analyze your data (e.g., logistic regression, historical trends, and content analysis) and the reasons for your selection. Describe how these methods address specific aims. 
-
-
-
-
 ## Introduction
 
-The "abstract" and introduction for the report can be found [here.](index.html)
+The "abstract" and introduction for the project can be obtained by visiting [here.](index.html)
 
 ## Methods
 
@@ -60,8 +54,49 @@ Access data set here: https://data.cityofnewyork.us/Health/Emergency-Department-
 Using rverst, data were scraped from the website. 
 
 
-
 ###	Overview of research design
+
+#### Our project is based on our research questions: 
+
+- “What are the attitudes of adults regarding the seasonal influenza vaccine?”
+
+- “What trends emerge adults’ seasonal influenza vaccine?”
+
+- “What are the effects that result from adult’s engagement or disengagement with the seasonal influenza vaccine?” 
+
+
+#### Attitudes structure can be described in terms of three components.
+
+o	**Affective component:** this involves a person’s feelings / emotions about the attitude object. “I hate vaccines”.
+
+o	**Behavioral (or conative) component:** the way the attitude we have influences on how we act or behave. For example: “I will obtain a influenza vaccine once it becomes available”.
+
+o	**Cognitive component:** this involves a person’s belief / knowledge about an attitude object. For example: “I believe vaccines are safe”.
+
+#### Through engagement with the allotted datasets we will begin to understand:
+
+1.	What feelings do adults have regarding flu vaccines?
+**Why? This will help us understand how adults might feel in regards to available or theoretical vaccines.**
+
+2.	How do adults behave towards flu vaccines?
+**Why? This will help us understand what actions should be encouraged or discontinued in regards to available or theoretical vaccines.**
+
+3.	What do adults know about vaccines?
+
+**Why? This will help us understand gaps in education, misinformation that might be occurring, and where information should be directed towards**
+
+#### Hypothesis - What do we think we will find?
+
+-	The proportion of individuals who receive a flu vaccine will increase over the years
+-	There might be a decrease in flu vaccinations due to the Anti-Vaxx movement
+-	Communities with lower allocations of resources will have less access to obtain vaccinations
+-	Insurance coverage will have a significant association with vaccination status
+-	There will be more individuals with polarizing views on vaccines than those with indifferent stances
+
+#### Research aim
+
+Highlights trends in flu vaccine data to ultimately support efforts in research and program implementation, to ensure that all of those eligible to obtain a flu vaccine to get one.  This is in a desire to encourage immunization rates for other communicable disease, especially for the ongoing COVID-19 pandemic. 
+
 ###	Research setting
 
 Our study utilizes data composed of a random sample of inhabitants from the United States, as BRFSS and NHS data consists of respondents from all US geographical and social communities.  However, for part of this study, the geographical community is specifically geared towards those in the NYC metro area.  We find this selection to be fitting considering our research question is aimed at understanding the attitudes, associations, and influences surrounding flu vaccination engagement.  This geographic awareness brings us to the current situation unfolding in the United States, that the country is leading the world in having one of the poorest responses to the current COVID-19 pandemic.  Consequently, we found it appropriate to explore any trends that might arise from this area. We are all students of Columbia University’s Mailman School of Public Health.  Attending a graduate institution located in NYC and being residents in the city allows for us to be particularly engaged with the study for its’ apparent relevance.  Dense, metropolitan areas tend to be the most affected during health crisis, lending support to our exploration of data regarding influenza like symptoms.  
@@ -69,42 +104,14 @@ Our study utilizes data composed of a random sample of inhabitants from the Unit
 ### Data collection methods
 ###	Measures
 ###	Analytical methods
+Analytical methods for the project can be obtained by visiting the page below.
+
+[Statistical information from National Health Survey](stat.html)
+
 ###	Ethical concerns and protection of human subjects
 
-IRB approval was not necessary to access the data.  Data from the NHS, BRFSS, and NYC Open Data were deindentifed.  Additionally, data scraped from Twitter have been deindentified to protect all human subjects.  
+IRB approval was not necessary to access the data.  Data from the NHS, BRFSS, and NYC Open Data were de-identified.  Additionally, data scraped from Twitter have been de-identified to protect all human subjects.  
 
-
-
-Framework
-
-Our project is based on our research questions 
-
-“What are the attitudes of adults regarding the seasonal influenza vaccine?”
-
-“What trends emerge adults’ seasonal influenza vaccine?”
-
-“What are the effects that result from adult’s engagement or disengagement with the seasonal influenza vaccine?” 
-
-
-Attitudes structure can be described in terms of three components.
-o	Affective component: this involves a person’s feelings / emotions about the attitude object. “I hate vaccines”.
-o	Behavioral (or conative) component: the way the attitude we have influences on how we act or behave. For example: “I will obtain a influenza vaccine once it becomes available”.
-o	Cognitive component: this involves a person’s belief / knowledge about an attitude object. For example: “I believe vaccines are safe”.
-Through engagement with the allotted datasets we will begin to understand
-1.	What feelings do adults have regarding flu vaccines?
-Why? This will help us understand how adults might feel in regards to available or theoretical vaccines.
-2.	How do adults behave towards flu vaccines?
-Why? This will help us understand what actions should be encouraged or discontinued in regards to available or theoretical vaccines
-3.	What do adults know about vaccines?
-Why? This will help us understand gaps in education, misinformation that might be occurring, and where information should be directed towards
-Hypothesis/ What do we think we will find?
--	The proportion of individuals who receive a flu vaccine will increase over the years
--	There might be a decrease in flu vaccinations due to the Anti-Vaxx movement
--	Communities with lower allocations of resources will have less access to obtain vaccinations
--	Insurance coverage will have a significant association with vaccination status
--	There will be more individuals with polarizing views on vaccines than those with indifferent stances 
-Research aim
-Highlights trends in flu vaccine data to ultimately support efforts in research and program implementation, to ensure that all of those eligible to obtain a flu vaccine to get one.  This is in a desire to encourage immunization rates for other communicable disease, especially for the ongoing COVID-19 pandemic. 
 
 ## Results
 
@@ -116,10 +123,8 @@ Results for the project can be obtained by visiting the pages below.
 [Behavioral Risk Factor Surveillance System Results](test_storyboard.html)
 
 
-[Statistical information from National Health Survey](stat.html)
-
-
 **link adam's map**
+
 **link twitter data**
  
 
@@ -132,3 +137,7 @@ Conclusions?
 What are the consequences of not engaging with flu shots?
 Next steps?
 Things to think about?
+
+## Authors
+
+[Adam, Maria, Ronaé](extras.html)
