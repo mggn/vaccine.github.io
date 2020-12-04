@@ -255,11 +255,11 @@ flu_adult_df =
 write_csv(flu_adult_df, "./final_project_large_data/flu_adult_df.csv")
 ```
 
+With the National Health Survey, we can begin to approach one side of the behavioral component of flu shots, the other being the [BRFSS exploratory analysis](test_storyboard.html). How do adult respondents of the survey behave towards the vaccine, and what factors might be influencing this action or inaction? Below are some major categories that emerged from this data set, with accompanying narratives.  
 
 # Biological Sex 
 
-Starting off we can see that females are more likely to get a flu shot than not, this does not appear to be the same trend with men.  Men are more likely to not receive a flu shot than to get one. 
-
+We can observe that out of females, **the majority receive a flu shot**.  Also generally out of the two groups (females and males), females are more likely to engage with receiving the vaccine. For males, it is **nearly split** between those who choose to receive the shot and those who do not.
 
 ```{r include=FALSE}
 sex_plot = 
@@ -279,7 +279,6 @@ flu_adult_df %>%
 
 ```
 
-
 ```{r}
 sex_plot
 ```
@@ -287,8 +286,7 @@ sex_plot
 
 # Vulnerable Groups 
 
-We know that the most vulnerable groups are those that are older and who  have a BMI that is not consider healthy. Let's consider those who did not receive a flu shot vs those who did. 
-
+With the current COVID-19 pandemic, it is being observed that individuals most at risk for morbidity and mortality are those who are older in age and who  have a BMI that is considered unhealthy. Below we consider flu shot engagement for respondents older than 65. This sample is then further categorized by BMI categories. Trends will help us understand current involvement for this vulnerable group. We observe that among all BMI categories, **the majority of respondents receive a flu vaccine**, promising information. For those who occupy the underweight category, this difference isn't as considerable.
 
 
 ```{r include=FALSE}
@@ -312,11 +310,9 @@ flu_adult_df %>%
 age_plot
 ```
 
-
 # Insurance
 
-Let's look at insurance in relation to flu shots. Most of those receiving a flu shot are covered under private insurance.  Shots typically occur in October, with November close behind.  
-
+For those who did receive a flu shot, we then consider the month this occurred. We further separate this data based on their insurance status, to see if any trends emerged dependent on coverage type.  We can see from the jitter plot that for the months of **September, October, and November are when the most flu shots are received**. Most of the respondents have **private insurance** and medicaid/other public insurance follows.  More notable, there still to appears be a considerable amount of those who are uninsured.  
 
 ```{r include=FALSE}
 coverage_plot = 
@@ -339,9 +335,10 @@ flu_adult_df %>%
 coverage_plot
 ```
 
-# Paying Bills
+# Healthcare Visits
 
-for those who didn't receive a flu shot, most respondents did not have difficulty paying their hospital bill.  
+Familiarity and trust of healthcare providers can greatly influence one's perception of flu shots.  Communities that have a considerable distrust of the medical community, especially black and brown communities, are less likely to receive vaccinations due to historical and unethical treatment.  Below we consider respondents who did not receive a flu shot, and observe the frequency of their visits to see healthcare providers. Data was further separated by race. **Most of respondents had seen a healthcare provider within the past year. Majority of them being non hispanic white.** 
+
 
 ```{r include=FALSE}
 doctor_plot = 
@@ -351,22 +348,24 @@ flu_adult_df %>%
   filter(probs_paybill != "No response") %>%
    filter(last_drvisit != "don't know") %>% 
   filter(last_drvisit != "refused") %>%
-  ggplot(aes(fill = probs_paybill, y = last_drvisit)) + geom_bar() + 
+  ggplot(aes(fill = nh_race, y = last_drvisit)) + geom_bar() + 
   labs(
-    title = "No flu shot? When was the last time you went to a healthcare provider and did you have difficulty paying your bill?",
+    title = "No flu shot? Last visit to a healthcare provider?",
     x = "Total Amount",
     y = "When did you see them?",
-    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
+    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma") 
 
 
 ```
 
 ```{r}
-doctor_plot
+ggplotly(doctor_plot)
 ```
 
 
-# Age Distribution
+# Age
+
+The data has been divided between two plots containing respondents who received a flu vaccine and those who did not.  Data was then further categorized via the education status of the respondent, ranging from never attending school to a doctoral degree. 
 
 ## Flu Shot Status: Yes
 
@@ -386,22 +385,21 @@ flu_adult_df %>%
 plot_ly(y = ~age, color = ~education, type = "box", colors = "plasma") 
 ```
 
+We can observe that those who did receive a flu shot are generally older than those who did not.  
 ```{r}
 yes_age_plot
 ```
 
 ## Flu Shot Status: No
+
+We can observe that those who did not receive a flu shot are generally younger than those who did.   
 ```{r}
 no_age_plot
 ```
 
-
-Seems like people are generally older when they receive a flu vaccine. 
-
-
 # Pregnant
 
-How many people are pregnant? and if they are, did they receive a flu shot at all during that year? What factors contribute to women deciding to receive a flu shot?
+For the respondents who were pregnant at the time of the survey, we grouped them by their insurance coverage to notice any trends in regards to flu shot engagement.  As highlighted earlier, **most of the pregnant person had private insurance followed by medicaid/other public coverage**.  For those with private insurance, **the majority of them did receive a flu shot.**  However for the other insurance options, **the majority of pregnant persons did not receive a flu shot.**
 
 ```{r include=FALSE}
 pregnant_plot = 
@@ -411,7 +409,7 @@ flu_adult_df %>%
   mutate(coverage = fct_infreq(coverage)) %>% 
   ggplot(aes(x = coverage, fill = flu_shot)) + geom_bar(position = "dodge")  + 
   labs(
-    title = "For pregnant persons, did you get a flu shot, did insurance infulence this?",
+    title = "For pregnant persons, did you get a flu shot, did insurance influence this?",
     x = "Insurance Coverage",
     y = "Total Amount",
     caption = "Data from National Health Survey")+ scale_fill_viridis_d(option = "plasma") 
@@ -420,8 +418,6 @@ flu_adult_df %>%
 ```{r}
 pregnant_plot
 ```
-
-The majority of those who are pregnant receive their flu shot after pregnancy. This makes sense considering restricting of who can receive the vaccination.  
 
 ## Timing of Shot
 ```{r include=FALSE}
@@ -437,7 +433,7 @@ flu_adult_df %>%
     y = "Density",
     caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
-
+The majority of those who are pregnant received their flu shot **before pregnancy**.
 ```{r}
 pregnant2_plot
 ```
@@ -445,6 +441,7 @@ pregnant2_plot
 
 # Care Visits
 
+Reducing the amount of individuals who need to receive emergency or urgent care is a goal of many health professionals. A deeper dive of influenza-like and pneumonia hospital admissions can be observed here **link to Adam's rmd**. 
 
 ```{r include=FALSE}
 emergency_plot = 
@@ -456,15 +453,17 @@ flu_adult_df %>%
   filter(emergency_visits != "not applicable") %>%
   filter(emergency_visits != "refused") %>%
   ggplot(aes(x = emergency_visits,  fill = flu_shot)) + geom_bar(position = "dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(
-    title = "Did you visit an emergency room, and what was your flu vaccine status?",
+    title = "Did you visit an emergency room within the year?",
     x = "How many times did you visit",
     y = "Total Amount",
     caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
 ## Emergency Care
+
+We can observe that for respondents who didn't visit an emergency room within the year were **nearly split** between receiving and not receiving a flu shot. 
 ```{r}
-emergency_plot
+emergency_plot 
 ```
 
 
@@ -478,20 +477,22 @@ flu_adult_df %>%
   filter(urgentcare_visits != "not applicable") %>%
   filter(urgentcare_visits != "refused") %>%
   ggplot(aes(x = urgentcare_visits,  fill = flu_shot)) + geom_bar(position = "dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(
-    title = "Did you visit an urgent care, and what was your flu vaccine status?",
+    title = "Did you visit an urgent care within the year?",
     x = "How many times did you visit",
     y = "Total Amount",
     caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
 ## Urgent Care
+
+We can observe that for respondents who didn't visit an urgent care within the year were **nearly split** between receiving and not receiving a flu shot. 
 ```{r}
 urgent_plot
 ```
 
 # Disabilities
 
-for those with a disability, who got a flu shot? and where are they going for their services? how much difficulty are they having with completing errands on their own?
+A major component of increasing the immunization status is ensuring that facilities are accessible for all.  This is especially critical for persons with disabilities.  We can observe that for those with a disability, their vaccine status, and if they have difficulty completing errands that has been categorized. We see that regardless of the amount of difficulty those have completing errands, **the majority receive a flu shot.** 
 
 ```{r include=FALSE}
 disability_plot = 
@@ -503,7 +504,7 @@ flu_adult_df %>%
   filter(errands_alone_diff != "no response") %>% 
   filter(errands_alone_diff != "don't know") %>%
   ggplot(aes(x = errands_alone_diff, fill = flu_shot)) + geom_bar(position = "dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(
-    title = "For persons with disabilities, did you have diffculty completing errands on your own, and what was your flu vaccine status?",
+    title = "Did you have diffculty completing errands on your own?",
     x = "How much difficulty?",
     y = "Total Amount",
     caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
