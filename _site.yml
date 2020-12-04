@@ -17,7 +17,7 @@ navbar:
       href: stat.html
     - text: "Bonus Stuff"
       menu:
-      - text: "Extras"
+      - text: "Team Members"
         href: extras.html
       - text: "Resources"
         href: resources.html
