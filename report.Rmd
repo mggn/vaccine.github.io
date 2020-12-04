@@ -137,7 +137,7 @@ Results for the project can be obtained by visiting the pages below.
 
 **link adam's map**
 
-**link twitter data**
+[Twitter Results](qual.html)
  
 
 ## Discussion
