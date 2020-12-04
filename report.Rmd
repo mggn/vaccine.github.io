@@ -140,7 +140,9 @@ We are all aware of the fickleness of R. Although not rampant throughout the pro
 Although quite satisfied with the quality of the data, we would have greatly appreciated more variables that consisted of individual level data (continuous). Most of the variables were discrete which limited some of the visualizations that we were interested in exploring. Additionally, this project showcased a dearth of open data available concerning vaccines within the Americas. Initially we wanted to hinge our research question on adult immunization schedules, concerning Tetanus, HPV, etc. However, this information was limited. As a result, we shifted direction during the project to focus on flu vaccines considering the universal nature of it’s effect. 
 
 ### Conclusions
+
 **need to fill out**
+
 ### Next steps
 
 To advance the project, it would be necessary to obtain more data, from more diverse sources, in order to deepen our exploratory and statistical analysis. Especially, we would like this data to concern communities that traditional disengage from vaccinations or those that have low resources.  Additionally, to touch more on the cognitive component of attitudes, it would be fruitful to collect data from surveys that assess respondents’ knowledge regarding vaccines and immunization schedules.  To engage with a deeper dive of the affective component of attitudes, it would also be fruitful to gather information from more nuanced qualitative sources, aside from Twitter, such as Reddit. Reddit can contain separate “communities” internationally, in which polarized thoughts and opinions can be analyzed.  
