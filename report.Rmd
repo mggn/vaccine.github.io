@@ -7,25 +7,16 @@ output:
     theme: cosmo
 ---
 
-**once editing on microsoft word, will update all missing sections to this page**
-
-
-
-
-
-
-Research Setting: Describe in detail the geographical and/or social community that you have selected for your study and the reasons for your selection. 
-Data Collection Method(s): Present a general overview of the method(s) you selected, your reasons for selecting it, and how this is going to be implemented in your data collection. If your research proposal only concentrates on secondary data analysis, you should focus this section on the types of measures that you are going to use in your analysis. 
 
 Measures: Describe what measures will be used, the reliability of each measure, the suitability of each measure for the study population. 
 Analytical Methods: Specify the types of methods that you are going to use to analyze your data (e.g., logistic regression, historical trends, and content analysis) and the reasons for your selection. Describe how these methods address specific aims. 
 
-Ethical Concerns and Protection of Human Subjects: For all original research and/or secondary data analysis, protection of human subjects must be addressed, i.e., was IRB approval requested and approved, or if not, was this study exempted. This information is usually one or two sentences in the methods section. 
 
 
-Introduction
 
-  
+## Introduction
+
+The "abstract" and introduction for the report can be found [here.](index.html)
 
 ## Methods
 
@@ -72,13 +63,17 @@ Using rverst, data were scraped from the website.
 
 ###	Overview of research design
 ###	Research setting
+
+Our study utilizes data composed of a random sample of inhabitants from the United States, as BRFSS and NHS data consists of respondents from all US geographical and social communities.  However, for part of this study, the geographical community is specifically geared towards those in the NYC metro area.  We find this selection to be fitting considering our research question is aimed at understanding the attitudes, associations, and influences surrounding flu vaccination engagement.  This geographic awareness brings us to the current situation unfolding in the United States, that the country is leading the world in having one of the poorest responses to the current COVID-19 pandemic.  Consequently, we found it appropriate to explore any trends that might arise from this area. We are all students of Columbia University’s Mailman School of Public Health.  Attending a graduate institution located in NYC and being residents in the city allows for us to be particularly engaged with the study for its’ apparent relevance.  Dense, metropolitan areas tend to be the most affected during health crisis, lending support to our exploration of data regarding influenza like symptoms.  
+
 ### Data collection methods
 ###	Measures
 ###	Analytical methods
 ###	Ethical concerns and protection of human subjects
 
+IRB approval was not necessary to access the data.  Data from the NHS, BRFSS, and NYC Open Data were deindentifed.  Additionally, data scraped from Twitter have been deindentified to protect all human subjects.  
 
-**not sure where to put framework in this regard.will resolve this later**
+
 
 Framework
 
@@ -113,10 +108,20 @@ Highlights trends in flu vaccine data to ultimately support efforts in research 
 
 ## Results
 
-**how do we link this to other pages on the website?**
--	Graphs, plotly, linear models
--	Discussion of findings for each visualization
--	Screencast 
+Results for the project can be obtained by visiting the pages below.
+
+[National Health Survey Results](methods.html)
+
+
+[Behavioral Risk Factor Surveillance System Results](test_storyboard.html)
+
+
+[Statistical information from National Health Survey](stat.html)
+
+
+**link adam's map**
+**link twitter data**
+ 
 
 ## Discussion
 
