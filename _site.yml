@@ -11,10 +11,12 @@ navbar:
       menu:
       - text: "National Health Survey Data"
         href: methods.html
-    - text: "Exploratory Analysis II: BRFSS dashboard"
-      href: test_storyboard.html
+      - text: "Exploratory Analysis II: BRFSS dashboard"
+        href: test_storyboard.html
     - text: "Statistical Analysis"
       href: stat.html
+    - text: "Qualitative exploration"
+      href: qual.html
     - text: "Bonus Stuff"
       menu:
       - text: "Team Members"

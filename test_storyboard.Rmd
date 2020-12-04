@@ -304,13 +304,13 @@ Looking through the states in the region, what trends do you see?
 
 **Using the BRFSS dataset, we visually inspected only a few variables that could influence decision to vaccinate. Generally,
 it is important to visually inspect and explore the data prior to performing statistical analyses. The questions that this graph 
-and that the other plots in this dashboard beg the questions:**
+and that the other plots in this dashboard elicit are:**
 
 - Is there a significant difference between getting and not getting a flu shot depending on your geographic region?
 - Is there a significant difference between getting and not getting a flu shot depending on location accessibility?
 - What other variables might be influential in an individuals decision to get vaccinated?
 
 And finally, we would also be interested in what *motivated* people, ie, what were some *qualitative* reasons that drive the data
-that we are inspecting visually?
+that we are inspecting visually? Please toggle to the [Statistical analysis](stat.html) for quantitative analyses, and to [Qualitative analysis](qual.html) for qualitative data exploration.
 
 

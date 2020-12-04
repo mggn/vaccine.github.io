@@ -1,0 +1,95 @@
+---
+title: <center> "Qualitative exploration"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+---
+
+As part of this project, we thought it would be useful to glean (scrape) information from the web to see what people had to say about the flu vaccine, or vaccines in general. To do so, our team used the rtweet package to get data from twitter. A few notes on this:
+
+- In order to gain access to twitter's API, you have to either request a developer account or install an app from rtweet (MUCH easier)  
+- As I went about exploring this package, attempting to remedy and run code multiple times, I remembered that I was accessing resources on someone else's server...  
+- So I learned the hard way that I was limited to one "access" at a time (and by time, I mean by hour)
+
+As a work around, I "called" the data on two separate days and saved the resulting data frames as csvs. 
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(rvest)
+library(httr)
+library(rtweet)
+library(httpuv)
+library(ggplot2)
+```
+
+The tweets_df.csv was created on Nov. 29, 2020 at 11:40 am
+
+```{r}
+
+tweets_df =
+read_csv("./final_project_large_data/tweets_df.csv")
+
+
+```
+
+the tweets_df2.csv was created on Dec. 1, 2020 at 10:40 pm
+
+```{r}
+
+tweets_df2 =
+read_csv("./final_project_large_data/tweets_df2.csv")
+
+```
+
+The process to created them is below, but commented out (I don't want it to run every time I knit)
+
+```{r}
+# tweets1 = search_tweets(q = "#vaccine",
+#                         n = 18000,
+#                         include_rts = FALSE,
+#                         `-filter` = "replies",
+#                         lang = "en")
+# 
+# ts_plot(tweets1, "weeks") +
+#   labs(x = NULL, y = NULL,
+#        title = "Frequency of tweets mentioning #vaccine",
+#        subtitle = paste0(format(min(tweets1$created_at), "%d %B %Y"), " to ", format(max(tweets1$created_at),"%d %B %Y")),
+#        caption = "Data collected from Twitter's REST API via rtweet") +
+#   theme_minimal()
+# 
+# 
+# tweets_df2 =
+#   search_tweets(q = "flu OR vaccine OR flushot",
+#                         n = 5000,
+#                         include_rts = FALSE,
+#                         `-filter` = "replies",
+#                         lang = "en") %>%
+#   write_as_csv("./final_project_large_data/tweets_df2.csv")
+
+```
+
+
+
+Let's explore!
+
+```{r}
+tweets_df %>%
+  sample_n(10) %>%
+  select(created_at, text) %>%
+  knitr::kable()
+
+```
+
+
+
+```{r}
+tweets_df2 %>%
+  sample_n(5) %>%
+  select(created_at, text) %>%
+  knitr::kable()
+```
+
+
+
