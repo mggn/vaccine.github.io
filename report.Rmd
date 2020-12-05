@@ -71,7 +71,7 @@ Using rtweet, data were scraped from the [website.](https://twitter.com)
 
 - **Affective component:** this involves a person’s feelings / emotions about the attitude object. “I hate vaccines”.
 
--	**Behavioral (or cognative) component:** the way the attitude we have influences on how we act or behave. For example: “I will obtain a influenza vaccine once it becomes available”.
+-	**Behavioral (or conative) component:** the way the attitude we have influences on how we act or behave. For example: “I will obtain a influenza vaccine once it becomes available”.
 
 -	**Cognitive component:** this involves a person’s belief / knowledge about an attitude object. For example: “I believe vaccines are safe”.
 
@@ -109,7 +109,7 @@ Our study utilizes data composed of a random sample of inhabitants from the Unit
 
 #### Tidying data
 
-The process of tidying data began with the import of the collected data sets.  Considering the size of the data gathered, we then selected variables that were relevant and appropriate to our research question.  Using respective codebooks, we then mutated and recoded variable names so that the values were readable and gave the actual description. For example, values were coded as “female” or “male”, rather than “0” or “1”. In order to engage with the discrete nature of the data, we then changed the variables classes into a format that was appropriate for analysis.  Additionally, any appropriate releveling occurred in order to present the logical progression of some information.  Tidy data was then saved and exported to our project repository. The intention of these steps was to ensure that the code was readabable and reproducible.   
+The process of tidying data began with the import of the collected data sets.  Considering the size of the data gathered, we then selected variables that were relevant and appropriate to our research question.  Using respective codebooks, we then mutated and recoded variable names so that the values were readable and gave the actual description. For example, values were coded as “female” or “male”, rather than “0” or “1”. In order to engage with the discrete nature of the data, we then changed the variables classes into a format that was appropriate for analysis.  Additionally, any appropriate releveling occurred in order to present the logical progression of some information.  Tidy data was then saved and exported to our project repository. The intention of these steps was to ensure that the code was readable and reproducible.   
 
 #### Scraping Twitter
 
@@ -121,7 +121,7 @@ Analytical methods for the project can be obtained by visiting the page below.
 
 [Statistical information from National Health Survey](stat.html)
 
-Because we are interested in the binary outcome of whether an individual received an influenza vaccine or not, we will be primarily analyzing the data using logistic regression. We hypothesize that an individual's health insurance status is an important predictor of their decision to obtain a flu shot, so we will consider this our main effect variable. We will also include other important covariates, and attempt to build a parsimonious model that explains this relationship in a clear way. We also will look at the distribution of demogrpahic and health variables in our data set.
+Because we are interested in the binary outcome of whether an individual received an influenza vaccine or not, we will be primarily analyzing the data using logistic regression. We hypothesize that an individual's health insurance status is an important predictor of their decision to obtain a flu shot, so we will consider this our main effect variable. We will also include other important covariates, and attempt to build a parsimonious model that explains this relationship in a clear way. We also will look at the distribution of demographic and health variables in our data set.
 
 ###	Ethical concerns and protection of human subjects
 
