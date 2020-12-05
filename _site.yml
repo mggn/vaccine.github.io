@@ -31,5 +31,7 @@ navbar:
         href: resources.html
     - icon: fa-github fa-lg
       href: https://github.com/mggn/vaccine.github.io
+    - icon: fa-youtube fa-lg
+      href: https://www.youtube.com/watch?v=dod7nYZTL9A&feature=youtu.be
 output:
   html_document
