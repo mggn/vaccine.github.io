@@ -96,8 +96,7 @@ SO let's sample from the dataframe that was created with the search term "vaccin
 ```{r}
 tweets_df2 %>%
   sample_n(10) %>%
-  select(text) %>%
-  knitr::kable()
+  select(text)
 ```
 
 ### Why do we care?
