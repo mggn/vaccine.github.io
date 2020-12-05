@@ -443,7 +443,7 @@ pregnant2_plot
 
 # Care Visits
 
-Reducing the amount of individuals who need to receive emergency or urgent care is a goal of many health professionals. A deeper dive of influenza-like and pneumonia hospital admissions can be observed here **link to Adam's rmd**. 
+Reducing the amount of individuals who need to receive emergency or urgent care is a goal of many health professionals. A deeper dive of influenza-like and pneumonia hospital admissions can be observed [here](flu_like_visits_eda.html). 
 
 ```{r include=FALSE}
 emergency_plot = 
