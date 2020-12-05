@@ -20,7 +20,7 @@ The abstract and introduction for the project can be obtained by visiting [here.
 
 ### Sources of data
 
-#### National Health Survey
+#### National Health Interview Survey (NHIS)
 
 The National Health Interview Survey (NHIS) is one of the major data collection programs of the National Center for Health Statistics (NCHS) which is part of the Centers for Disease Control and Prevention (CDC). While the NHIS has been conducted continuously since 1957, the content of the survey has been updated about every 15-20 years to incorporate advances in survey methodology and coverage of health topics. In January 2019, NHIS launched a redesigned content and structure that differs from its previous questionnaire design. Persons excluded from the sample are those with no fixed household address, military personnel, persons in long-term care institutions, persons in correctional facilities, and U.S. nationals living in foreign countries.  Data collection on the NHIS is continuous, i.e., from January to December each year.
 
@@ -53,7 +53,7 @@ Access data set [here](https://data.cityofnewyork.us/Health/Emergency-Department
 
 
 #### Twitter
-Using rtweet, data were scraped from the [website.](https://twitter.com) 
+Using `rtweet`, data were scraped from the [website.](https://twitter.com) 
 
 
 ###	Overview of research design
@@ -62,16 +62,16 @@ Using rtweet, data were scraped from the [website.](https://twitter.com)
 
 - “What are the attitudes of adults regarding the seasonal influenza vaccine?”
 
-- “What trends emerge adults’ seasonal influenza vaccine?”
+- “What trends emerge regarding adults’ seasonal influenza vaccine?”
 
-- “What are the effects that result from adult’s engagement or disengagement with the seasonal influenza vaccine?” 
+- “What are the effects from adult’s engagement or disengagement with the seasonal influenza vaccine?” 
 
 
 #### Attitudes structure can be described in terms of three components.
 
 - **Affective component:** this involves a person’s feelings / emotions about the attitude object. “I hate vaccines”.
 
--	**Behavioral (or cognative) component:** the way the attitude we have influences on how we act or behave. For example: “I will obtain a influenza vaccine once it becomes available”.
+-	**Behavioral (or conative) component:** the way the attitude we have influences on how we act or behave. For example: “I will obtain a influenza vaccine once it becomes available”.
 
 -	**Cognitive component:** this involves a person’s belief / knowledge about an attitude object. For example: “I believe vaccines are safe”.
 
@@ -87,7 +87,7 @@ Using rtweet, data were scraped from the [website.](https://twitter.com)
 
 3.	What do adults know about vaccines?
 
-***Why? This will help us understand gaps in education, misinformation that might be occurring, and where information should be directed towards***
+***Why? This will help us understand gaps in education, misinformation that might be occurring, and where information should be directed towards.***
 
 #### Hypothesis - What do we think we will find?
 
@@ -103,36 +103,36 @@ Highlights trends in flu vaccine data to ultimately support efforts in research 
 
 ###	Research setting
 
-Our study utilizes data composed of a random sample of inhabitants from the United States, as BRFSS and NHS data consists of respondents from all US geographical and social communities.  However, for part of this study, the geographical community is specifically geared towards those in the NYC metro area.  We find this selection to be fitting considering our research question is aimed at understanding the attitudes, associations, and influences surrounding flu vaccination engagement.  This geographic awareness brings us to the current situation unfolding in the United States, that the country is leading the world in having one of the poorest responses to the current COVID-19 pandemic.  Consequently, we found it appropriate to explore any trends that might arise from this area. We are all students of Columbia University’s Mailman School of Public Health.  Attending a graduate institution located in NYC and being residents in the city allows for us to be particularly engaged with the study for its’ apparent relevance.  Dense, metropolitan areas tend to be the most affected during health crisis, lending support to our exploration of data regarding influenza like symptoms.  
+Our study utilizes data composed of a random sample of inhabitants from the United States, as BRFSS and NHIS data consists of respondents from all US geographical and social communities.  However, for part of this study, the geographical community is specifically geared towards those in the NYC metro area.  We find this selection to be fitting considering our research question is aimed at understanding the attitudes, associations, and influences surrounding flu vaccination engagement.  This geographic awareness brings us to the current situation unfolding in the United States, that the country is leading the world in having one of the poorest responses to the current COVID-19 pandemic.  Consequently, we found it appropriate to explore any trends that might arise from this area. We are all students of Columbia University’s [Mailman School of Public Health](https://www.publichealth.columbia.edu).  Attending a graduate institution located in NYC and being residents in the city allows for us to be particularly engaged with the study for its’ apparent relevance.  Dense, metropolitan areas tend to be the most affected during health crisis, lending support to our exploration of data regarding influenza like symptoms.  
 
 ### Data collection methods
 
 #### Tidying data
 
-The process of tidying data began with the import of the collected data sets.  Considering the size of the data gathered, we then selected variables that were relevant and appropriate to our research question.  Using respective codebooks, we then mutated and recoded variable names so that the values were readable and gave the actual description. For example, values were coded as “female” or “male”, rather than “0” or “1”. In order to engage with the discrete nature of the data, we then changed the variables classes into a format that was appropriate for analysis.  Additionally, any appropriate releveling occurred in order to present the logical progression of some information.  Tidy data was then saved and exported to our project repository. The intention of these steps was to ensure that the code was readabable and reproducible.   
+The process of tidying data began with the import of the collected data sets.  Considering the size of the data gathered, we then selected variables that were relevant and appropriate to our research question.  Using respective codebooks, we then mutated and recoded variable names so that the values were readable and gave the actual description. For example, values were coded as “female” or “male”, rather than “0” or “1”. In order to engage with the discrete nature of the data, we then changed the variables classes into a format that was appropriate for analysis.  Additionally, any appropriate releveling occurred in order to present the logical progression of some information.  Tidy data was then saved and exported to our project repository. The intention of these steps was to ensure that the code was readable and reproducible.   
 
 #### Scraping Twitter
 
-Twitter data was easily scraped from the web using the rtweet package and the command "search_tweets," where search terms can be specified. rtweet connects to twitter's API through a web-based app, and API access tokens are limited to once per hour. As a result, two separate .csv files were generated using the "write_as_csv" function within the package to limit the number of "calls" being made to request twitter data. Further information and code examples can be found [here](qual.html)
+Twitter data was easily scraped from the web using the `rtweet package` and the command `search_tweets`, where search terms can be specified. `rtweet` connects to twitter's API through a web-based app, and API access tokens are limited to once per hour. As a result, two separate .csv files were generated using the `write_as_csv` function within the package to limit the number of "calls" being made to request twitter data. Further information and code examples can be found [here](qual.html)
 
 ###	Analytical methods
 
 Analytical methods for the project can be obtained by visiting the page below.
 
-[Statistical information from National Health Survey](stat.html)
+[Statistical information from National Health Interview Survey](stat.html)
 
-Because we are interested in the binary outcome of whether an individual received an influenza vaccine or not, we will be primarily analyzing the data using logistic regression. We hypothesize that an individual's health insurance status is an important predictor of their decision to obtain a flu shot, so we will consider this our main effect variable. We will also include other important covariates, and attempt to build a parsimonious model that explains this relationship in a clear way. We also will look at the distribution of demogrpahic and health variables in our data set.
+Because we are interested in the binary outcome of whether an individual received an influenza vaccine or not, we will be primarily analyzing the data using logistic regression. We hypothesize that an individual's health insurance status is an important predictor of their decision to obtain a flu shot, so we will consider this our main effect variable. We will also include other important covariates, and attempt to build a parsimonious model that explains this relationship in a clear way. We also will look at the distribution of demographic and health variables in our data set.
 
 ###	Ethical concerns and protection of human subjects
 
-IRB approval was not necessary to access the data.  Data from the NHS, BRFSS, and NYC Open Data were de-identified.  Additionally, data scraped from Twitter have been de-identified to protect all human subjects.  
+IRB approval was not necessary to access the data.  Data from the NHIS, BRFSS, and NYC Open Data were de-identified.  Additionally, data scraped from Twitter have been de-identified to protect all human subjects.  
 
 
 ## Results
 
 Results for the project can be obtained by visiting the pages below.
 
-[National Health Survey Results](methods.html)
+[National Health Interview Survey Results](methods.html)
 
 
 [Behavioral Risk Factor Surveillance System Results](test_storyboard.html)
@@ -157,13 +157,13 @@ We are all aware of the fickleness of R. Although not rampant throughout the pro
 
 #### Data
 
-Although quite satisfied with the quality of the data, we would have greatly appreciated more variables that consisted of individual level data (continuous). Most of the variables were discrete which limited some of the visualizations that we were interested in exploring. Additionally, this project showcased a dearth of open data available concerning vaccines within the Americas. Initially we wanted to hinge our research question on adult immunization schedules, concerning Tetanus, HPV, etc. However, this information was limited. As a result, we shifted direction during the project to focus on flu vaccines considering the universal nature of it’s effect. 
+Although quite satisfied with the quality of the data, we would have greatly appreciated more variables that consisted of individual level data (continuous). Most of the variables were discrete which limited some of the visualizations that we were interested in exploring. Additionally, this project showcased a dearth of open data available concerning vaccines within the Americas. Initially we wanted to hinge our research question on adult immunization schedules, concerning Tetanus, HPV, etc. However, this information was limited. As a result, we shifted direction during the project to focus on flu vaccines considering the universal nature of its' effect. 
 
 ### Conclusions
 
 #### In conclusion, we used 4 sources of data for our exploratory and statistical analysis. We discovered that…
 
-* National Health Survey
+* National Health Interview Survey
     + Biological sex appears to have a significant association with flu shot engagement, among other variables
 *	Behavioral Risk Factor Surveillance System
     + The Western Region of the US has lower frequencies of flu vaccinations
@@ -182,7 +182,7 @@ Although quite satisfied with the quality of the data, we would have greatly app
 
 ### Next steps
 
-To advance the project, it would be necessary to obtain more data, from more diverse sources, in order to deepen our exploratory and statistical analysis. Especially, we would like this data to concern communities that traditional disengage from vaccinations or those that have low resources.  Additionally, to touch more on the cognitive component of attitudes, it would be fruitful to collect data from surveys that assess respondents’ knowledge regarding vaccines and immunization schedules.  To engage with a deeper dive of the affective component of attitudes, it would also be fruitful to gather information from more nuanced qualitative sources, aside from Twitter, such as Reddit. Reddit can contain separate “communities” internationally, in which polarized thoughts and opinions can be analyzed.  
+To advance the project, it would be necessary to obtain more data, from more diverse sources, in order to deepen our exploratory and statistical analysis. Especially, we would like this data to concern communities that traditionally disengage from vaccinations or those that have low resources.  Additionally, to touch more on the cognitive component of attitudes, it would be fruitful to collect data from surveys that assess respondents’ knowledge regarding vaccines and immunization schedules.  To engage with a deeper dive of the affective component of attitudes, it would also be fruitful to gather information from more nuanced qualitative sources, aside from Twitter, such as Reddit. Reddit can contain separate “communities” internationally, in which polarized thoughts and opinions can be analyzed.  
 
 ### Things to think about
 

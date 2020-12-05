@@ -34,7 +34,7 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ## Overview
 
-To learn more about what influences adults to obtain an influenza vaccine, we will conduct additional statistical analyses of the National Health Survey data set. We will be using the tidied data from our earlier [exploratory analysis](methods.html). 
+To learn more about what influences adults to obtain an influenza vaccine, we will conduct additional statistical analyses of the National Health Interview Survey data set. We will be using the tidied data from our earlier [exploratory analysis](methods.html). 
 
 
 ## Univariate Analysis

@@ -1,6 +1,6 @@
 ---
-title: <center> National Health Survey
-pagetitle: National Health Survey
+title: <center> National Health Interview Survey
+pagetitle: National Health Interview Survey
 output: 
   html_document:
     code_folding: hide
@@ -257,7 +257,7 @@ flu_adult_df =
 write_csv(flu_adult_df, "./final_project_large_data/flu_adult_df.csv")
 ```
 
-With the National Health Survey, we can begin to approach one side of the behavioral component of flu shots, the other being the [BRFSS exploratory analysis](test_storyboard.html). How do adult respondents of the survey behave towards the vaccine, and what factors might be influencing this action or inaction? Below are some major categories that emerged from this data set, with accompanying narratives.  
+With the National Health Interview Survey, we can begin to approach one side of the behavioral component of flu shots, the other being the [BRFSS exploratory analysis](test_storyboard.html). How do adult respondents of the survey behave towards the vaccine, and what factors might be influencing this action or inaction? Below are some major categories that emerged from this data set, with accompanying narratives.  
 
 # Biological Sex 
 
@@ -276,7 +276,7 @@ flu_adult_df %>%
     title = "Flu shot engagement amongst males and females",
     x = "Did you receive a flu shot, yes or no?",
     y = "Total Amount",
-    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
+    caption = "Data from National Health Interview Survey") + scale_fill_viridis_d(option = "plasma")
 
 
 ```
@@ -304,7 +304,7 @@ flu_adult_df %>%
     title = "Flu shot engagement by BMI for 65+",
     x = "BMI",
     y = "Total Amount",
-    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma") 
+    caption = "Data from National Health Interview Survey") + scale_fill_viridis_d(option = "plasma") 
 
 ```
 
@@ -330,7 +330,7 @@ flu_adult_df %>%
     title = "When did you get a flu shot, did insurance influence this decision?",
     x = "Month",
     y = "Insurance Coverage",
-    caption = "Data from National Health Survey") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + scale_colour_viridis_d(option = "plasma")
+    caption = "Data from National Health Interview Survey") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + scale_colour_viridis_d(option = "plasma")
 ```
 
 ```{r}
@@ -355,7 +355,7 @@ flu_adult_df %>%
     title = "No flu shot? Last visit to a healthcare provider?",
     x = "Total Amount",
     y = "When did you see them?",
-    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma") 
+    caption = "Data from National Health Interview Survey") + scale_fill_viridis_d(option = "plasma") 
 
 
 ```
@@ -414,7 +414,7 @@ flu_adult_df %>%
     title = "For pregnant persons, did you get a flu shot, did insurance influence this?",
     x = "Insurance Coverage",
     y = "Total Amount",
-    caption = "Data from National Health Survey")+ scale_fill_viridis_d(option = "plasma") 
+    caption = "Data from National Health Interview Survey")+ scale_fill_viridis_d(option = "plasma") 
 ```
 ## Did you receive a shot?
 ```{r}
@@ -433,7 +433,7 @@ flu_adult_df %>%
     title = "For pregnant persons, if you got a flu shot, when did this occur?",
     x = "Timing in relation to pregnancy",
     y = "Density",
-    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
+    caption = "Data from National Health Interview Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 The majority of those who are pregnant received their flu shot **before pregnancy**.
 ```{r}
@@ -443,7 +443,7 @@ pregnant2_plot
 
 # Care Visits
 
-Reducing the amount of individuals who need to receive emergency or urgent care is a goal of many health professionals. A deeper dive of influenza-like and pneumonia hospital admissions can be observed here **link to Adam's rmd**. 
+Reducing the amount of individuals who need to receive emergency or urgent care is a goal of many health professionals. A deeper dive of influenza-like and pneumonia hospital admissions can be observed [here](flu_like_visits_eda.html). 
 
 ```{r include=FALSE}
 emergency_plot = 
@@ -456,9 +456,9 @@ flu_adult_df %>%
   filter(emergency_visits != "refused") %>%
   ggplot(aes(x = emergency_visits,  fill = flu_shot)) + geom_bar(position = "dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(
     title = "Did you visit an emergency room within the year?",
-    x = "How many times did you visit",
+    x = "How many times did you visit?",
     y = "Total Amount",
-    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
+    caption = "Data from National Health Interview Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
 ## Emergency Care
@@ -480,9 +480,9 @@ flu_adult_df %>%
   filter(urgentcare_visits != "refused") %>%
   ggplot(aes(x = urgentcare_visits,  fill = flu_shot)) + geom_bar(position = "dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(
     title = "Did you visit an urgent care within the year?",
-    x = "How many times did you visit",
+    x = "How many times did you visit?",
     y = "Total Amount",
-    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
+    caption = "Data from National Health Interview Survey") + scale_fill_viridis_d(option = "plasma")
 ```
 
 ## Urgent Care
@@ -506,10 +506,10 @@ flu_adult_df %>%
   filter(errands_alone_diff != "no response") %>% 
   filter(errands_alone_diff != "don't know") %>%
   ggplot(aes(x = errands_alone_diff, fill = flu_shot)) + geom_bar(position = "dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(
-    title = "Did you have diffculty completing errands on your own?",
+    title = "Did you have difficulty completing errands on your own?",
     x = "How much difficulty?",
     y = "Total Amount",
-    caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
+    caption = "Data from National Health Interview Survey") + scale_fill_viridis_d(option = "plasma")
 
 ```
 

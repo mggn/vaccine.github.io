@@ -9,7 +9,7 @@ navbar:
       href: report.html
     - text: "Exploratory Analysis"
       menu:
-      - text: "National Health Survey Data"
+      - text: "National Health Interview Survey Data"
         href: methods.html
       - text: "Exploratory Analysis II: BRFSS dashboard"
         href: test_storyboard.html
