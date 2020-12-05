@@ -17,6 +17,12 @@ All the best,
 
 *Adam, Maria, Ronaé*
 
+
+p.s. 
+
+Our working repo is linked [here](https://github.com/mggn/p8105_final_project)
+our website repo is linked [here](https://github.com/mggn/vaccine.github.io)
+
 ## Project inspiration
 
 <center>

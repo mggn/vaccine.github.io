@@ -24,6 +24,6 @@ navbar:
       - text: "Resources"
         href: resources.html
     - icon: fa-github fa-lg
-      href: http://github.com/<YOUR_GH_NAME>/
+      href: https://github.com/mggn/vaccine.github.io
 output:
   html_document
