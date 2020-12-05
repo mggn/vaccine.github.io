@@ -456,7 +456,7 @@ flu_adult_df %>%
   filter(emergency_visits != "refused") %>%
   ggplot(aes(x = emergency_visits,  fill = flu_shot)) + geom_bar(position = "dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(
     title = "Did you visit an emergency room within the year?",
-    x = "How many times did you visit",
+    x = "How many times did you visit?",
     y = "Total Amount",
     caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
@@ -480,7 +480,7 @@ flu_adult_df %>%
   filter(urgentcare_visits != "refused") %>%
   ggplot(aes(x = urgentcare_visits,  fill = flu_shot)) + geom_bar(position = "dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(
     title = "Did you visit an urgent care within the year?",
-    x = "How many times did you visit",
+    x = "How many times did you visit?",
     y = "Total Amount",
     caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
 ```
@@ -506,7 +506,7 @@ flu_adult_df %>%
   filter(errands_alone_diff != "no response") %>% 
   filter(errands_alone_diff != "don't know") %>%
   ggplot(aes(x = errands_alone_diff, fill = flu_shot)) + geom_bar(position = "dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(
-    title = "Did you have diffculty completing errands on your own?",
+    title = "Did you have difficulty completing errands on your own?",
     x = "How much difficulty?",
     y = "Total Amount",
     caption = "Data from National Health Survey") + scale_fill_viridis_d(option = "plasma")
