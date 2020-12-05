@@ -111,7 +111,7 @@ How did we clean the data?
 
 #### Scraping Twitter
 
-Twitter data was easily scraped from the web using the rtweet package and the command "search_tweets," where search terms can be specified. rtweet connects to twitter's API through a web-based app, and API access tokens are limited to once per hour. As a result, two separate .csv files were generated using the "write_as_csv" function within the package to limit the number of "calls" being made to request twitter data. Further information and code examples can be found [here] (qual.html)
+Twitter data was easily scraped from the web using the rtweet package and the command "search_tweets," where search terms can be specified. rtweet connects to twitter's API through a web-based app, and API access tokens are limited to once per hour. As a result, two separate .csv files were generated using the "write_as_csv" function within the package to limit the number of "calls" being made to request twitter data. Further information and code examples can be found [here](qual.html)
 
 ###	Analytical methods
 Analytical methods for the project can be obtained by visiting the page below.
