@@ -1,11 +1,14 @@
 ---
-title: <center> "Qualitative exploration"
+title: <center> "Qualitative exploration: twitter!"
 output: 
   html_document:
     toc: true
     toc_float: true
     theme: cosmo
 ---
+
+
+### The data acquisition
 
 As part of this project, we thought it would be useful to glean (scrape) information from the web to see what people had to say about the flu vaccine, or vaccines in general. To do so, our team used the rtweet package to get data from twitter. A few notes on this:
 
@@ -74,22 +77,32 @@ The process to created them is below, but commented out (I don't want it to run 
 
 Let's explore!
 
+### The data
+
+With the code below, we can sample 10 tweets from the first dataset generated. Because this is a sample function, specified to pull 10 observations, each time the code is run a new table of tweets will pop up. For the tweets_df data, I am commenting out the code.
+
+Why?
+
+Because if you look back to my search terms, I included flu OR vaccine OR flushot. When I sampled a few times in testing this code, I noticed a few tweets that were irrelevant, referring to the "hit me with your best shot" kind of shot that Pat Benatar sang about.
+
+
 ```{r}
-tweets_df %>%
-  sample_n(10) %>%
-  select(created_at, text) %>%
-  knitr::kable()
+# tweets_df %>%
+#   sample_n(10) %>%
+#   select(created_at, text) %>%
+#   knitr::kable()
 
 ```
 
-
+SO let's sample from the dataframe that was created with the search term "vaccine" to get a feel for what people are saying:
 
 ```{r}
 tweets_df2 %>%
-  sample_n(5) %>%
-  select(created_at, text) %>%
+  sample_n(10) %>%
+  select(text) %>%
   knitr::kable()
 ```
 
+### Why do we care?
 
-
+The other analyses generated in these report deal with numbers. While numbers and statistics are highly important, we believe that research can be further supplemented by looking at people's behaviors and attitudes. Using tools like rtweet and other data scraping methods allow us to gain insights from unconventional data sources in order to gain a deeper picture of the current landscape regarding the flu vaccine. It is important to note, however, that using twitter data does introduce selection bias. This means that we are only getting information from people who have access to twitter, and does not caputre the opinions and attitudes of those who do not choose or cannot use twitter.
