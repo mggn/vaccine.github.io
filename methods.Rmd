@@ -1,5 +1,5 @@
 ---
-title: <center> National Health Survey
+title: <center> National Health Interview Survey
 pagetitle: National Health Survey
 output: 
   html_document:
@@ -257,7 +257,7 @@ flu_adult_df =
 write_csv(flu_adult_df, "./final_project_large_data/flu_adult_df.csv")
 ```
 
-With the National Health Survey, we can begin to approach one side of the behavioral component of flu shots, the other being the [BRFSS exploratory analysis](test_storyboard.html). How do adult respondents of the survey behave towards the vaccine, and what factors might be influencing this action or inaction? Below are some major categories that emerged from this data set, with accompanying narratives.  
+With the National Health Interview Survey, we can begin to approach one side of the behavioral component of flu shots, the other being the [BRFSS exploratory analysis](test_storyboard.html). How do adult respondents of the survey behave towards the vaccine, and what factors might be influencing this action or inaction? Below are some major categories that emerged from this data set, with accompanying narratives.  
 
 # Biological Sex 
 
