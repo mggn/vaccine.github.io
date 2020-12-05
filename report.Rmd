@@ -7,6 +7,7 @@ output:
     theme: cosmo
 ---
 <img src="images/hongkongflu.jpg" style="width:640px;height:400px" class="center">
+
 [**Dr. Joel Gitlit gave flu vaccinations to some 200 seniors at a Board of Health clinic in New York City during 1968 Pandemic**](https://www.nytimes.com/2020/03/20/world/europe/coronavirus-aids-spanish-flu-ebola-epidemics.html)
 
 ## Introduction

@@ -1,12 +1,11 @@
 ---
-title: <center> "Qualitative exploration: twitter!"
+title: <center> "Twitter data"
 output: 
   html_document:
     toc: true
     toc_float: true
     theme: cosmo
 ---
-
 
 ### The data acquisition
 
@@ -29,7 +28,7 @@ library(ggplot2)
 
 The tweets_df.csv was created on Nov. 29, 2020 at 11:40 am
 
-```{r}
+```{r message=FALSE}
 
 tweets_df =
 read_csv("./final_project_large_data/tweets_df.csv")
@@ -39,37 +38,37 @@ read_csv("./final_project_large_data/tweets_df.csv")
 
 the tweets_df2.csv was created on Dec. 1, 2020 at 10:40 pm
 
-```{r}
+```{r message=FALSE}
 
 tweets_df2 =
 read_csv("./final_project_large_data/tweets_df2.csv")
 
 ```
 
-The process to created them is below, but commented out (I don't want it to run every time I knit)
+The process that created them is below
 
-```{r}
-# tweets1 = search_tweets(q = "#vaccine",
-#                         n = 18000,
-#                         include_rts = FALSE,
-#                         `-filter` = "replies",
-#                         lang = "en")
-# 
-# ts_plot(tweets1, "weeks") +
-#   labs(x = NULL, y = NULL,
-#        title = "Frequency of tweets mentioning #vaccine",
-#        subtitle = paste0(format(min(tweets1$created_at), "%d %B %Y"), " to ", format(max(tweets1$created_at),"%d %B %Y")),
-#        caption = "Data collected from Twitter's REST API via rtweet") +
-#   theme_minimal()
-# 
-# 
-# tweets_df2 =
-#   search_tweets(q = "flu OR vaccine OR flushot",
-#                         n = 5000,
-#                         include_rts = FALSE,
-#                         `-filter` = "replies",
-#                         lang = "en") %>%
-#   write_as_csv("./final_project_large_data/tweets_df2.csv")
+```{r eval = FALSE}
+tweets1 = search_tweets(q = "#vaccine",
+                        n = 18000,
+                        include_rts = FALSE,
+                        `-filter` = "replies",
+                        lang = "en")
+
+ts_plot(tweets1, "weeks") +
+  labs(x = NULL, y = NULL,
+       title = "Frequency of tweets mentioning #vaccine",
+       subtitle = paste0(format(min(tweets1$created_at), "%d %B %Y"), " to ", format(max(tweets1$created_at),"%d %B %Y")),
+       caption = "Data collected from Twitter's REST API via rtweet") +
+  theme_minimal()
+
+
+tweets_df2 =
+  search_tweets(q = "flu OR vaccine OR flushot",
+                        n = 5000,
+                        include_rts = FALSE,
+                        `-filter` = "replies",
+                        lang = "en") %>%
+  write_as_csv("./final_project_large_data/tweets_df2.csv")
 
 ```
 
@@ -86,11 +85,11 @@ Why?
 Because if you look back to my search terms, I included flu OR vaccine OR flushot. When I sampled a few times in testing this code, I noticed a few tweets that were irrelevant, referring to the "hit me with your best shot" kind of shot that Pat Benatar sang about.
 
 
-```{r}
-# tweets_df %>%
-#   sample_n(10) %>%
-#   select(created_at, text) %>%
-#   knitr::kable()
+```{r eval=FALSE}
+tweets_df %>%
+  sample_n(10) %>%
+  select(created_at, text) %>%
+  knitr::kable()
 
 ```
 
