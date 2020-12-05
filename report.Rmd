@@ -52,7 +52,7 @@ Access data set [here](https://data.cityofnewyork.us/Health/Emergency-Department
 
 
 #### Twitter
-Using rverst, data were scraped from the website. 
+Using rverst, data were scraped from the [website.](https://twitter.com) 
 
 
 ###	Overview of research design
@@ -108,7 +108,7 @@ Our study utilizes data composed of a random sample of inhabitants from the Unit
 
 #### Tidying data
 
-How did we clean the data? 
+The process of tidying data began with the import of the collected data sets.  Considering the size of the data gathered, we then selected variables that were relevant and appropriate to our research question.  Using respective codebooks, we then mutated and recoded variable names so that the values were readable and gave the actual description. For example, values were coded as “female” or “male”, rather than “0” or “1”. In order to engage with the discrete nature of the data, we then changed the variables classes into a format that was appropriate for analysis.  Additionally, any appropriate releveling occurred in order to present the logical progression of some information.  Tidy data was then saved and exported to our project repository. The intention of these steps was to ensure that the code was readabable and reproducible.   
 
 #### Scraping Twitter
 
@@ -156,7 +156,23 @@ Although quite satisfied with the quality of the data, we would have greatly app
 
 ### Conclusions
 
-**need to fill out**
+#### In conclusion, we used 4 sources of data for our exploratory and statistical analysis. We discovered that…
+
+* National Health Survey
+    + Biological sex appears to have a significant association with flu shot engagement
+*	Behavioral Risk Factor Surveillance System
+    + The Western Region of the US has lower frequencies of flu vaccinations
+*	NYC Open Data
+    + 	
+*	Twitter
+    + Vaccines are a hot topic right now on twitter
+
+#### Our project resulted in
+
+*	A unique Twitter data frame that will later be used for a semantic analysis using an appropriate lexicon package
+*	An interactive display of facilities that offer flu shots within the NYC metro area
+*	An awesome website, with an even better Spotify playlist
+
 
 ### Next steps
 
