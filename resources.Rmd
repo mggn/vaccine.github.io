@@ -12,7 +12,7 @@ output:
 
 [**The influenza ward at the Walter Reed Hospital in Washington, circa 1918.**](https://www.nytimes.com/2020/03/20/world/europe/coronavirus-aids-spanish-flu-ebola-epidemics.html)
 
-Below are some additional resources at your disposable regarding vaccines!
+Below are some additional resources regarding vaccines and equity within data science!
 
 <ul><li> [Communication resources](https://www.cdc.gov/flu/resource-center/index.htm)
 <li> [Vaccine finder](https://vaccinefinder.org/find-vaccine)
@@ -20,6 +20,7 @@ Below are some additional resources at your disposable regarding vaccines!
 <li> Where to obtain [low or no cost immunizations in NYC](	https://www1.nyc.gov/site/doh/services/immunization-clinics.page) regardless of immigration status
 <li> [Reading to combat Anti-Vaxxers](https://www.theatlantic.com/health/archive/2020/10/how-change-mind-anti-vaxxer/616722/)
 <li> [Poignant images of prior epidemics](https://www.nytimes.com/2020/03/20/world/europe/coronavirus-aids-spanish-flu-ebola-epidemics.html)
-
-
+<li> Readings on Algorithms and Artificial Intelligence issues, with an [emphasis on equality and human rights issues](https://www.equalityhumanrights.com/en/our-research/algorithms-and-artificial-intelligence-reading-list)
+<li> [Race and Technology](https://venturebeat.com/2020/06/02/some-essential-reading-and-research-on-race-and-technology/)
+<li> [Automating Inequality: How High-Tech Tools Profile, Police, and Punish the Poor](https://www.amazon.com/gp/product/1250215781/ref=as_li_tl?ie=UTF8&tag=cyeo09-20&camp=1789&creative=9325&linkCode=as2&creativeASIN=1250215781&linkId=fecfb802ac39aa9872bd7a145b89c4dc)
 
