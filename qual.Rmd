@@ -31,19 +31,15 @@ library(ggplot2)
 The tweets_df.csv was created on Nov. 29, 2020 at 11:40 am
 
 ```{r message=FALSE}
-
 tweets_df =
-read_csv("./final_project_large_data/tweets_df.csv")
-
-
+  read_csv("./final_project_large_data/tweets_df.csv")
 ```
 
 the tweets_df2.csv was created on Dec. 1, 2020 at 10:40 pm
 
 ```{r message=FALSE}
-
 tweets_df2 =
-read_csv("./final_project_large_data/tweets_df2.csv")
+  read_csv("./final_project_large_data/tweets_df2.csv")
 
 ```
 
@@ -106,4 +102,4 @@ tweets_df2 %>%
 
 ### Why do we care?
 
-The other analyses generated in these report deal with numbers. While numbers and statistics are highly important, we believe that research can be further supplemented by looking at people's behaviors and attitudes. Using tools like rtweet and other data scraping methods allow us to gain insights from unconventional data sources in order to gain a deeper picture of the current landscape regarding the flu vaccine. It is important to note, however, that using twitter data does introduce selection bias. This means that we are only getting information from people who have access to twitter, and does not caputre the opinions and attitudes of those who do not choose or cannot use twitter.
+The other analyses generated in these report deal with numbers. While numbers and statistics are highly important, we believe that research can be further supplemented by looking at people's behaviors and attitudes. Using tools like rtweet and other data scraping methods allow us to gain insights from unconventional data sources in order to gain a deeper picture of the current landscape regarding the flu vaccine. It is important to note, however, that using twitter data does introduce selection bias. This means that we are only getting information from people who have access to twitter, and does not capture the opinions and attitudes of those who do not choose or cannot use twitter.

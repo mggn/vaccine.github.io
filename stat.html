@@ -492,6 +492,8 @@ Statistical Analysis</h1>
     usborn = as.factor(usborn),
     bmi = str_to_title(bmi),
     bmi = as.factor(bmi),
+    errands = str_to_title(errands_alone_diff),
+    errands = as.factor(errands),
     race_eth = fct_infreq(race_eth),
     health = fct_relevel(health, &quot;Excellent&quot;, &quot;Very Good&quot;, &quot;Good&quot;, &quot;Fair&quot;, &quot;Poor&quot;),
     last_dr_visit = fct_relevel(last_dr_visit, &quot;Within past year&quot;, &quot;&lt;2 years&quot;,
@@ -501,7 +503,8 @@ Statistical Analysis</h1>
                             &quot;Associate&#39;s degree&quot;, &quot;Bachelor&#39;s degree&quot;,
                             &quot;Advanced degree&quot;),
     usborn = fct_relevel(usborn, &quot;Yes&quot;, &quot;No&quot;),
-    bmi = fct_relevel(bmi, &quot;Underweight&quot;, &quot;Healthy Weight&quot;, &quot;Overweight&quot;, &quot;Obese&quot;)
+    bmi = fct_relevel(bmi, &quot;Underweight&quot;, &quot;Healthy Weight&quot;, &quot;Overweight&quot;, &quot;Obese&quot;),
+    errands = fct_relevel(errands, &quot;None&quot;, &quot;Some&quot;, &quot;A Lot&quot;, &quot;Cannot Do At All&quot;)
   ) 
 
 label(flu_adult_df$flu_shot) = &quot;Flu Vaccine Received&quot;
@@ -514,11 +517,12 @@ label(flu_adult_df$bmi) = &quot;BMI&quot;
 label(flu_adult_df$last_dr_visit) = &quot;Last Doctor Visit&quot;
 label(flu_adult_df$education) = &quot;Education&quot;
 label(flu_adult_df$usborn) = &quot;US-Born&quot;
+label(flu_adult_df$errands) = &quot;Difficulty with Errands Alone&quot;
 units(flu_adult_df$age) = &quot;years&quot;
 units(flu_adult_df$bmi) = &quot;kg/m^2&quot;
 
 table1(~ age + sex + race_eth + health + insurance + bmi +
-         last_dr_visit + education + usborn | flu_shot, 
+         last_dr_visit + education + usborn + errands | flu_shot, 
        data = flu_adult_df,
        caption = &quot;Table 1: Distribution of demographic and health-related 
        covariates by vaccination status.&quot;)</code></pre>
@@ -822,13 +826,52 @@ table1(~ age + sex + race_eth + health + insurance + bmi +
 <td class='lastrow'>238 (1.5%)</td>
 <td class='lastrow'>806 (2.5%)</td>
 </tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>Difficulty with Errands Alone</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>None</td>
+<td>14421 (92.7%)</td>
+<td>14319 (89.1%)</td>
+<td>29061 (90.8%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Some</td>
+<td>648 (4.2%)</td>
+<td>829 (5.2%)</td>
+<td>1499 (4.7%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>A Lot</td>
+<td>224 (1.4%)</td>
+<td>322 (2.0%)</td>
+<td>554 (1.7%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Cannot Do At All</td>
+<td>251 (1.6%)</td>
+<td>591 (3.7%)</td>
+<td>859 (2.7%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Missing</td>
+<td class='lastrow'>5 (0.0%)</td>
+<td class='lastrow'>2 (0.0%)</td>
+<td class='lastrow'>24 (0.1%)</td>
+</tr>
 </tbody>
 </table>
 </div>
 </div>
 <div id="logistic-regression-modeling" class="section level2">
 <h2>Logistic Regression Modeling</h2>
-<p>To further investigate the data, we will run a logistic regression to look into what variables significantly influence the odds that an individual will obtain the flu vaccine. We believe that health insurance coverage is an important predictor of vaccination behavior, so we will begin with that as a main effect and add other explanatory variables from there.</p>
+<p>To further investigate the data, we will run a logistic regression to look into what variables significantly influence the odds that an individual will obtain the flu vaccine.</p>
+<div id="crude-model" class="section level3">
+<h3>Crude Model</h3>
+<p>We believe that health insurance coverage is an important predictor of vaccination behavior, so we will begin with that as a main effect and add other explanatory variables from there.</p>
 <pre class="r"><code>flu_adult_model = 
   flu_adult_df %&gt;% 
   mutate(
@@ -873,10 +916,13 @@ lr_crude_results %&gt;% knitr::kable(digits = 4)</code></pre>
 </tbody>
 </table>
 <p>We can see from our crude, main effects model that adults who are not covered by health insurance have 0.22 times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of <span class="math inline">\(\alpha\)</span> = 0.05.</p>
-<p>To build out our model, we will include effects of patient sex, education level, race/ethnicity, health status, BMI category, recency of last doctor visit, and whether the patient is a native citizen or an immigrant. Our full parametric model is as follows:</p>
+</div>
+<div id="full-model" class="section level3">
+<h3>Full Model</h3>
+<p>To build out our model, we will include effects of patient sex, education level, race/ethnicity, health status, BMI category, recency of last doctor visit, difficulty completing errands as a measure of disability, and whether the patient is a native citizen or an immigrant.</p>
 <pre class="r"><code>logreg_full = 
-  glm(flu_shot ~ insurance + sex + education + race_eth + health + bmi + 
-                  last_dr_visit + usborn, 
+  glm(flu_shot ~ insurance + age + sex + education + race_eth + health + bmi + 
+                  last_dr_visit + usborn + errands, 
                  data = flu_adult_model, family = &quot;binomial&quot;) 
 
 lr_full_results = 
@@ -891,7 +937,9 @@ lr_full_results =
     term = str_replace(term, &quot;bmi&quot;, &quot;BMI: &quot;),
     term = str_replace(term, &quot;last_dr_visit&quot;, &quot;Last Doctor Visit: &quot;),
     term = str_replace(term, &quot;usborn&quot;, &quot;US Born: &quot;),
-    term = str_replace(term, &quot;sex&quot;, &quot;Sex: &quot;)
+    term = str_replace(term, &quot;sex&quot;, &quot;Sex: &quot;),
+    term = str_replace(term, &quot;^age&quot;, &quot;Age (continuous)&quot;),
+    term = str_replace(term, &quot;errands&quot;, &quot;Difficulty with Errands Alone: &quot;)
   ) %&gt;% 
   dplyr::select(-c(std_error, statistic))
 
@@ -907,256 +955,155 @@ lr_full_results %&gt;% knitr::kable(digits = 4)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">0.0676</td>
-<td align="right">0.5314</td>
+<td align="right">-1.3359</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="even">
 <td align="left">Insurance Coverage: Not Covered</td>
-<td align="right">-1.0658</td>
+<td align="right">-0.8259</td>
 <td align="right">0.0000</td>
 </tr>
 <tr class="odd">
+<td align="left">Age (continuous)</td>
+<td align="right">0.0253</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="even">
 <td align="left">Sex: Male</td>
-<td align="right">-0.2109</td>
+<td align="right">-0.1877</td>
 <td align="right">0.0000</td>
 </tr>
-<tr class="even">
-<td align="left">Education: High school diploma/GED</td>
-<td align="right">-0.1649</td>
-<td align="right">0.0007</td>
-</tr>
 <tr class="odd">
+<td align="left">Education: High school diploma/GED</td>
+<td align="right">-0.0610</td>
+<td align="right">0.2251</td>
+</tr>
+<tr class="even">
 <td align="left">Education: Some college</td>
-<td align="right">-0.1259</td>
-<td align="right">0.0161</td>
+<td align="right">0.0546</td>
+<td align="right">0.3127</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Education: Associate’s degree</td>
-<td align="right">-0.0477</td>
-<td align="right">0.3808</td>
+<td align="right">0.0940</td>
+<td align="right">0.0939</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Education: Bachelor’s degree</td>
-<td align="right">0.1327</td>
-<td align="right">0.0094</td>
+<td align="right">0.3288</td>
+<td align="right">0.0000</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Education: Advanced degree</td>
-<td align="right">0.4435</td>
+<td align="right">0.5787</td>
 <td align="right">0.0000</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Race/Ethnicity: Hispanic</td>
-<td align="right">-0.3318</td>
-<td align="right">0.0000</td>
+<td align="right">-0.0555</td>
+<td align="right">0.2080</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Race/Ethnicity: Black</td>
-<td align="right">-0.5146</td>
+<td align="right">-0.3878</td>
 <td align="right">0.0000</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Race/Ethnicity: Asian</td>
-<td align="right">0.0929</td>
-<td align="right">0.1478</td>
+<td align="right">0.3450</td>
+<td align="right">0.0000</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Race/Ethnicity: Native or mixed race</td>
-<td align="right">-0.1722</td>
-<td align="right">0.0278</td>
+<td align="right">0.0129</td>
+<td align="right">0.8723</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Health: Very Good</td>
-<td align="right">0.1490</td>
-<td align="right">0.0000</td>
+<td align="right">0.0620</td>
+<td align="right">0.0691</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Health: Good</td>
-<td align="right">0.2715</td>
-<td align="right">0.0000</td>
+<td align="right">0.0599</td>
+<td align="right">0.1058</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Health: Fair</td>
-<td align="right">0.4281</td>
-<td align="right">0.0000</td>
+<td align="right">0.1127</td>
+<td align="right">0.0203</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Health: Poor</td>
-<td align="right">0.5994</td>
-<td align="right">0.0000</td>
+<td align="right">0.1803</td>
+<td align="right">0.0156</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">BMI: Healthy Weight</td>
-<td align="right">0.1211</td>
-<td align="right">0.2154</td>
+<td align="right">0.1116</td>
+<td align="right">0.2708</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">BMI: Overweight</td>
-<td align="right">0.2290</td>
-<td align="right">0.0193</td>
+<td align="right">0.1639</td>
+<td align="right">0.1067</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">BMI: Obese</td>
-<td align="right">0.2130</td>
-<td align="right">0.0299</td>
+<td align="right">0.2337</td>
+<td align="right">0.0217</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Last Doctor Visit: &lt;2 years</td>
-<td align="right">-1.0063</td>
+<td align="right">-0.8406</td>
 <td align="right">0.0000</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Last Doctor Visit: &lt;5 years</td>
-<td align="right">-1.4030</td>
+<td align="right">-1.2230</td>
 <td align="right">0.0000</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Last Doctor Visit: 5+ years</td>
-<td align="right">-1.8157</td>
+<td align="right">-1.7353</td>
 <td align="right">0.0000</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">US Born: No</td>
-<td align="right">-0.0632</td>
-<td align="right">0.1310</td>
-</tr>
-</tbody>
-</table>
-<p>In our full adjusted model, we see that adults who are not covered by health insurance have 0.34 times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of <span class="math inline">\(\alpha\)</span> = 0.05. Regarding the other variables in our model, all variables have statistically significant levels with the exception of BMI and US-born status. Therefore, we will remove those variables from the model.</p>
-<pre class="r"><code>logreg_adj =
-  glm(flu_shot ~ insurance + sex + education + race_eth + health + last_dr_visit, 
-                 data = flu_adult_model, family = &quot;binomial&quot;)
-
-lr_adj_results = 
-  logreg_adj %&gt;% 
-  broom::tidy() %&gt;% 
-  janitor::clean_names() %&gt;% 
-  mutate(
-    term = str_replace(term, &quot;insurance&quot;, &quot;Insurance Coverage: &quot;),
-    term = str_replace(term, &quot;education&quot;, &quot;Education: &quot;),
-    term = str_replace(term, &quot;race_eth&quot;, &quot;Race/Ethnicity: &quot;),
-    term = str_replace(term, &quot;health&quot;, &quot;Health: &quot;),
-    term = str_replace(term, &quot;last_dr_visit&quot;, &quot;Last Doctor Visit: &quot;),
-  ) %&gt;% 
-  dplyr::select(-c(std_error, statistic))
-
-lr_adj_results %&gt;% knitr::kable(digits = 4)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">term</th>
-<th align="right">estimate</th>
-<th align="right">p_value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">0.2210</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="even">
-<td align="left">Insurance Coverage: Not Covered</td>
-<td align="right">-1.0758</td>
-<td align="right">0.0000</td>
+<td align="right">-0.1510</td>
+<td align="right">0.0004</td>
 </tr>
 <tr class="odd">
-<td align="left">sexMale</td>
-<td align="right">-0.1928</td>
-<td align="right">0.0000</td>
+<td align="left">Difficulty with Errands Alone: Some</td>
+<td align="right">0.0042</td>
+<td align="right">0.9446</td>
 </tr>
 <tr class="even">
-<td align="left">Education: High school diploma/GED</td>
-<td align="right">-0.1656</td>
+<td align="left">Difficulty with Errands Alone: A Lot</td>
+<td align="right">0.0374</td>
+<td align="right">0.7050</td>
+</tr>
+<tr class="odd">
+<td align="left">Difficulty with Errands Alone: Cannot Do At All</td>
+<td align="right">0.3045</td>
 <td align="right">0.0005</td>
 </tr>
-<tr class="odd">
-<td align="left">Education: Some college</td>
-<td align="right">-0.1195</td>
-<td align="right">0.0185</td>
-</tr>
-<tr class="even">
-<td align="left">Education: Associate’s degree</td>
-<td align="right">-0.0421</td>
-<td align="right">0.4257</td>
-</tr>
-<tr class="odd">
-<td align="left">Education: Bachelor’s degree</td>
-<td align="right">0.1290</td>
-<td align="right">0.0094</td>
-</tr>
-<tr class="even">
-<td align="left">Education: Advanced degree</td>
-<td align="right">0.4380</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="odd">
-<td align="left">Race/Ethnicity: Hispanic</td>
-<td align="right">-0.3306</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="even">
-<td align="left">Race/Ethnicity: Black</td>
-<td align="right">-0.4959</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="odd">
-<td align="left">Race/Ethnicity: Asian</td>
-<td align="right">0.0125</td>
-<td align="right">0.8198</td>
-</tr>
-<tr class="even">
-<td align="left">Race/Ethnicity: Native or mixed race</td>
-<td align="right">-0.1759</td>
-<td align="right">0.0223</td>
-</tr>
-<tr class="odd">
-<td align="left">Health: Very Good</td>
-<td align="right">0.1643</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="even">
-<td align="left">Health: Good</td>
-<td align="right">0.2859</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="odd">
-<td align="left">Health: Fair</td>
-<td align="right">0.4477</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="even">
-<td align="left">Health: Poor</td>
-<td align="right">0.6063</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="odd">
-<td align="left">Last Doctor Visit: &lt;2 years</td>
-<td align="right">-0.9921</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="even">
-<td align="left">Last Doctor Visit: &lt;5 years</td>
-<td align="right">-1.4162</td>
-<td align="right">0.0000</td>
-</tr>
-<tr class="odd">
-<td align="left">Last Doctor Visit: 5+ years</td>
-<td align="right">-1.7818</td>
-<td align="right">0.0000</td>
-</tr>
 </tbody>
 </table>
-<p>In our parsimonious adjusted model, we see that adults who are not covered by health insurance have 0.34 times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of <span class="math inline">\(\alpha\)</span> = 0.05. All of the other variables in the model are significant, so we are satisfied with this model.</p>
+<p>In our full adjusted model, we see that on average, adults who are not covered by health insurance have 0.44 times the odds of getting a flu vaccine compared to individuals who do have health insurance, adjusting for multiple covariates. Our coefficient for the insurance term is significant in this model at a significance level of <span class="math inline">\(\alpha\)</span> = 0.05.</p>
+</div>
+<div id="other-findings" class="section level3">
+<h3>Other Findings</h3>
+<p>Regarding the other variables in our model, all variables have at least one statistically significant level, so we will retain the saturated model. Some significant observations of note: - men are less likely than women to obtain a flu vaccine - education significantly predicts vaccination rates only at the college graduate and above level (those with degrees are more likely to be vaccinated compared to those with less than a high school diploma) - compared to White people, Black people are less likely to obtain a flu shot, and Asian people are more likely to get vaccinated - individuals with fair or poor health are more likely to be vaccinated than those with excellent health - BMI was not a significant predictor of vaccination behavior with the exception of obese individuals (BMI &gt; 30) - people who did not go to the doctor within the last year were statistically significantly less likely to obtain a flu shot than those who did see their doctor in the previous 12 months, with a significant effect - after adjusting for other covariates, immigrants to the US were less likely to get vaccinated than US born folks - people with significant disability, operationalized as the inability to complete errands on one’s own, were significantly more likely to get a flu shot than individuals with no reported disability</p>
+</div>
 </div>
 <div id="testing-model-fit" class="section level2">
 <h2>Testing Model Fit</h2>
-<p>To compare the models, we will evaluate the AIC, Akaike’s Information Criterion, for each model. The model that has a smaller AIC is a better fit for the data.</p>
+<p>To compare the models, we will evaluate the AIC, <a href="https://en.wikipedia.org/wiki/Akaike_information_criterion">Akaike’s Information Criterion</a>, for each model. The model that has a smaller AIC is a better fit for the data.</p>
 <pre class="r"><code>aic_test = 
   tibble(
     &quot;Crude&quot; = AIC(logreg_crude),
-    &quot;Full&quot; = AIC(logreg_full),
-    &quot;Parsimonious&quot; = AIC(logreg_adj)
+    &quot;Full&quot; = AIC(logreg_full)
   ) %&gt;% 
   pivot_longer(
     everything(),
@@ -1179,15 +1126,45 @@ aic_test %&gt;% knitr::kable()</code></pre>
 </tr>
 <tr class="even">
 <td align="left">Full</td>
-<td align="right">38726.96</td>
-</tr>
-<tr class="odd">
-<td align="left">Parsimonious</td>
-<td align="right">40336.84</td>
+<td align="right">37489.57</td>
 </tr>
 </tbody>
 </table>
-<p>As we can see, the full model has a smaller AIC than the crude and final model, meaning that it is a better fit for the data. However, because we are looking for the most parsimonious model rather than the most saturated model with the greatest fit for the data, we will select the third model as our final adjusted model.</p>
+<p>As we can see, the full model has a smaller AIC than the crude model, meaning that it is a better fit for the data. This confirms our decision to use this as our selected model.</p>
+</div>
+<div id="a-quick-aside-root-mean-squared-error" class="section level2">
+<h2>A Quick Aside: Root Mean Squared Error</h2>
+<p>A popular way of comparing model fit is by using the <a href="https://towardsdatascience.com/what-does-rmse-really-mean-806b65f2e48e">root mean squared error (RMSE)</a>. However, this goodness of fit metric is appropriate only for linear models (modeling continuous outcomes). Because logistic regression models the odds of an outcome, which can only range from 0 to 1, RMSE does not map the same way. To illustrate this, we will apply RMSE methods to our logistic models. Remember that above, we showed that our full model is a better fit for our data using AIC. Now, we will see if that finding holds for RMSE. Using the cross validation tools in the <code>modelr</code> package, we will first split our data into 100 different resamples of training and testing data sets, and then will calculate RMSE for each. RMSE takes values between 0 (perfect fit) and 1 (random/no fit).</p>
+<pre class="r"><code>vax_cv = 
+  crossv_mc(flu_adult_model, 100) %&gt;% 
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble),
+    crude = map(.x = train, ~glm(flu_shot ~ insurance, data = .x, 
+                                 family = &quot;binomial&quot;)),
+    full = map(.x = train, ~glm(flu_shot ~ insurance + age + sex + education + 
+                                  race_eth + health + bmi + last_dr_visit + 
+                                  usborn + errands, 
+                                data = flu_adult_model, family = &quot;binomial&quot;)), 
+    rmse_crude = map2_dbl(.x = crude, .y = test, ~rmse(model = .x, data = .y)),
+    rmse_full = map2_dbl(.x = full, .y = test, ~rmse(model = .x, data = .y))
+  )
+
+rmse_plot = 
+  vax_cv %&gt;% 
+  select(starts_with(&quot;rmse&quot;)) %&gt;% 
+  pivot_longer(
+    everything(),
+    names_to = &quot;model&quot;,
+    names_prefix = &quot;rmse_&quot;,
+    values_to = &quot;rmse&quot;
+  ) %&gt;% 
+  ggplot(aes(x = model, y = rmse)) +
+  geom_violin()
+
+rmse_plot</code></pre>
+<p><img src="stat_files/figure-html/rmse-1.png" width="90%" /></p>
+<p>As we can clearly see, by the RMSE metric our full model is almost no better than chance at predicting outcomes for our data, and our crude model is only slightly (~20%) better. Again, this doesn’t mean that we should throw out our models; rather, it confirms that RMSE is a poor metric for evaluating the goodness of fit for a logistic model.</p>
 </div>
 
 

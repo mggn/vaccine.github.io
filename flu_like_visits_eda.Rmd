@@ -1,5 +1,5 @@
 ---
-title: Influenza-like Illness ED Visits
+title: <center> Influenza-like Illness ED Visits
 pagetitle: ILI ED Visits
 output: 
   html_document:
@@ -61,16 +61,13 @@ visits_w_zip =
   )
 ```
 
+## Plotting the Visits Data
+
 We can now examine this data visually. 
 
 ```{r plots, warning = FALSE}
 visit_scatter = 
   visits_w_zip %>% 
-  mutate(text_label = str_c(
-                        "Date: ", date, 
-                        "\n% ILI Visits: ", round(pct_visits, 2),
-                        "\n% ILI Admissions: ", round(pct_adm, 2))
-  ) %>%   
   drop_na(borough) %>% 
   ggplot(aes(x = date, y = ili_pne_visits, color = borough)) +
   geom_point(alpha = 0.7) +
@@ -89,10 +86,8 @@ visits_boro_box =
                         "\n% ILI Admissions: ", round(pct_adm, 2))
   ) %>%   
   drop_na(borough) %>% 
-  plot_ly(
-    x = ~borough, y = ~ili_pne_visits, color = ~borough, text = ~text_label,
-    alpha = 0.7, type = "box", colors = "magma"
-  )
+  ggplot(aes(x = borough, y = ili_pne_visits, color = borough)) +
+  geom_boxplot(alpha = 0.7)
 
 season_box = 
   visits_w_zip %>% 
@@ -114,6 +109,8 @@ visit_scatter
 visits_boro_box
 season_box
 ```
+
+## Discussion
 
 As we can see from the above plots, the data is significantly skewed by the COVID-19 pandemic. In the faceted box plot, it is easy to see this stark difference: the spring was when NYC was hardest hit, and that is also when we knew the least about what the disease actually was, so sick people routinely turned up at emergency departments. We can see that Queens was particularly badly hit, which is in line with what we know about the pandemic.
 

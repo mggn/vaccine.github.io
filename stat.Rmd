@@ -90,6 +90,8 @@ flu_adult_df =
     usborn = as.factor(usborn),
     bmi = str_to_title(bmi),
     bmi = as.factor(bmi),
+    errands = str_to_title(errands_alone_diff),
+    errands = as.factor(errands),
     race_eth = fct_infreq(race_eth),
     health = fct_relevel(health, "Excellent", "Very Good", "Good", "Fair", "Poor"),
     last_dr_visit = fct_relevel(last_dr_visit, "Within past year", "<2 years",
@@ -99,7 +101,8 @@ flu_adult_df =
                             "Associate's degree", "Bachelor's degree",
                             "Advanced degree"),
     usborn = fct_relevel(usborn, "Yes", "No"),
-    bmi = fct_relevel(bmi, "Underweight", "Healthy Weight", "Overweight", "Obese")
+    bmi = fct_relevel(bmi, "Underweight", "Healthy Weight", "Overweight", "Obese"),
+    errands = fct_relevel(errands, "None", "Some", "A Lot", "Cannot Do At All")
   ) 
 
 label(flu_adult_df$flu_shot) = "Flu Vaccine Received"
@@ -112,19 +115,26 @@ label(flu_adult_df$bmi) = "BMI"
 label(flu_adult_df$last_dr_visit) = "Last Doctor Visit"
 label(flu_adult_df$education) = "Education"
 label(flu_adult_df$usborn) = "US-Born"
+label(flu_adult_df$errands) = "Difficulty with Errands Alone"
 units(flu_adult_df$age) = "years"
 units(flu_adult_df$bmi) = "kg/m^2"
 
 table1(~ age + sex + race_eth + health + insurance + bmi +
-         last_dr_visit + education + usborn | flu_shot, 
+         last_dr_visit + education + usborn + errands | flu_shot, 
        data = flu_adult_df,
        caption = "Table 1: Distribution of demographic and health-related 
        covariates by vaccination status.")
 ```
 
+
+
 ## Logistic Regression Modeling
 
-To further investigate the data, we will run a logistic regression to look into what variables significantly influence the odds that an individual will obtain the flu vaccine. We believe that health insurance coverage is an important predictor of vaccination behavior, so we will begin with that as a main effect and add other explanatory variables from there.
+To further investigate the data, we will run a logistic regression to look into what variables significantly influence the odds that an individual will obtain the flu vaccine. 
+
+### Crude Model
+
+We believe that health insurance coverage is an important predictor of vaccination behavior, so we will begin with that as a main effect and add other explanatory variables from there.
 
 ```{r lr_crude}
 flu_adult_model = 
@@ -151,14 +161,16 @@ lr_crude_results =
 lr_crude_results %>% knitr::kable(digits = 4)
 ```
 
-We can see from our crude, main effects model that adults who are not covered by health insurance have `r filter(lr_crude_results, term == "Insurance Coverage: Not Covered") %>% dplyr::select(estimate) %>% exp() %>% round(2)` times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of $\alpha$ = 0.05.
+We can see from our crude, main effects model that adults who are not covered by health insurance have `r filter(lr_crude_results, term == "Insurance Coverage: Not Covered") %>% select(estimate) %>% exp() %>% round(2)` times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of $\alpha$ = 0.05.
 
-To build out our model, we will include effects of patient sex, education level, race/ethnicity, health status, BMI category, recency of last doctor visit, and whether the patient is a native citizen or an immigrant. Our full parametric model is as follows:
+### Full Model
+
+To build out our model, we will include effects of patient sex, education level, race/ethnicity, health status, BMI category, recency of last doctor visit, difficulty completing errands as a measure of disability, and whether the patient is a native citizen or an immigrant. 
 
 ```{r full}
 logreg_full = 
-  glm(flu_shot ~ insurance + sex + education + race_eth + health + bmi + 
-                  last_dr_visit + usborn, 
+  glm(flu_shot ~ insurance + age + sex + education + race_eth + health + bmi + 
+                  last_dr_visit + usborn + errands, 
                  data = flu_adult_model, family = "binomial") 
 
 lr_full_results = 
@@ -173,48 +185,39 @@ lr_full_results =
     term = str_replace(term, "bmi", "BMI: "),
     term = str_replace(term, "last_dr_visit", "Last Doctor Visit: "),
     term = str_replace(term, "usborn", "US Born: "),
-    term = str_replace(term, "sex", "Sex: ")
+    term = str_replace(term, "sex", "Sex: "),
+    term = str_replace(term, "^age", "Age (continuous)"),
+    term = str_replace(term, "errands", "Difficulty with Errands Alone: ")
   ) %>% 
   dplyr::select(-c(std_error, statistic))
 
 lr_full_results %>% knitr::kable(digits = 4)
 ```
 
-In our full adjusted model, we see that adults who are not covered by health insurance have `r filter(lr_full_results, term == "Insurance Coverage: Not Covered") %>% dplyr::select(estimate) %>% exp() %>% round(2)` times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of $\alpha$ = 0.05. Regarding the other variables in our model, all variables have statistically significant levels with the exception of BMI and US-born status. Therefore, we will remove those variables from the model.
+In our full adjusted model, we see that on average, adults who are not covered by health insurance have `r filter(lr_full_results, term == "Insurance Coverage: Not Covered") %>% select(estimate) %>% exp() %>% round(2)` times the odds of getting a flu vaccine compared to individuals who do have health insurance, adjusting for multiple covariates. Our coefficient for the insurance term is significant in this model at a significance level of $\alpha$ = 0.05. 
 
-```{r adj}
-logreg_adj =
-  glm(flu_shot ~ insurance + sex + education + race_eth + health + last_dr_visit, 
-                 data = flu_adult_model, family = "binomial")
+### Other Findings
 
-lr_adj_results = 
-  logreg_adj %>% 
-  broom::tidy() %>% 
-  janitor::clean_names() %>% 
-  mutate(
-    term = str_replace(term, "insurance", "Insurance Coverage: "),
-    term = str_replace(term, "education", "Education: "),
-    term = str_replace(term, "race_eth", "Race/Ethnicity: "),
-    term = str_replace(term, "health", "Health: "),
-    term = str_replace(term, "last_dr_visit", "Last Doctor Visit: "),
-  ) %>% 
-  dplyr::select(-c(std_error, statistic))
+Regarding the other variables in our model, all variables have at least one statistically significant level, so we will retain the saturated model. Some significant observations of note: 
+- men are less likely than women to obtain a flu vaccine 
+- education significantly predicts vaccination rates only at the college graduate and above level (those with degrees are more likely to be vaccinated compared to those with less than a high school diploma)
+- compared to White people, Black people are less likely to obtain a flu shot, and Asian people are more likely to get vaccinated
+- individuals with fair or poor health are more likely to be vaccinated than those with excellent health
+- BMI was not a significant predictor of vaccination behavior with the exception of obese individuals (BMI > 30)
+- people who did not go to the doctor within the last year were statistically significantly less likely to obtain a flu shot than those who did see their doctor in the previous 12 months, with a significant effect
+- after adjusting for other covariates, immigrants to the US were less likely to get vaccinated than US born folks
+- people with significant disability, operationalized as the inability to complete errands on one's own, were significantly more likely to get a flu shot than individuals with no reported disability
 
-lr_adj_results %>% knitr::kable(digits = 4)
-```
-
-In our parsimonious adjusted model, we see that adults who are not covered by health insurance have `r filter(lr_adj_results, term == "Insurance Coverage: Not Covered") %>% dplyr::select(estimate) %>% exp() %>% round(2)` times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of $\alpha$ = 0.05. All of the other variables in the model are significant, so we are satisfied with this model.
 
 ## Testing Model Fit
 
-To compare the models, we will evaluate the AIC, Akaike's Information Criterion, for each model. The model that has a smaller AIC is a better fit for the data. 
+To compare the models, we will evaluate the AIC, [Akaike's Information Criterion](https://en.wikipedia.org/wiki/Akaike_information_criterion), for each model. The model that has a smaller AIC is a better fit for the data. 
 
 ```{r aic}
 aic_test = 
   tibble(
     "Crude" = AIC(logreg_crude),
-    "Full" = AIC(logreg_full),
-    "Parsimonious" = AIC(logreg_adj)
+    "Full" = AIC(logreg_full)
   ) %>% 
   pivot_longer(
     everything(),
@@ -225,5 +228,44 @@ aic_test =
 aic_test %>% knitr::kable()
 ```
 
-As we can see, the full model has a smaller AIC than the crude and final model, meaning that it is a better fit for the data. However, because we are looking for the most parsimonious model rather than the most saturated model with the greatest fit for the data, we will select the third model as our final adjusted model. 
+As we can see, the full model has a smaller AIC than the crude model, meaning that it is a better fit for the data. This confirms our decision to use this as our selected model.
+
+
+## A Quick Aside: Root Mean Squared Error
+
+A popular way of comparing model fit is by using the [root mean squared error (RMSE)](https://towardsdatascience.com/what-does-rmse-really-mean-806b65f2e48e). However, this goodness of fit metric is appropriate only for linear models (modeling continuous outcomes). Because logistic regression models the odds of an outcome, which can only range from 0 to 1, RMSE does not map the same way. To illustrate this, we will apply RMSE methods to our logistic models. Remember that above, we showed that our full model is a better fit for our data using AIC. Now, we will see if that finding holds for RMSE. Using the cross validation tools in the `modelr` package, we will first split our data into 100 different resamples of training and testing data sets, and then will calculate RMSE for each. RMSE takes values between 0 (perfect fit) and 1 (random/no fit).
+
+```{r rmse}
+vax_cv = 
+  crossv_mc(flu_adult_model, 100) %>% 
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble),
+    crude = map(.x = train, ~glm(flu_shot ~ insurance, data = .x, 
+                                 family = "binomial")),
+    full = map(.x = train, ~glm(flu_shot ~ insurance + age + sex + education + 
+                                  race_eth + health + bmi + last_dr_visit + 
+                                  usborn + errands, 
+                                data = flu_adult_model, family = "binomial")), 
+    rmse_crude = map2_dbl(.x = crude, .y = test, ~rmse(model = .x, data = .y)),
+    rmse_full = map2_dbl(.x = full, .y = test, ~rmse(model = .x, data = .y))
+  )
+
+rmse_plot = 
+  vax_cv %>% 
+  select(starts_with("rmse")) %>% 
+  pivot_longer(
+    everything(),
+    names_to = "model",
+    names_prefix = "rmse_",
+    values_to = "rmse"
+  ) %>% 
+  ggplot(aes(x = model, y = rmse)) +
+  geom_violin()
+
+rmse_plot
+```
+
+As we can clearly see, by the RMSE metric our full model is almost no better than chance at predicting outcomes for our data, and our crude model is only slightly (~20%) better. Again, this doesn't mean that we should throw out our models; rather, it confirms that RMSE is a poor metric for evaluating the goodness of fit for a logistic model.
+
 
