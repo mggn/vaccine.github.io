@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -250,6 +251,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -371,13 +375,13 @@ div.tocify {
     <li>
       <a href="test_storyboard.html">Exploratory Analysis II: BRFSS dashboard</a>
     </li>
+    <li>
+      <a href="qual.html">Qualitative exploration</a>
+    </li>
   </ul>
 </li>
 <li>
   <a href="stat.html">Statistical Analysis</a>
-</li>
-<li>
-  <a href="qual.html">Qualitative exploration</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -395,7 +399,7 @@ div.tocify {
   </ul>
 </li>
 <li>
-  <a href="http://github.com/&lt;YOUR_GH_NAME&gt;/">
+  <a href="https://github.com/mggn/vaccine.github.io">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -407,6 +411,14 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Project Report</h1>
@@ -414,7 +426,8 @@ div.tocify {
 </div>
 
 
-<p><img src="images/hongkongflu.jpg" style="width:800px;height:500px" class="center"> <a href="https://www.nytimes.com/2020/03/20/world/europe/coronavirus-aids-spanish-flu-ebola-epidemics.html"><strong>Dr. Joel Gitlit gave flu vaccinations to some 200 seniors at a Board of Health clinic in New York City during 1968 Pandemic</strong></a></p>
+<p><img src="images/hongkongflu.jpg" style="width:640px;height:400px" class="center"></p>
+<p><a href="https://www.nytimes.com/2020/03/20/world/europe/coronavirus-aids-spanish-flu-ebola-epidemics.html"><strong>Dr. Joel Gitlit gave flu vaccinations to some 200 seniors at a Board of Health clinic in New York City during 1968 Pandemic</strong></a></p>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>The abstract and introduction for the project can be obtained by visiting <a href="index.html">here.</a></p>
@@ -426,12 +439,12 @@ div.tocify {
 <div id="national-health-survey" class="section level4">
 <h4>National Health Survey</h4>
 <p>The National Health Interview Survey (NHIS) is one of the major data collection programs of the National Center for Health Statistics (NCHS) which is part of the Centers for Disease Control and Prevention (CDC). While the NHIS has been conducted continuously since 1957, the content of the survey has been updated about every 15-20 years to incorporate advances in survey methodology and coverage of health topics. In January 2019, NHIS launched a redesigned content and structure that differs from its previous questionnaire design. Persons excluded from the sample are those with no fixed household address, military personnel, persons in long-term care institutions, persons in correctional facilities, and U.S. nationals living in foreign countries. Data collection on the NHIS is continuous, i.e., from January to December each year.</p>
-<p>Access data set<a href="https://www.cdc.gov/nchs/nhis/2019nhis.htm">here</a></p>
+<p>Access data set <a href="https://www.cdc.gov/nchs/nhis/2019nhis.htm">here</a></p>
 </div>
 <div id="behavioral-risk-factor-surveillance-system-brfss" class="section level4">
 <h4>Behavioral Risk Factor Surveillance System (BRFSS)</h4>
 <p>The Behavioral Risk Factor Surveillance System (BRFSS) is the nation’s system of health-related telephone surveys that collect state data about U.S. residents regarding their health-related risk behaviors, chronic health conditions, and use of preventive services. Established in 1984 BRFSS completes more than 400,000 adult interviews each year, making it the largest continuously conducted health survey system in the world. The basic philosophy was to collect data on actual behaviors, rather than on attitudes or knowledge, that would be especially useful for planning, initiating, supporting, and evaluating health promotion and disease prevention programs. In addition to age, gender, and race/ethnicity, raking permits more demographic variables to be included in weighting such as education attainment, marital status, tenure (property ownership), and telephone ownership.</p>
-<p>Access data set<a href="https://www.cdc.gov/brfss/annual_data/annual_2019.html">here</a></p>
+<p>Access data set <a href="https://www.cdc.gov/brfss/annual_data/annual_2019.html">here</a></p>
 </div>
 <div id="nyc-open-data" class="section level4">
 <h4>NYC Open Data</h4>
@@ -445,7 +458,7 @@ div.tocify {
 </div>
 <div id="twitter" class="section level4">
 <h4>Twitter</h4>
-<p>Using rverst, data were scraped from the website.</p>
+<p>Using rverst, data were scraped from the <a href="https://twitter.com">website.</a></p>
 </div>
 </div>
 <div id="overview-of-research-design" class="section level3">
@@ -467,11 +480,17 @@ div.tocify {
 <div id="through-engagement-with-the-allotted-datasets-we-will-begin-to-understand" class="section level4">
 <h4>Through engagement with the allotted datasets we will begin to understand:</h4>
 <ol style="list-style-type: decimal">
-<li><p>What feelings do adults have regarding flu vaccines? <strong>Why? This will help us understand how adults might feel in regards to available or theoretical vaccines.</strong></p></li>
-<li><p>How do adults behave towards flu vaccines? <strong>Why? This will help us understand what actions should be encouraged or discontinued in regards to available or theoretical vaccines.</strong></p></li>
-<li><p>What do adults know about vaccines?</p></li>
+<li>What feelings do adults have regarding flu vaccines?</li>
 </ol>
-<p><strong>Why? This will help us understand gaps in education, misinformation that might be occurring, and where information should be directed towards</strong></p>
+<p><strong><em>Why? This will help us understand how adults might feel in regards to available or theoretical vaccines.</em></strong></p>
+<ol start="2" style="list-style-type: decimal">
+<li>How do adults behave towards flu vaccines?</li>
+</ol>
+<p><strong><em>Why? This will help us understand what actions should be encouraged or discontinued in regards to available or theoretical vaccines.</em></strong></p>
+<ol start="3" style="list-style-type: decimal">
+<li>What do adults know about vaccines?</li>
+</ol>
+<p><strong><em>Why? This will help us understand gaps in education, misinformation that might be occurring, and where information should be directed towards</em></strong></p>
 </div>
 <div id="hypothesis---what-do-we-think-we-will-find" class="section level4">
 <h4>Hypothesis - What do we think we will find?</h4>
@@ -496,11 +515,11 @@ div.tocify {
 <h3>Data collection methods</h3>
 <div id="tidying-data" class="section level4">
 <h4>Tidying data</h4>
-<p>How did we clean the data?</p>
+<p>The process of tidying data began with the import of the collected data sets. Considering the size of the data gathered, we then selected variables that were relevant and appropriate to our research question. Using respective codebooks, we then mutated and recoded variable names so that the values were readable and gave the actual description. For example, values were coded as “female” or “male”, rather than “0” or “1”. In order to engage with the discrete nature of the data, we then changed the variables classes into a format that was appropriate for analysis. Additionally, any appropriate releveling occurred in order to present the logical progression of some information. Tidy data was then saved and exported to our project repository. The intention of these steps was to ensure that the code was readabable and reproducible.</p>
 </div>
 <div id="scraping-twitter" class="section level4">
 <h4>Scraping Twitter</h4>
-<p><strong>Maria can you describe the steps you took to scrape the twitter data, any problems that occurred and how you ultimately created a cvs file</strong></p>
+<p>Twitter data was easily scraped from the web using the rtweet package and the command “search_tweets,” where search terms can be specified. rtweet connects to twitter’s API through a web-based app, and API access tokens are limited to once per hour. As a result, two separate .csv files were generated using the “write_as_csv” function within the package to limit the number of “calls” being made to request twitter data. Further information and code examples can be found <a href="qual.html">here</a></p>
 </div>
 </div>
 <div id="analytical-methods" class="section level3">
@@ -520,7 +539,7 @@ div.tocify {
 <p><a href="methods.html">National Health Survey Results</a></p>
 <p><a href="test_storyboard.html">Behavioral Risk Factor Surveillance System Results</a></p>
 <p><strong>link adam’s map</strong></p>
-<p><strong>link twitter data</strong></p>
+<p><a href="qual.html">Twitter Results</a></p>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
@@ -537,7 +556,35 @@ div.tocify {
 </div>
 <div id="conclusions" class="section level3">
 <h3>Conclusions</h3>
-<p><strong>need to fill out</strong></p>
+<div id="in-conclusion-we-used-4-sources-of-data-for-our-exploratory-and-statistical-analysis.-we-discovered-that" class="section level4">
+<h4>In conclusion, we used 4 sources of data for our exploratory and statistical analysis. We discovered that…</h4>
+<ul>
+<li>National Health Survey
+<ul>
+<li>Biological sex appears to have a significant association with flu shot engagement</li>
+</ul></li>
+<li>Behavioral Risk Factor Surveillance System
+<ul>
+<li>The Western Region of the US has lower frequencies of flu vaccinations</li>
+</ul></li>
+<li>NYC Open Data
+<ul>
+<li></li>
+</ul></li>
+<li>Twitter
+<ul>
+<li>Vaccines are a hot topic right now on twitter</li>
+</ul></li>
+</ul>
+</div>
+<div id="our-project-resulted-in" class="section level4">
+<h4>Our project resulted in</h4>
+<ul>
+<li>A unique Twitter data frame that will later be used for a semantic analysis using an appropriate lexicon package</li>
+<li>An interactive display of facilities that offer flu shots within the NYC metro area</li>
+<li>An awesome website, with an even better Spotify playlist</li>
+</ul>
+</div>
 </div>
 <div id="next-steps" class="section level3">
 <h3>Next steps</h3>
@@ -588,6 +635,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

@@ -9,17 +9,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="mggn" />
 
 
-<title>Twitter_data</title>
+<title>qual.utf8</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -251,6 +253,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -258,6 +323,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -296,13 +371,13 @@ $(document).ready(function () {
     <li>
       <a href="test_storyboard.html">Exploratory Analysis II: BRFSS dashboard</a>
     </li>
+    <li>
+      <a href="qual.html">Qualitative exploration</a>
+    </li>
   </ul>
 </li>
 <li>
   <a href="stat.html">Statistical Analysis</a>
-</li>
-<li>
-  <a href="qual.html">Qualitative exploration</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -320,7 +395,7 @@ $(document).ready(function () {
   </ul>
 </li>
 <li>
-  <a href="http://github.com/&lt;YOUR_GH_NAME&gt;/">
+  <a href="https://github.com/mggn/vaccine.github.io">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -334,13 +409,14 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Twitter_data</h1>
-<h4 class="author">mggn</h4>
-<h4 class="date">12/1/2020</h4>
+<h1 class="title toc-ignore"><center>
+“Twitter data”</h1>
 
 </div>
 
 
+<div id="the-data-acquisition" class="section level3">
+<h3>The data acquisition</h3>
 <p>As part of this project, we thought it would be useful to glean (scrape) information from the web to see what people had to say about the flu vaccine, or vaccines in general. To do so, our team used the rtweet package to get data from twitter. A few notes on this:</p>
 <ul>
 <li>In order to gain access to twitter’s API, you have to either request a developer account or install an app from rtweet (MUCH easier)<br />
@@ -353,191 +429,99 @@ $(document).ready(function () {
 <p>The tweets_df.csv was created on Nov. 29, 2020 at 11:40 am</p>
 <pre class="r"><code>tweets_df =
 read_csv(&quot;./final_project_large_data/tweets_df.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_character(),
-##   created_at = col_datetime(format = &quot;&quot;),
-##   display_text_width = col_double(),
-##   is_quote = col_logical(),
-##   is_retweet = col_logical(),
-##   favorite_count = col_double(),
-##   retweet_count = col_double(),
-##   quote_count = col_logical(),
-##   reply_count = col_logical(),
-##   ext_media_type = col_logical(),
-##   quoted_created_at = col_datetime(format = &quot;&quot;),
-##   quoted_favorite_count = col_double(),
-##   quoted_retweet_count = col_double(),
-##   quoted_followers_count = col_double(),
-##   quoted_friends_count = col_double(),
-##   quoted_statuses_count = col_double(),
-##   quoted_verified = col_logical(),
-##   retweet_status_id = col_logical(),
-##   retweet_text = col_logical(),
-##   retweet_created_at = col_logical(),
-##   retweet_source = col_logical()
-##   # ... with 20 more columns
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
 <p>the tweets_df2.csv was created on Dec. 1, 2020 at 10:40 pm</p>
 <pre class="r"><code>tweets_df2 =
 read_csv(&quot;./final_project_large_data/tweets_df2.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_character(),
-##   created_at = col_datetime(format = &quot;&quot;),
-##   display_text_width = col_double(),
-##   is_quote = col_logical(),
-##   is_retweet = col_logical(),
-##   favorite_count = col_double(),
-##   retweet_count = col_double(),
-##   quote_count = col_logical(),
-##   reply_count = col_logical(),
-##   ext_media_type = col_logical(),
-##   quoted_created_at = col_datetime(format = &quot;&quot;),
-##   quoted_favorite_count = col_double(),
-##   quoted_retweet_count = col_double(),
-##   quoted_followers_count = col_double(),
-##   quoted_friends_count = col_double(),
-##   quoted_statuses_count = col_double(),
-##   quoted_verified = col_logical(),
-##   retweet_status_id = col_logical(),
-##   retweet_text = col_logical(),
-##   retweet_created_at = col_logical(),
-##   retweet_source = col_logical()
-##   # ... with 20 more columns
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
-<p>The process to created them is below, but commented out (I don’t want it to run every time I knit)</p>
-<pre class="r"><code># tweets1 = search_tweets(q = &quot;#vaccine&quot;,
-#                         n = 18000,
-#                         include_rts = FALSE,
-#                         `-filter` = &quot;replies&quot;,
-#                         lang = &quot;en&quot;)
-# 
-# ts_plot(tweets1, &quot;weeks&quot;) +
-#   labs(x = NULL, y = NULL,
-#        title = &quot;Frequency of tweets mentioning #vaccine&quot;,
-#        subtitle = paste0(format(min(tweets1$created_at), &quot;%d %B %Y&quot;), &quot; to &quot;, format(max(tweets1$created_at),&quot;%d %B %Y&quot;)),
-#        caption = &quot;Data collected from Twitter&#39;s REST API via rtweet&quot;) +
-#   theme_minimal()
-# 
-# 
-# tweets_df2 =
-#   search_tweets(q = &quot;flu OR vaccine OR flushot&quot;,
-#                         n = 5000,
-#                         include_rts = FALSE,
-#                         `-filter` = &quot;replies&quot;,
-#                         lang = &quot;en&quot;) %&gt;%
-#   write_as_csv(&quot;./final_project_large_data/tweets_df2.csv&quot;)</code></pre>
+<p>The process that created them is below</p>
+<pre class="r"><code>tweets1 = search_tweets(q = &quot;#vaccine&quot;,
+                        n = 18000,
+                        include_rts = FALSE,
+                        `-filter` = &quot;replies&quot;,
+                        lang = &quot;en&quot;)
+
+ts_plot(tweets1, &quot;weeks&quot;) +
+  labs(x = NULL, y = NULL,
+       title = &quot;Frequency of tweets mentioning #vaccine&quot;,
+       subtitle = paste0(format(min(tweets1$created_at), &quot;%d %B %Y&quot;), &quot; to &quot;, format(max(tweets1$created_at),&quot;%d %B %Y&quot;)),
+       caption = &quot;Data collected from Twitter&#39;s REST API via rtweet&quot;) +
+  theme_minimal()
+
+
+tweets_df2 =
+  search_tweets(q = &quot;flu OR vaccine OR flushot&quot;,
+                        n = 5000,
+                        include_rts = FALSE,
+                        `-filter` = &quot;replies&quot;,
+                        lang = &quot;en&quot;) %&gt;%
+  write_as_csv(&quot;./final_project_large_data/tweets_df2.csv&quot;)</code></pre>
 <p>Let’s explore!</p>
+</div>
+<div id="the-data" class="section level3">
+<h3>The data</h3>
+<p>With the code below, we can sample 10 tweets from the first dataset generated. Because this is a sample function, specified to pull 10 observations, each time the code is run a new table of tweets will pop up. For the tweets_df data, I am commenting out the code.</p>
+<p>Why?</p>
+<p>Because if you look back to my search terms, I included flu OR vaccine OR flushot. When I sampled a few times in testing this code, I noticed a few tweets that were irrelevant, referring to the “hit me with your best shot” kind of shot that Pat Benatar sang about.</p>
 <pre class="r"><code>tweets_df %&gt;%
   sample_n(10) %&gt;%
   select(created_at, text) %&gt;%
   knitr::kable()</code></pre>
-<table>
-<colgroup>
-<col width="6%" />
-<col width="93%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">created_at</th>
-<th align="left">text</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">2020-11-29 15:36:09</td>
-<td align="left">Super Fun Red Casio Digital Wrist Shot <a href="https://t.co/DBMifu8Urs" class="uri">https://t.co/DBMifu8Urs</a></td>
-</tr>
-<tr class="even">
-<td align="left">2020-11-29 14:35:26</td>
-<td align="left">Mobile phone balanced in the the ironing board for the overhead shot worked well. <a href="https://t.co/DgnKYw2cXp" class="uri">https://t.co/DgnKYw2cXp</a></td>
-</tr>
-<tr class="odd">
-<td align="left">2020-11-29 15:15:43</td>
-<td align="left"><span class="citation">@Sflecce</span> <span class="citation">@fordnation</span> Looking at how you distributed the flu vaccine and that it’s unavailable everywhere I will just say: I don’t trust you.</td>
-</tr>
-<tr class="even">
-<td align="left">2020-11-29 15:42:44</td>
-<td align="left"><span class="citation">@sk8trmom66</span> <span class="citation">@CTVNews</span> Who cares … how many of those new infections will result in death? Why aren’t you upset like this every flu season? Of those 24 who died, how many are from old age homes? I gonna take a guess and say 24 .</td>
-</tr>
-<tr class="odd">
-<td align="left">2020-11-29 16:04:54</td>
-<td align="left"><span class="citation">@martin_pearsell</span> We haven’t had any seasonal flu deaths in our county in last 12 months. Last year flu killed 80k. Cancer deaths stopped. The numbers are padded. Cases don’t equal deaths. 99.6% survival. Don’t compare to war. There are more car deaths ea yr yet we don’t ban cars</td>
-</tr>
-<tr class="even">
-<td align="left">2020-11-29 16:01:02</td>
-<td align="left"><span class="citation">@gjd96</span> Shot</td>
-</tr>
-<tr class="odd">
-<td align="left">2020-11-29 16:02:55</td>
-<td align="left">Maybe, if we are extra careful, we can keep prevalence low enough to avoid another lockdown in 2021. It might be our last chance to prove that we can live safely with the virus, as other countries have. Let’s give it a shot. More detailed discussion in:</td>
-</tr>
-<tr class="even">
-<td align="left"><a href="https://t.co/7qH9KpHCBC" class="uri">https://t.co/7qH9KpHCBC</a></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">2020-11-29 16:17:25</td>
-<td align="left"><span class="citation">@NoisyHuevos</span> so in a 6 player standard league, we both had a guy go on Thanksgiving and I’m down 30pts already and lost Lamar and have to start Trubisky…since I almost have no shot at winning, am I crazy to start Hinton at WR over Kupp? Figure time for a hail mary</td>
-</tr>
-<tr class="even">
-<td align="left">2020-11-29 15:52:14</td>
-<td align="left">OwO Wouwd uu take a vaccine that was devewoped with da hewp of an abowted fetus? Wead this #ThoughtWeadews piece by Wevewend Fw. Nicanuw Austwiaco. Ù&lt;U+03C9&gt;Ù <a href="https://t.co/AuO7TyJoUK" class="uri">https://t.co/AuO7TyJoUK</a></td>
-</tr>
-<tr class="odd">
-<td align="left">2020-11-29 15:10:40</td>
-<td align="left"><span class="citation">@Walter06731900</span> <span class="citation">@CNNPolitics</span> Lol <span class="citation">@realDonaldTrump</span> is why we have a vaccine <a href="https://t.co/g9wiAaExOT" class="uri">https://t.co/g9wiAaExOT</a></td>
-</tr>
-</tbody>
-</table>
+<p>SO let’s sample from the dataframe that was created with the search term “vaccine” to get a feel for what people are saying:</p>
 <pre class="r"><code>tweets_df2 %&gt;%
-  sample_n(5) %&gt;%
-  select(created_at, text) %&gt;%
+  sample_n(10) %&gt;%
+  select(text) %&gt;%
   knitr::kable()</code></pre>
 <table>
 <colgroup>
-<col width="8%" />
-<col width="91%" />
+<col width="100%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">created_at</th>
 <th align="left">text</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">2020-12-02 03:34:01</td>
-<td align="left"><span class="citation">@RobynUrback</span> When will Canadians get the #vaccine ..what is the rollout and distribution plan? Please let us know what to expect.</td>
+<td align="left">Pfizer Shuts Down Mike Pence For Taking Credit For COVID Vaccine <a href="https://t.co/O8718hgfpQ" class="uri">https://t.co/O8718hgfpQ</a> via <span class="citation">@YouTube</span></td>
 </tr>
 <tr class="even">
-<td align="left">2020-12-02 02:25:28</td>
-<td align="left">The same people who claim that they can regulate what substances you may or may not choose to experiment with in YOUR body, are the same ones who say you have no choice but to take an experimental vaccine into YOUR body.</td>
+<td align="left">Public needs to prep for vaccine side effects | Science <a href="https://t.co/nIR3XrqTGl" class="uri">https://t.co/nIR3XrqTGl</a></td>
 </tr>
 <tr class="odd">
-<td align="left">2020-12-02 02:40:35</td>
-<td align="left"><span class="citation">@steveschillin10</span> You have a good immune system. I take it for years and also don’t never get it. Before taking the vaccine though, I had the flu a couple of times.</td>
+<td align="left"><span class="citation">@Kathy53053420</span> <span class="citation">@lawallner1</span> We have flu vaccines and they work for crap. What makes ANYONE think this vaccine will be any better? Plus this is an Recombinant DNA vaccine. Thanks but I will pass on cloned fetal tissue injections.</td>
 </tr>
 <tr class="even">
-<td align="left">2020-12-02 02:35:33</td>
-<td align="left"><span class="citation">@Koreoscream</span> u won’t even know it’s happening when it does! it’s almost january soon it’ll be the cabin and maybe the vaccine will be settled and workin and then it’ll be summer love you</td>
+<td align="left">Come get this vaccine so you don’t have to get sick and allow your body to do what it was SUPPOSE to do. No thanks. <a href="https://t.co/3PjzJm81vs" class="uri">https://t.co/3PjzJm81vs</a></td>
 </tr>
 <tr class="odd">
-<td align="left">2020-12-02 02:20:30</td>
-<td align="left">Not ever, would you &lt;U+0001F632&gt;&lt;U+0001F411&gt;&lt;U+0001F411&gt;&lt;U+0001F411&gt;</td>
+<td align="left"><span class="citation">@BerkeleyJr</span> has anyone looked at the success % of flu vaccines at the time of the initial research. 80-90%. these are prospective controlled studies. In actuality the success is around 40% when looked at retrospectively. Don’t expect anything close to 95% with covid vaccines.</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="https://t.co/30QyN7ulBL" class="uri">https://t.co/30QyN7ulBL</a></td>
-<td align="left"></td>
+<td align="left">Ron DeSantis already has five centers of excellence designated to receive the Covid vaccines and has spoken with the CMOs of Walgreens and CVS. Pritzker and Cuomo are having tantrums about the vaccine and don’t have any plans.</td>
+</tr>
+<tr class="odd">
+<td align="left">New post: CDC Outlines Vaccine Priorities; Md.’s Initial Allocation is a ‘Tiny Fraction’ of What’s Needed <a href="https://t.co/mVBrYIhEPf" class="uri">https://t.co/mVBrYIhEPf</a></td>
+</tr>
+<tr class="even">
+<td align="left">Putin, Argentine president discuss agreements on Sputnik V vaccine <a href="https://t.co/H1oJWYMFEW" class="uri">https://t.co/H1oJWYMFEW</a></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="citation">@YALiberty</span> What are the Vegas odds that more people will die from the vaccine than died from covid — the CDC will prolly hide that number anyway</td>
+</tr>
+<tr class="even">
+<td align="left">Vaccine distribution explainer but make it cute <a href="https://t.co/0pS3WcmohD" class="uri">https://t.co/0pS3WcmohD</a></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="why-do-we-care" class="section level3">
+<h3>Why do we care?</h3>
+<p>The other analyses generated in these report deal with numbers. While numbers and statistics are highly important, we believe that research can be further supplemented by looking at people’s behaviors and attitudes. Using tools like rtweet and other data scraping methods allow us to gain insights from unconventional data sources in order to gain a deeper picture of the current landscape regarding the flu vaccine. It is important to note, however, that using twitter data does introduce selection bias. This means that we are only getting information from people who have access to twitter, and does not caputre the opinions and attitudes of those who do not choose or cannot use twitter.</p>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -570,6 +554,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

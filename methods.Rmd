@@ -2,6 +2,7 @@
 title: <center> "National Health Survey"
 output: 
   html_document:
+    code_folding: hide
     toc: true
     toc_float: true
     theme: cosmo

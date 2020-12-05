@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -250,6 +251,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -371,13 +375,13 @@ div.tocify {
     <li>
       <a href="test_storyboard.html">Exploratory Analysis II: BRFSS dashboard</a>
     </li>
+    <li>
+      <a href="qual.html">Qualitative exploration</a>
+    </li>
   </ul>
 </li>
 <li>
   <a href="stat.html">Statistical Analysis</a>
-</li>
-<li>
-  <a href="qual.html">Qualitative exploration</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -395,7 +399,7 @@ div.tocify {
   </ul>
 </li>
 <li>
-  <a href="http://github.com/&lt;YOUR_GH_NAME&gt;/">
+  <a href="https://github.com/mggn/vaccine.github.io">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -407,6 +411,14 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore"><center>
@@ -415,11 +427,23 @@ div.tocify {
 </div>
 
 
-<p><strong>would love to figure out pictures or icons for us</strong></p>
 <div id="student-bios" class="section level2">
 <h2>Student Bios</h2>
+<p>We are a group of 2nd year MPH students at Columbia University, proud to present you the skills we’ve developed over the semester with <a href="https://p8105.com">p8105!</a></p>
+<h2>
+Maria, the plotly Queen
+</h2>
+<p><img src="images/marialol.png" alt="Avatar" class="avatar"></p>
 <p><strong>Maria Guzman</strong>: Maria is an Epidemiology student with a focus on Applied Biostatistics. Born in Ecuador and raised in Connecticut, Maria is obsessed with pugs, especially her dog Frankie. Maria cares about using data to assess and tailor health programs with the goal of improving access to care. In her free time she enjoys knitting and thrifting.</p>
+<h2>
+Ronaé, the ggplot Goddess
+</h2>
+<p><img src="images/IMG_0582.jpg" alt="Avatar" class="avatar"></p>
 <p><strong>Ronaé McLin</strong>: Ronaé is a Population and Family Health student with a focus on Research Methods. She doesn’t have a hometown, but lukewarmly claims Ohio. Ronaé is passionate about ensuring that minoritized groups have equal access to and treatment within healthcare. In her free time she enjoys technical baking and making lists.</p>
+<h2>
+Adam, the tidy King
+</h2>
+<p><img src="images/bob.jpg" alt="Avatar" class="avatar"></p>
 <p><strong>Adam Whalen</strong>: Adam is an Epidemiology student with a focus on Applied Biostatistics. Orginially from California, Adam loves to talk about single payer healthcare. He is interested in studying the social and spatial distribution of factors that impact health outcomes, specifically for civilian interactions with the police. In his free time he enjoys playing Settlers of Catan and drinking craft beer.</p>
 </div>
 <div id="fun" class="section level2">
@@ -427,7 +451,21 @@ div.tocify {
 <p>Check out our playlist, features music we like to code to</p>
 <iframe src="https://open.spotify.com/embed/playlist/4jaJwJZELmM2jDbkluVzUX" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media">
 </iframe>
-<p>Check out our hexsticker (has not been made yet)</p>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.avatar {
+  vertical-align: middle;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+</style>
+</head>
+<body>
+</body>
+</html>
 </div>
 
 
@@ -465,6 +503,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

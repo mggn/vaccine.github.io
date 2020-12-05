@@ -2,11 +2,13 @@
 title: "Project Report"
 output: 
   html_document:
+    code_folding: hide
     toc: true
     toc_float: true
     theme: cosmo
 ---
-<img src="images/hongkongflu.jpg" style="width:800px;height:500px" class="center">
+<img src="images/hongkongflu.jpg" style="width:640px;height:400px" class="center">
+
 [**Dr. Joel Gitlit gave flu vaccinations to some 200 seniors at a Board of Health clinic in New York City during 1968 Pandemic**](https://www.nytimes.com/2020/03/20/world/europe/coronavirus-aids-spanish-flu-ebola-epidemics.html)
 
 ## Introduction
@@ -21,13 +23,13 @@ The abstract and introduction for the project can be obtained by visiting [here.
 
 The National Health Interview Survey (NHIS) is one of the major data collection programs of the National Center for Health Statistics (NCHS) which is part of the Centers for Disease Control and Prevention (CDC). While the NHIS has been conducted continuously since 1957, the content of the survey has been updated about every 15-20 years to incorporate advances in survey methodology and coverage of health topics. In January 2019, NHIS launched a redesigned content and structure that differs from its previous questionnaire design. Persons excluded from the sample are those with no fixed household address, military personnel, persons in long-term care institutions, persons in correctional facilities, and U.S. nationals living in foreign countries.  Data collection on the NHIS is continuous, i.e., from January to December each year.
 
-Access data set[here](https://www.cdc.gov/nchs/nhis/2019nhis.htm)
+Access data set [here](https://www.cdc.gov/nchs/nhis/2019nhis.htm)
 
 #### Behavioral Risk Factor Surveillance System (BRFSS)
 
 The Behavioral Risk Factor Surveillance System (BRFSS) is the nation’s system of health-related telephone surveys that collect state data about U.S. residents regarding their health-related risk behaviors, chronic health conditions, and use of preventive services. Established in 1984 BRFSS completes more than 400,000 adult interviews each year, making it the largest continuously conducted health survey system in the world. The basic philosophy was to collect data on actual behaviors, rather than on attitudes or knowledge, that would be especially useful for planning, initiating, supporting, and evaluating health promotion and disease prevention programs. In addition to age, gender, and race/ethnicity, raking permits more demographic variables to be included in weighting such as education attainment, marital status, tenure (property ownership), and telephone ownership. 
 
-Access data set[here](https://www.cdc.gov/brfss/annual_data/annual_2019.html)
+Access data set [here](https://www.cdc.gov/brfss/annual_data/annual_2019.html)
 
 #### NYC Open Data 
 
@@ -50,7 +52,7 @@ Access data set [here](https://data.cityofnewyork.us/Health/Emergency-Department
 
 
 #### Twitter
-Using rverst, data were scraped from the website. 
+Using rverst, data were scraped from the [website.](https://twitter.com) 
 
 
 ###	Overview of research design
@@ -75,14 +77,16 @@ o	**Cognitive component:** this involves a person’s belief / knowledge about a
 #### Through engagement with the allotted datasets we will begin to understand:
 
 1.	What feelings do adults have regarding flu vaccines?
-**Why? This will help us understand how adults might feel in regards to available or theoretical vaccines.**
+
+***Why? This will help us understand how adults might feel in regards to available or theoretical vaccines.***
 
 2.	How do adults behave towards flu vaccines?
-**Why? This will help us understand what actions should be encouraged or discontinued in regards to available or theoretical vaccines.**
+
+***Why? This will help us understand what actions should be encouraged or discontinued in regards to available or theoretical vaccines.***
 
 3.	What do adults know about vaccines?
 
-**Why? This will help us understand gaps in education, misinformation that might be occurring, and where information should be directed towards**
+***Why? This will help us understand gaps in education, misinformation that might be occurring, and where information should be directed towards***
 
 #### Hypothesis - What do we think we will find?
 
@@ -104,11 +108,11 @@ Our study utilizes data composed of a random sample of inhabitants from the Unit
 
 #### Tidying data
 
-How did we clean the data? 
+The process of tidying data began with the import of the collected data sets.  Considering the size of the data gathered, we then selected variables that were relevant and appropriate to our research question.  Using respective codebooks, we then mutated and recoded variable names so that the values were readable and gave the actual description. For example, values were coded as “female” or “male”, rather than “0” or “1”. In order to engage with the discrete nature of the data, we then changed the variables classes into a format that was appropriate for analysis.  Additionally, any appropriate releveling occurred in order to present the logical progression of some information.  Tidy data was then saved and exported to our project repository. The intention of these steps was to ensure that the code was readabable and reproducible.   
 
 #### Scraping Twitter
 
-**Maria can you describe the steps you took to scrape the twitter data, any problems that occurred and how you ultimately created a cvs file**
+Twitter data was easily scraped from the web using the rtweet package and the command "search_tweets," where search terms can be specified. rtweet connects to twitter's API through a web-based app, and API access tokens are limited to once per hour. As a result, two separate .csv files were generated using the "write_as_csv" function within the package to limit the number of "calls" being made to request twitter data. Further information and code examples can be found [here](qual.html)
 
 ###	Analytical methods
 Analytical methods for the project can be obtained by visiting the page below.
@@ -135,7 +139,7 @@ Results for the project can be obtained by visiting the pages below.
 
 **link adam's map**
 
-**link twitter data**
+[Twitter Results](qual.html)
  
 
 ## Discussion
@@ -152,7 +156,23 @@ Although quite satisfied with the quality of the data, we would have greatly app
 
 ### Conclusions
 
-**need to fill out**
+#### In conclusion, we used 4 sources of data for our exploratory and statistical analysis. We discovered that…
+
+* National Health Survey
+    + Biological sex appears to have a significant association with flu shot engagement
+*	Behavioral Risk Factor Surveillance System
+    + The Western Region of the US has lower frequencies of flu vaccinations
+*	NYC Open Data
+    + 	
+*	Twitter
+    + Vaccines are a hot topic right now on twitter
+
+#### Our project resulted in
+
+*	A unique Twitter data frame that will later be used for a semantic analysis using an appropriate lexicon package
+*	An interactive display of facilities that offer flu shots within the NYC metro area
+*	An awesome website, with an even better Spotify playlist
+
 
 ### Next steps
 

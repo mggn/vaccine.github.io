@@ -2,21 +2,31 @@
 title: <center> "Team Members"
 output: 
   html_document:
+    code_folding: hide
     toc: true
     toc_float: true
     theme: cosmo
 ---
-**would love to figure out pictures or icons for us**
-
 
 ## Student Bios
 
+We are a group of 2nd year MPH students at Columbia University, proud to present you the skills we've developed over the semester with [p8105!](https://p8105.com)
+
+<h2>Maria, the plotly Queen </h2>
+
+<img src="images/marialol.png" alt="Avatar" class="avatar">
 
 **Maria Guzman**: Maria is an Epidemiology student with a focus on Applied Biostatistics. Born in Ecuador and raised in Connecticut, Maria is obsessed with pugs, especially her dog Frankie. Maria cares about using data to assess and tailor health programs with the goal of improving access to care. In her free time she enjoys knitting and thrifting. 
 
+<h2>Ronaé, the ggplot Goddess </h2>
+
+<img src="images/IMG_0582.jpg" alt="Avatar" class="avatar">
 
 **Ronaé McLin**: Ronaé is a Population and Family Health student with a focus on Research Methods. She doesn’t have a hometown, but lukewarmly claims Ohio.  Ronaé is passionate about ensuring that minoritized groups have equal access to and treatment within healthcare.  In her free time she enjoys technical baking and making lists.  
 
+<h2>Adam, the tidy King </h2>
+
+<img src="images/bob.jpg" alt="Avatar" class="avatar">
 
 **Adam Whalen**: Adam is an Epidemiology student with a focus on Applied Biostatistics.  Orginially from California, Adam loves to talk about single payer healthcare. He is interested in studying the social and spatial distribution of factors that impact health outcomes, specifically for civilian interactions with the police. In his free time he enjoys playing Settlers of Catan and drinking craft beer. 
 
@@ -26,8 +36,24 @@ Check out our playlist, features music we like to code to
 
 <iframe src="https://open.spotify.com/embed/playlist/4jaJwJZELmM2jDbkluVzUX" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
-Check out our hexsticker (has not been made yet)
 
 
 
 
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.avatar {
+  vertical-align: middle;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+</style>
+</head>
+<body>
+
+
+</body>
+</html>
