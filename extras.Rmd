@@ -9,7 +9,7 @@ output:
 
 ## Student Bios
 
-We are a group of 2nd year MPH students at Columbia University, proud to present you the skills we've developed over the semester with p8105!
+We are a group of 2nd year MPH students at Columbia University, proud to present you the skills we've developed over the semester with [p8105!](https://p8105.com)
 
 <h2>Maria, the plotly Queen </h2>
 
