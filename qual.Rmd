@@ -1,7 +1,9 @@
 ---
-title: <center> "Twitter data"
+title: <center> Twitter Data
+pagetitle: Twitter Data
 output: 
   html_document:
+    code_folding: hide
     toc: true
     toc_float: true
     theme: cosmo

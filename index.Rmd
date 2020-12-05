@@ -1,5 +1,6 @@
 ---
-title: <center> "Trends in adult vaccination"
+title: <center> Trends in adult vaccination
+pagetitle: Trends in adult vaccination
 output: 
   html_document:
     code_folding: hide
@@ -22,13 +23,11 @@ All the best,
 p.s. 
 
 Our working repo is linked [here](https://github.com/mggn/p8105_final_project)
-our website repo is linked [here](https://github.com/mggn/vaccine.github.io)
+<br>Our website repo is linked [here](https://github.com/mggn/vaccine.github.io)
 
 ## Project inspiration
 
-<center>
-<iframe width="840" height="472" src="https://www.youtubetrimmer.com/view/?v=qAWtUu88ug4&start=305&end=343" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qAWtUu88ug4?start=305" frameborder="0" allow="accelerometer; autoplay=0; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 

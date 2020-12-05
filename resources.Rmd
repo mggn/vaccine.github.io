@@ -1,13 +1,12 @@
 ---
-title: <center> 
+title: <center> Vaccine Resources
+pagetitle: Resources
 output: 
   html_document:
     toc: true
     toc_float: true
     theme: cosmo
 ---
-
-# Resources
 
 <img src="images/flu1.jpg" style="width:800px;height:500px" class="center">
 

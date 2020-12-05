@@ -1,5 +1,6 @@
 ---
-title: <center> "National Health Survey"
+title: <center> National Health Survey
+pagetitle: National Health Survey
 output: 
   html_document:
     code_folding: hide
