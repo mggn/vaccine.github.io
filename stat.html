@@ -11,7 +11,7 @@
 
 
 
-<title>stat.utf8</title>
+<title>Statistical Analysis</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/table1-1.0/table1_defaults.css" rel="stylesheet" />
@@ -251,6 +252,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -408,10 +412,18 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore"><center>
-“Statistical Analysis”</h1>
+Statistical Analysis</h1>
 
 </div>
 
@@ -422,30 +434,99 @@ div.tocify {
 </div>
 <div id="univariate-analysis" class="section level2">
 <h2>Univariate Analysis</h2>
+<p>To begin, we would like to take a better look at the distribution of the data and important variables.</p>
 <pre class="r"><code>flu_adult_df = 
   read_csv(&quot;./final_project_large_data/flu_adult_df.csv&quot;) %&gt;% 
   mutate(
-    flu_shot = case_when(
-      flu_shot == &quot;yes&quot; ~ 1,
-      flu_shot == &quot;no&quot;  ~ 0
-    )
-  )
+    flu_shot = str_to_title(flu_shot),
+    flu_shot = as.factor(flu_shot),
+    race_eth = 
+      case_when(
+        nh_race == &quot;hispanic&quot;          ~ &quot;Hispanic&quot;,
+        nh_race == &quot;NH AIAN&quot;           ~ &quot;Native or mixed race&quot;,
+        nh_race == &quot;NH AIAN and other&quot; ~ &quot;Native or mixed race&quot;,
+        nh_race == &quot;NH asian&quot;          ~ &quot;Asian&quot;,
+        nh_race == &quot;NH black&quot;          ~ &quot;Black&quot;,
+        nh_race == &quot;NH white&quot;          ~ &quot;White&quot;,
+        nh_race == &quot;multiple races&quot;    ~ &quot;Native or mixed race&quot;
+      ),
+    last_dr_visit = 
+      case_when(
+        last_drvisit == &quot;10+ years&quot;            ~ &quot;5+ years&quot;,
+        last_drvisit == &quot;within last 10 years&quot; ~ &quot;5+ years&quot;,
+        last_drvisit == &quot;within last 5 years&quot;  ~ &quot;&lt;5 years&quot;,
+        last_drvisit == &quot;within last 3 years&quot;  ~ &quot;&lt;5 years&quot;,
+        last_drvisit == &quot;within last 2 years&quot;  ~ &quot;&lt;2 years&quot;,
+        last_drvisit == &quot;within past year&quot;     ~ &quot;Within past year&quot;,
+        last_drvisit == &quot;never&quot;                ~ &quot;5+ years&quot;
+      ),
+    education = 
+      case_when(
+        education == &quot;12th grade, no dipolma&quot; ~ &quot;Less than high school&quot;,
+        education == &quot;Associate degree-aca&quot;   ~ &quot;Associate&#39;s degree&quot;,
+        education == &quot;Associate degree-tech&quot;  ~ &quot;Associate&#39;s degree&quot;,
+        education == &quot;Bachelor&#39;s degree&quot;      ~ &quot;Bachelor&#39;s degree&quot;,
+        education == &quot;College, no degree&quot;     ~ &quot;Some college&quot;,
+        education == &quot;Doctoral degree&quot;        ~ &quot;Advanced degree&quot;,
+        education == &quot;GED&quot;                    ~ &quot;High school diploma/GED&quot;,
+        education == &quot;Grades 1-11&quot;            ~ &quot;Less than high school&quot;,
+        education == &quot;HS graduate&quot;            ~ &quot;High school diploma/GED&quot;,
+        education == &quot;Master&#39;s degree&quot;        ~ &quot;Advanced degree&quot;,
+        education == &quot;never attended&quot;         ~ &quot;Less than high school&quot;,
+        education == &quot;Professional school&quot;    ~ &quot;Advanced degree&quot;
+      ),
+    health = str_to_title(health),
+    health = as.factor(health),
+    insurance = str_to_title(insurance),
+    insurance = as.factor(insurance),
+    usborn = str_to_title(usborn),
+    usborn = as.factor(usborn),
+    bmi = str_to_title(bmi),
+    bmi = as.factor(bmi),
+    race_eth = fct_infreq(race_eth),
+    health = fct_relevel(health, &quot;Excellent&quot;, &quot;Very Good&quot;, &quot;Good&quot;, &quot;Fair&quot;, &quot;Poor&quot;),
+    last_dr_visit = fct_relevel(last_dr_visit, &quot;Within past year&quot;, &quot;&lt;2 years&quot;,
+                               &quot;&lt;5 years&quot;, &quot;5+ years&quot;),
+    education = fct_relevel(education, &quot;Less than high school&quot;, 
+                            &quot;High school diploma/GED&quot;, &quot;Some college&quot;,
+                            &quot;Associate&#39;s degree&quot;, &quot;Bachelor&#39;s degree&quot;,
+                            &quot;Advanced degree&quot;),
+    usborn = fct_relevel(usborn, &quot;Yes&quot;, &quot;No&quot;),
+    bmi = fct_relevel(bmi, &quot;Underweight&quot;, &quot;Healthy Weight&quot;, &quot;Overweight&quot;, &quot;Obese&quot;)
+  ) 
 
-table1(~ age + sex + hispanic + nh_race + health + insurance + 
-         last_drvisit + education + usborn | flu_shot, 
-       data = flu_adult_df)</code></pre>
-<div class="Rtable1"><table class="Rtable1">
+label(flu_adult_df$flu_shot) = &quot;Flu Vaccine Received&quot;
+label(flu_adult_df$age) = &quot;Age&quot;
+label(flu_adult_df$sex) = &quot;Sex&quot;
+label(flu_adult_df$race_eth) = &quot;Race/Ethnicity&quot;
+label(flu_adult_df$health) = &quot;Health Status&quot;
+label(flu_adult_df$insurance) = &quot;Insurance Coverage&quot;
+label(flu_adult_df$bmi) = &quot;BMI&quot;
+label(flu_adult_df$last_dr_visit) = &quot;Last Doctor Visit&quot;
+label(flu_adult_df$education) = &quot;Education&quot;
+label(flu_adult_df$usborn) = &quot;US-Born&quot;
+units(flu_adult_df$age) = &quot;years&quot;
+units(flu_adult_df$bmi) = &quot;kg/m^2&quot;
+
+table1(~ age + sex + race_eth + health + insurance + bmi +
+         last_dr_visit + education + usborn | flu_shot, 
+       data = flu_adult_df,
+       caption = &quot;Table 1: Distribution of demographic and health-related 
+       covariates by vaccination status.&quot;)</code></pre>
+<div class="Rtable1"><table class="Rtable1"><caption>Table 1: Distribution of demographic and health-related 
+       covariates by vaccination status.</caption>
+
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>0<br><span class='stratn'>(N=15549)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>1<br><span class='stratn'>(N=16063)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>No<br><span class='stratn'>(N=15549)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Yes<br><span class='stratn'>(N=16063)</span></span></th>
 <th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=31997)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'><span class='varlabel'>age</span></td>
+<td class='rowlabel firstrow'><span class='varlabel'>Age<span class='varunits'> (years)</span></span></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
@@ -463,7 +544,7 @@ table1(~ age + sex + hispanic + nh_race + health + insurance +
 <td class='lastrow'>53.0 [18.0, 99.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'><span class='varlabel'>sex</span></td>
+<td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
@@ -487,106 +568,76 @@ table1(~ age + sex + hispanic + nh_race + health + insurance +
 <td class='lastrow'>3 (0.0%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'><span class='varlabel'>hispanic</span></td>
+<td class='rowlabel firstrow'><span class='varlabel'>Race/Ethnicity</span></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 </tr>
 <tr>
-<td class='rowlabel'>No</td>
-<td>13094 (84.2%)</td>
-<td>14430 (89.8%)</td>
-<td>27845 (87.0%)</td>
+<td class='rowlabel'>White</td>
+<td>9974 (64.1%)</td>
+<td>11718 (73.0%)</td>
+<td>21915 (68.5%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Yes</td>
-<td class='lastrow'>2455 (15.8%)</td>
-<td class='lastrow'>1633 (10.2%)</td>
-<td class='lastrow'>4152 (13.0%)</td>
-</tr>
-<tr>
-<td class='rowlabel firstrow'><span class='varlabel'>nh_race</span></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-</tr>
-<tr>
-<td class='rowlabel'>hispanic</td>
+<td class='rowlabel'>Hispanic</td>
 <td>2455 (15.8%)</td>
 <td>1633 (10.2%)</td>
 <td>4152 (13.0%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>multiple races</td>
-<td>183 (1.2%)</td>
-<td>149 (0.9%)</td>
-<td>339 (1.1%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>NH AIAN</td>
-<td>94 (0.6%)</td>
-<td>115 (0.7%)</td>
-<td>212 (0.7%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>NH AIAN and other</td>
-<td>139 (0.9%)</td>
-<td>107 (0.7%)</td>
-<td>248 (0.8%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>NH asian</td>
-<td>726 (4.7%)</td>
-<td>901 (5.6%)</td>
-<td>1648 (5.2%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>NH black</td>
+<td class='rowlabel'>Black</td>
 <td>1978 (12.7%)</td>
 <td>1440 (9.0%)</td>
 <td>3483 (10.9%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>NH white</td>
-<td class='lastrow'>9974 (64.1%)</td>
-<td class='lastrow'>11718 (73.0%)</td>
-<td class='lastrow'>21915 (68.5%)</td>
+<td class='rowlabel'>Asian</td>
+<td>726 (4.7%)</td>
+<td>901 (5.6%)</td>
+<td>1648 (5.2%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'><span class='varlabel'>health</span></td>
+<td class='rowlabel lastrow'>Native or mixed race</td>
+<td class='lastrow'>416 (2.7%)</td>
+<td class='lastrow'>371 (2.3%)</td>
+<td class='lastrow'>799 (2.5%)</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>Health Status</span></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 </tr>
 <tr>
-<td class='rowlabel'>excellent</td>
+<td class='rowlabel'>Excellent</td>
 <td>3887 (25.0%)</td>
 <td>3285 (20.5%)</td>
 <td>7258 (22.7%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>fair</td>
-<td>1659 (10.7%)</td>
-<td>2073 (12.9%)</td>
-<td>3783 (11.8%)</td>
+<td class='rowlabel'>Very Good</td>
+<td>5272 (33.9%)</td>
+<td>5393 (33.6%)</td>
+<td>10767 (33.7%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>good</td>
+<td class='rowlabel'>Good</td>
 <td>4243 (27.3%)</td>
 <td>4539 (28.3%)</td>
 <td>8893 (27.8%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>poor</td>
+<td class='rowlabel'>Fair</td>
+<td>1659 (10.7%)</td>
+<td>2073 (12.9%)</td>
+<td>3783 (11.8%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Poor</td>
 <td>480 (3.1%)</td>
 <td>768 (4.8%)</td>
 <td>1274 (4.0%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>very good</td>
-<td>5272 (33.9%)</td>
-<td>5393 (33.6%)</td>
-<td>10767 (33.7%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
@@ -595,19 +646,19 @@ table1(~ age + sex + hispanic + nh_race + health + insurance +
 <td class='lastrow'>22 (0.1%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'><span class='varlabel'>insurance</span></td>
+<td class='rowlabel firstrow'><span class='varlabel'>Insurance Coverage</span></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 </tr>
 <tr>
-<td class='rowlabel'>covered</td>
+<td class='rowlabel'>Covered</td>
 <td>13244 (85.2%)</td>
 <td>15456 (96.2%)</td>
 <td>29015 (90.7%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>not covered</td>
+<td class='rowlabel'>Not Covered</td>
 <td>2260 (14.5%)</td>
 <td>584 (3.6%)</td>
 <td>2887 (9.0%)</td>
@@ -619,52 +670,70 @@ table1(~ age + sex + hispanic + nh_race + health + insurance +
 <td class='lastrow'>95 (0.3%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'><span class='varlabel'>last_drvisit</span></td>
+<td class='rowlabel firstrow'><span class='varlabel'>BMI<span class='varunits'> (kg/m^2)</span></span></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 </tr>
 <tr>
-<td class='rowlabel'>10+ years</td>
-<td>285 (1.8%)</td>
-<td>23 (0.1%)</td>
-<td>311 (1.0%)</td>
+<td class='rowlabel'>Underweight</td>
+<td>259 (1.7%)</td>
+<td>249 (1.6%)</td>
+<td>516 (1.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>never</td>
-<td>64 (0.4%)</td>
-<td>34 (0.2%)</td>
-<td>99 (0.3%)</td>
+<td class='rowlabel'>Healthy Weight</td>
+<td>4935 (31.7%)</td>
+<td>4913 (30.6%)</td>
+<td>9968 (31.2%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>within last 10 years</td>
-<td>304 (2.0%)</td>
-<td>32 (0.2%)</td>
-<td>336 (1.1%)</td>
+<td class='rowlabel'>Overweight</td>
+<td>5164 (33.2%)</td>
+<td>5378 (33.5%)</td>
+<td>10649 (33.3%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>within last 2 years</td>
+<td class='rowlabel'>Obese</td>
+<td>4778 (30.7%)</td>
+<td>5127 (31.9%)</td>
+<td>9997 (31.2%)</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Missing</td>
+<td class='lastrow'>413 (2.7%)</td>
+<td class='lastrow'>396 (2.5%)</td>
+<td class='lastrow'>867 (2.7%)</td>
+</tr>
+<tr>
+<td class='rowlabel firstrow'><span class='varlabel'>Last Doctor Visit</span></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+<td class='firstrow'></td>
+</tr>
+<tr>
+<td class='rowlabel'>Within past year</td>
+<td>12218 (78.6%)</td>
+<td>15121 (94.1%)</td>
+<td>27551 (86.1%)</td>
+</tr>
+<tr>
+<td class='rowlabel'><2 years</td>
 <td>1553 (10.0%)</td>
 <td>594 (3.7%)</td>
 <td>2162 (6.8%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>within last 3 years</td>
-<td>614 (3.9%)</td>
-<td>145 (0.9%)</td>
-<td>769 (2.4%)</td>
+<td class='rowlabel'><5 years</td>
+<td>1085 (7.0%)</td>
+<td>242 (1.5%)</td>
+<td>1339 (4.2%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>within last 5 years</td>
-<td>471 (3.0%)</td>
-<td>97 (0.6%)</td>
-<td>570 (1.8%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>within past year</td>
-<td>12218 (78.6%)</td>
-<td>15121 (94.1%)</td>
-<td>27551 (86.1%)</td>
+<td class='rowlabel'>5+ years</td>
+<td>653 (4.2%)</td>
+<td>89 (0.6%)</td>
+<td>746 (2.3%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
@@ -673,28 +742,34 @@ table1(~ age + sex + hispanic + nh_race + health + insurance +
 <td class='lastrow'>199 (0.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'><span class='varlabel'>education</span></td>
+<td class='rowlabel firstrow'><span class='varlabel'>Education</span></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 </tr>
 <tr>
-<td class='rowlabel'>12th grade, no dipolma</td>
-<td>254 (1.6%)</td>
-<td>210 (1.3%)</td>
-<td>471 (1.5%)</td>
+<td class='rowlabel'>Less than high school</td>
+<td>1538 (9.9%)</td>
+<td>1372 (8.5%)</td>
+<td>2954 (9.2%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Associate degree-aca</td>
-<td>1418 (9.1%)</td>
-<td>1467 (9.1%)</td>
-<td>2909 (9.1%)</td>
+<td class='rowlabel'>High school diploma/GED</td>
+<td>4406 (28.3%)</td>
+<td>3674 (22.9%)</td>
+<td>8201 (25.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Associate degree-tech</td>
-<td>648 (4.2%)</td>
-<td>598 (3.7%)</td>
-<td>1261 (3.9%)</td>
+<td class='rowlabel'>Some college</td>
+<td>2709 (17.4%)</td>
+<td>2450 (15.3%)</td>
+<td>5216 (16.3%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>Associate's degree</td>
+<td>2066 (13.3%)</td>
+<td>2065 (12.9%)</td>
+<td>4170 (13.0%)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Bachelor's degree</td>
@@ -703,52 +778,10 @@ table1(~ age + sex + hispanic + nh_race + health + insurance +
 <td>6952 (21.7%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>College, no degree</td>
-<td>2709 (17.4%)</td>
-<td>2450 (15.3%)</td>
-<td>5216 (16.3%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>Doctoral degree</td>
-<td>208 (1.3%)</td>
-<td>446 (2.8%)</td>
-<td>655 (2.0%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>GED</td>
-<td>430 (2.8%)</td>
-<td>337 (2.1%)</td>
-<td>776 (2.4%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>Grades 1-11</td>
-<td>1242 (8.0%)</td>
-<td>1113 (6.9%)</td>
-<td>2390 (7.5%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>HS graduate</td>
-<td>3976 (25.6%)</td>
-<td>3337 (20.8%)</td>
-<td>7425 (23.2%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>Master's degree</td>
-<td>1260 (8.1%)</td>
-<td>1949 (12.1%)</td>
-<td>3231 (10.1%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>never attended</td>
-<td>42 (0.3%)</td>
-<td>49 (0.3%)</td>
-<td>93 (0.3%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>Professional school</td>
-<td>136 (0.9%)</td>
-<td>302 (1.9%)</td>
-<td>439 (1.4%)</td>
+<td class='rowlabel'>Advanced degree</td>
+<td>1604 (10.3%)</td>
+<td>2697 (16.8%)</td>
+<td>4325 (13.5%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
@@ -757,22 +790,22 @@ table1(~ age + sex + hispanic + nh_race + health + insurance +
 <td class='lastrow'>179 (0.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'><span class='varlabel'>usborn</span></td>
+<td class='rowlabel firstrow'><span class='varlabel'>US-Born</span></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 <td class='firstrow'></td>
 </tr>
 <tr>
-<td class='rowlabel'>no</td>
-<td>2630 (16.9%)</td>
-<td>2214 (13.8%)</td>
-<td>4863 (15.2%)</td>
-</tr>
-<tr>
-<td class='rowlabel'>yes</td>
+<td class='rowlabel'>Yes</td>
 <td>12661 (81.4%)</td>
 <td>13611 (84.7%)</td>
 <td>26328 (82.3%)</td>
+</tr>
+<tr>
+<td class='rowlabel'>No</td>
+<td>2630 (16.9%)</td>
+<td>2214 (13.8%)</td>
+<td>4863 (15.2%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
@@ -786,36 +819,74 @@ table1(~ age + sex + hispanic + nh_race + health + insurance +
 </div>
 <div id="logistic-regression-modeling" class="section level2">
 <h2>Logistic Regression Modeling</h2>
-<p>To further investigate the data, we will run a logistic regression to look into what variables significantly influence the odds that an individual will obtain the flu vaccine.</p>
-<pre class="r"><code>logreg_mod_me = 
-  glm(flu_shot ~ insurance, data = flu_adult_df, family = &quot;binomial&quot;) %&gt;% 
+<p>To further investigate the data, we will run a logistic regression to look into what variables significantly influence the odds that an individual will obtain the flu vaccine. We believe that health insurance coverage is an important predictor of vaccination behavior, so we will begin with that as a main effect and add other explanatory variables from there.</p>
+<pre class="r"><code>flu_adult_model = 
+  flu_adult_df %&gt;% 
+  mutate(
+    flu_shot = case_when(
+      flu_shot == &quot;Yes&quot; ~ 1,
+      flu_shot == &quot;No&quot;  ~ 0
+    )
+  ) 
+
+logreg_crude = 
+  glm(flu_shot ~ insurance, data = flu_adult_model, family = &quot;binomial&quot;) 
+
+lr_crude_results = 
+  logreg_crude %&gt;% 
   broom::tidy() %&gt;% 
   janitor::clean_names() %&gt;% 
   mutate(
     term = str_replace(term, &quot;insurance&quot;, &quot;Insurance Coverage: &quot;)
   ) %&gt;% 
-  select(-c(std_error, statistic)) %&gt;% 
-  knitr::kable()
+  dplyr::select(-c(std_error, statistic))
 
-logreg_mod_full = 
-  glm(flu_shot ~ insurance + sex + education + nh_race + health + bmi + 
-                  last_drvisit + usborn, 
-                 data = flu_adult_df, family = &quot;binomial&quot;) %&gt;% 
+lr_crude_results %&gt;% knitr::kable(digits = 4)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">p_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">0.1545</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Insurance Coverage: Not Covered</td>
+<td align="right">-1.5077</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>We can see from our crude, main effects model that adults who are not covered by health insurance have 0.22 times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of <span class="math inline">\(\alpha\)</span> = 0.05.</p>
+<p>To build out our model, we will include effects of patient sex, education level, race/ethnicity, health status, BMI category, recency of last doctor visit, and whether the patient is a native citizen or an immigrant. Our full parametric model is as follows:</p>
+<pre class="r"><code>logreg_full = 
+  glm(flu_shot ~ insurance + sex + education + race_eth + health + bmi + 
+                  last_dr_visit + usborn, 
+                 data = flu_adult_model, family = &quot;binomial&quot;) 
+
+lr_full_results = 
+  logreg_full %&gt;% 
   broom::tidy() %&gt;% 
   janitor::clean_names() %&gt;% 
   mutate(
     term = str_replace(term, &quot;insurance&quot;, &quot;Insurance Coverage: &quot;),
     term = str_replace(term, &quot;education&quot;, &quot;Education: &quot;),
-    term = str_replace(term, &quot;nh_race&quot;, &quot;Race/Ethnicity: &quot;),
+    term = str_replace(term, &quot;race_eth&quot;, &quot;Race/Ethnicity: &quot;),
     term = str_replace(term, &quot;health&quot;, &quot;Health: &quot;),
     term = str_replace(term, &quot;bmi&quot;, &quot;BMI: &quot;),
-    term = str_replace(term, &quot;last_drvisit&quot;, &quot;Last Doctor Visit: &quot;),
+    term = str_replace(term, &quot;last_dr_visit&quot;, &quot;Last Doctor Visit: &quot;),
     term = str_replace(term, &quot;usborn&quot;, &quot;US Born: &quot;),
+    term = str_replace(term, &quot;sex&quot;, &quot;Sex: &quot;)
   ) %&gt;% 
-  select(-c(std_error, statistic)) %&gt;% 
-  knitr::kable()
+  dplyr::select(-c(std_error, statistic))
 
-logreg_mod_me</code></pre>
+lr_full_results %&gt;% knitr::kable(digits = 4)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -827,17 +898,140 @@ logreg_mod_me</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">0.1544527</td>
-<td align="right">0</td>
+<td align="right">0.0676</td>
+<td align="right">0.5314</td>
 </tr>
 <tr class="even">
-<td align="left">Insurance Coverage: not covered</td>
-<td align="right">-1.5076718</td>
-<td align="right">0</td>
+<td align="left">Insurance Coverage: Not Covered</td>
+<td align="right">-1.0658</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">Sex: Male</td>
+<td align="right">-0.2109</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="even">
+<td align="left">Education: High school diploma/GED</td>
+<td align="right">-0.1649</td>
+<td align="right">0.0007</td>
+</tr>
+<tr class="odd">
+<td align="left">Education: Some college</td>
+<td align="right">-0.1259</td>
+<td align="right">0.0161</td>
+</tr>
+<tr class="even">
+<td align="left">Education: Associate’s degree</td>
+<td align="right">-0.0477</td>
+<td align="right">0.3808</td>
+</tr>
+<tr class="odd">
+<td align="left">Education: Bachelor’s degree</td>
+<td align="right">0.1327</td>
+<td align="right">0.0094</td>
+</tr>
+<tr class="even">
+<td align="left">Education: Advanced degree</td>
+<td align="right">0.4435</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">Race/Ethnicity: Hispanic</td>
+<td align="right">-0.3318</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="even">
+<td align="left">Race/Ethnicity: Black</td>
+<td align="right">-0.5146</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">Race/Ethnicity: Asian</td>
+<td align="right">0.0929</td>
+<td align="right">0.1478</td>
+</tr>
+<tr class="even">
+<td align="left">Race/Ethnicity: Native or mixed race</td>
+<td align="right">-0.1722</td>
+<td align="right">0.0278</td>
+</tr>
+<tr class="odd">
+<td align="left">Health: Very Good</td>
+<td align="right">0.1490</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="even">
+<td align="left">Health: Good</td>
+<td align="right">0.2715</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">Health: Fair</td>
+<td align="right">0.4281</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="even">
+<td align="left">Health: Poor</td>
+<td align="right">0.5994</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">BMI: Healthy Weight</td>
+<td align="right">0.1211</td>
+<td align="right">0.2154</td>
+</tr>
+<tr class="even">
+<td align="left">BMI: Overweight</td>
+<td align="right">0.2290</td>
+<td align="right">0.0193</td>
+</tr>
+<tr class="odd">
+<td align="left">BMI: Obese</td>
+<td align="right">0.2130</td>
+<td align="right">0.0299</td>
+</tr>
+<tr class="even">
+<td align="left">Last Doctor Visit: &lt;2 years</td>
+<td align="right">-1.0063</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">Last Doctor Visit: &lt;5 years</td>
+<td align="right">-1.4030</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="even">
+<td align="left">Last Doctor Visit: 5+ years</td>
+<td align="right">-1.8157</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">US Born: No</td>
+<td align="right">-0.0632</td>
+<td align="right">0.1310</td>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>logreg_mod_full</code></pre>
+<p>In our full adjusted model, we see that adults who are not covered by health insurance have 0.34 times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of <span class="math inline">\(\alpha\)</span> = 0.05. Regarding the other variables in our model, all variables have statistically significant levels with the exception of BMI and US-born status. Therefore, we will remove those variables from the model.</p>
+<pre class="r"><code>logreg_adj =
+  glm(flu_shot ~ insurance + sex + education + race_eth + health + last_dr_visit, 
+                 data = flu_adult_model, family = &quot;binomial&quot;)
+
+lr_adj_results = 
+  logreg_adj %&gt;% 
+  broom::tidy() %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(
+    term = str_replace(term, &quot;insurance&quot;, &quot;Insurance Coverage: &quot;),
+    term = str_replace(term, &quot;education&quot;, &quot;Education: &quot;),
+    term = str_replace(term, &quot;race_eth&quot;, &quot;Race/Ethnicity: &quot;),
+    term = str_replace(term, &quot;health&quot;, &quot;Health: &quot;),
+    term = str_replace(term, &quot;last_dr_visit&quot;, &quot;Last Doctor Visit: &quot;),
+  ) %&gt;% 
+  dplyr::select(-c(std_error, statistic))
+
+lr_adj_results %&gt;% knitr::kable(digits = 4)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -849,177 +1043,142 @@ logreg_mod_me</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">-2.4920427</td>
-<td align="right">0.0000000</td>
+<td align="right">0.2210</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="even">
-<td align="left">Insurance Coverage: not covered</td>
-<td align="right">-1.0648026</td>
-<td align="right">0.0000000</td>
+<td align="left">Insurance Coverage: Not Covered</td>
+<td align="right">-1.0758</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">sexMale</td>
-<td align="right">-0.2132399</td>
-<td align="right">0.0000000</td>
+<td align="right">-0.1928</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="even">
-<td align="left">Education: Associate degree-aca</td>
-<td align="right">0.0304207</td>
-<td align="right">0.7818382</td>
+<td align="left">Education: High school diploma/GED</td>
+<td align="right">-0.1656</td>
+<td align="right">0.0005</td>
 </tr>
 <tr class="odd">
-<td align="left">Education: Associate degree-tech</td>
-<td align="right">-0.0622675</td>
-<td align="right">0.6000049</td>
+<td align="left">Education: Some college</td>
+<td align="right">-0.1195</td>
+<td align="right">0.0185</td>
 </tr>
 <tr class="even">
+<td align="left">Education: Associate’s degree</td>
+<td align="right">-0.0421</td>
+<td align="right">0.4257</td>
+</tr>
+<tr class="odd">
 <td align="left">Education: Bachelor’s degree</td>
-<td align="right">0.1867943</td>
-<td align="right">0.0777515</td>
-</tr>
-<tr class="odd">
-<td align="left">Education: College, no degree</td>
-<td align="right">-0.0745837</td>
-<td align="right">0.4840630</td>
+<td align="right">0.1290</td>
+<td align="right">0.0094</td>
 </tr>
 <tr class="even">
-<td align="left">Education: Doctoral degree</td>
-<td align="right">0.8058028</td>
-<td align="right">0.0000000</td>
+<td align="left">Education: Advanced degree</td>
+<td align="right">0.4380</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="odd">
-<td align="left">Education: GED</td>
-<td align="right">-0.2201714</td>
-<td align="right">0.0873824</td>
+<td align="left">Race/Ethnicity: Hispanic</td>
+<td align="right">-0.3306</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="even">
-<td align="left">Education: Grades 1-11</td>
-<td align="right">0.0423660</td>
-<td align="right">0.7053732</td>
+<td align="left">Race/Ethnicity: Black</td>
+<td align="right">-0.4959</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="odd">
-<td align="left">Education: HS graduate</td>
-<td align="right">-0.1042831</td>
-<td align="right">0.3220325</td>
+<td align="left">Race/Ethnicity: Asian</td>
+<td align="right">0.0125</td>
+<td align="right">0.8198</td>
 </tr>
 <tr class="even">
-<td align="left">Education: Master’s degree</td>
-<td align="right">0.3918271</td>
-<td align="right">0.0003540</td>
+<td align="left">Race/Ethnicity: Native or mixed race</td>
+<td align="right">-0.1759</td>
+<td align="right">0.0223</td>
 </tr>
 <tr class="odd">
-<td align="left">Education: never attended</td>
-<td align="right">0.4002859</td>
-<td align="right">0.1242195</td>
+<td align="left">Health: Very Good</td>
+<td align="right">0.1643</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="even">
-<td align="left">Education: Professional school</td>
-<td align="right">0.8581920</td>
-<td align="right">0.0000000</td>
+<td align="left">Health: Good</td>
+<td align="right">0.2859</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="odd">
-<td align="left">Race/Ethnicity: multiple races</td>
-<td align="right">0.0671832</td>
-<td align="right">0.5859865</td>
+<td align="left">Health: Fair</td>
+<td align="right">0.4477</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="even">
-<td align="left">Race/Ethnicity: NH AIAN</td>
-<td align="right">0.4827081</td>
-<td align="right">0.0021264</td>
+<td align="left">Health: Poor</td>
+<td align="right">0.6063</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="odd">
-<td align="left">Race/Ethnicity: NH AIAN and other</td>
-<td align="right">0.0379067</td>
-<td align="right">0.7919186</td>
+<td align="left">Last Doctor Visit: &lt;2 years</td>
+<td align="right">-0.9921</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="even">
-<td align="left">Race/Ethnicity: NH asian</td>
-<td align="right">0.4176357</td>
-<td align="right">0.0000000</td>
+<td align="left">Last Doctor Visit: &lt;5 years</td>
+<td align="right">-1.4162</td>
+<td align="right">0.0000</td>
 </tr>
 <tr class="odd">
-<td align="left">Race/Ethnicity: NH black</td>
-<td align="right">-0.1767479</td>
-<td align="right">0.0009428</td>
-</tr>
-<tr class="even">
-<td align="left">Race/Ethnicity: NH white</td>
-<td align="right">0.3355221</td>
-<td align="right">0.0000000</td>
-</tr>
-<tr class="odd">
-<td align="left">Health: fair</td>
-<td align="right">0.4348794</td>
-<td align="right">0.0000000</td>
-</tr>
-<tr class="even">
-<td align="left">Health: good</td>
-<td align="right">0.2785579</td>
-<td align="right">0.0000000</td>
-</tr>
-<tr class="odd">
-<td align="left">Health: poor</td>
-<td align="right">0.6041616</td>
-<td align="right">0.0000000</td>
-</tr>
-<tr class="even">
-<td align="left">Health: very good</td>
-<td align="right">0.1559597</td>
-<td align="right">0.0000029</td>
-</tr>
-<tr class="odd">
-<td align="left">BMI: obese</td>
-<td align="right">0.0940911</td>
-<td align="right">0.0030124</td>
-</tr>
-<tr class="even">
-<td align="left">BMI: overweight</td>
-<td align="right">0.1079640</td>
-<td align="right">0.0004003</td>
-</tr>
-<tr class="odd">
-<td align="left">BMI: underweight</td>
-<td align="right">-0.1233499</td>
-<td align="right">0.2087998</td>
-</tr>
-<tr class="even">
-<td align="left">Last Doctor Visit: never</td>
-<td align="right">1.8313111</td>
-<td align="right">0.0000000</td>
-</tr>
-<tr class="odd">
-<td align="left">Last Doctor Visit: within last 10 years</td>
-<td align="right">0.0196032</td>
-<td align="right">0.9485235</td>
-</tr>
-<tr class="even">
-<td align="left">Last Doctor Visit: within last 2 years</td>
-<td align="right">1.2119895</td>
-<td align="right">0.0000002</td>
-</tr>
-<tr class="odd">
-<td align="left">Last Doctor Visit: within last 3 years</td>
-<td align="right">0.8725965</td>
-<td align="right">0.0003718</td>
-</tr>
-<tr class="even">
-<td align="left">Last Doctor Visit: within last 5 years</td>
-<td align="right">0.7311168</td>
-<td align="right">0.0039574</td>
-</tr>
-<tr class="odd">
-<td align="left">Last Doctor Visit: within past year</td>
-<td align="right">2.2194788</td>
-<td align="right">0.0000000</td>
-</tr>
-<tr class="even">
-<td align="left">US Born: yes</td>
-<td align="right">0.0714529</td>
-<td align="right">0.0893009</td>
+<td align="left">Last Doctor Visit: 5+ years</td>
+<td align="right">-1.7818</td>
+<td align="right">0.0000</td>
 </tr>
 </tbody>
 </table>
-<p>This needs more work, but it’s a start.</p>
+<p>In our parsimonious adjusted model, we see that adults who are not covered by health insurance have 0.34 times the odds of getting a flu vaccine compared to individuals who do have health insurance, on average. Our coefficient for the insurance term is significant in this model at a significance level of <span class="math inline">\(\alpha\)</span> = 0.05. All of the other variables in the model are significant, so we are satisfied with this model.</p>
+</div>
+<div id="testing-model-fit" class="section level2">
+<h2>Testing Model Fit</h2>
+<p>To compare the models, we will evaluate the AIC, Akaike’s Information Criterion, for each model. The model that has a smaller AIC is a better fit for the data.</p>
+<pre class="r"><code>aic_test = 
+  tibble(
+    &quot;Crude&quot; = AIC(logreg_crude),
+    &quot;Full&quot; = AIC(logreg_full),
+    &quot;Parsimonious&quot; = AIC(logreg_adj)
+  ) %&gt;% 
+  pivot_longer(
+    everything(),
+    names_to = &quot;Model&quot;,
+    values_to = &quot;AIC&quot;
+  )
+
+aic_test %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Model</th>
+<th align="right">AIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Crude</td>
+<td align="right">42507.92</td>
+</tr>
+<tr class="even">
+<td align="left">Full</td>
+<td align="right">38726.96</td>
+</tr>
+<tr class="odd">
+<td align="left">Parsimonious</td>
+<td align="right">40336.84</td>
+</tr>
+</tbody>
+</table>
+<p>As we can see, the full model has a smaller AIC than the crude and final model, meaning that it is a better fit for the data. However, because we are looking for the most parsimonious model rather than the most saturated model with the greatest fit for the data, we will select the third model as our final adjusted model.</p>
 </div>
 
 
@@ -1057,6 +1216,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
