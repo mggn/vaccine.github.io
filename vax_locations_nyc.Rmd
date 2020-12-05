@@ -1,0 +1,98 @@
+---
+title: <center> NYC Flu Vaccination Locations
+pagetitle: NYC Flu Vaccination Locations
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(httr)
+library(rvest)
+library(plotly)
+library(leaflet)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_color_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+### Data Description
+
+This data set contains information about the locations in NYC where individuals can get a flu shot. This data was collected by NYC DOHMH and is hosted through NYC OpenData. You can view the data set page [here](https://data.cityofnewyork.us/Health/New-York-City-Locations-Providing-Seasonal-Flu-Vac/w9ei-idxz). Each location where people can obtain an influenza vaccine is listed along with business name, location, and whether they accept insurance, walk-in appointments, or vaccinate children.
+
+We will start by importing and tidying the data set.
+
+```{r import_tidy, message = FALSE}
+flu_vax = 
+  GET("https://data.cityofnewyork.us/resource/w9ei-idxz.csv") %>% 
+  content("parsed")
+
+vax_tidy = 
+  flu_vax %>% 
+  select(objectid, facility_name, walk_in, insurance, children, borough, zip_code, latitude, longitude) %>% 
+  mutate(borough = str_to_title(borough))
+```
+
+### Distribution of Vaccination Sites
+
+First, let's examine the breakdown of locations by borough.
+
+```{r kable}
+vax_tidy %>% 
+  group_by(borough) %>% 
+  count() %>% 
+  knitr::kable()
+```
+
+Unsurprisingly, Manhattan has the greatest number of vaccination locations. Staten Island has the fewest of the 5 boroughs, and one location recorded is in Yonkers, just north of the city border.
+
+Let's look at the spatial distribution of locations using `plotly`.
+
+```{r plotly, warning = FALSE}
+vax_plotly = 
+  vax_tidy %>% 
+  mutate(text_label = str_c(facility_name, "\nZip Code: ", zip_code)) %>% 
+  plot_ly(
+    x = ~longitude, y = ~latitude, color = ~borough, colors = "magma",
+    text = ~text_label, alpha = 0.7, type = "scatter", mode = "markers"
+  ) 
+
+vax_plotly
+```
+
+That's pretty helpful, but we can drop the data onto a real map using `leaflet`.
+
+```{r leaflet}
+vax_leaf = 
+  vax_tidy %>% 
+  mutate(text_label = str_c(facility_name, ", ", zip_code)) %>%
+  leaflet() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addCircleMarkers(lat = ~latitude, lng = ~longitude, radius = 0.1, 
+                   label = ~text_label)
+
+vax_leaf
+```
+
+In examining the map, it actually appears that there is not much of New York that isn't in proximity to at least one location that offers flu vaccination. Some areas are more sparse than others, including East Queens and central Staten Island, but overall there appears to be a good spread of vaccination sites across the 5 boroughs.
+
+Of all locations, `r format(round((nrow(filter(vax_tidy, walk_in == "Yes")) / nrow(vax_tidy)) * 100, 2))`% accept walk-in visits, `r format(round((nrow(filter(vax_tidy, insurance == "Yes")) / nrow(vax_tidy)) * 100, 2))`% accept insurance, and `r format(round((nrow(filter(vax_tidy, children == "Yes")) / nrow(vax_tidy)) * 100, 2))`% vaccinate children. Unfortunately, the data dictionary on NYC OpenData is inaccurate, so we do not know whether `children` means that flu vaccinations are administered to children at a location, or if they also administer other childhood vaccinations (like TDAP, MMR, etc). 
+
+This data is important because, perhaps obviously, individuals cannot be vaccinated if there are not clinics or other vendors nearby them to deliver vaccines. It is also important that many of the vendors are drug or convenience stores, so individuals can be vaccinated without needed to make an appointment at their primary care physician or visit a medical clinic, increasing access. 

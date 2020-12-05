@@ -1,0 +1,72 @@
+---
+title: <center> Flulike ED Visits Dataset Prep
+pagetitle: Flulike ED Visits Dataset Prep
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(rvest)
+library(httr)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_color_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Data Description
+
+This dataset contains information about emergency department visits and admissions for influenza-like illness and/or pneumonia in New York City. It was collected by the NYC Department of Health and Mental Hygiene and accessed via API from the NYC OpenData web platform. It contains syndromic data, meaning that it is not characterized by diagnostic testing and is inherently non-specific, but are more useful for tracking trends over time rather than exact measures of morbidity.
+
+## Creating a manageable ED visits dataset
+
+The dataset in its raw form on the NYC OpenData website has cumulative data for every day of observation, meaning that the most recent extract date has the complete file, and everything else is duplicated. Therefore, the dataset has almost 5 million rows, but only ~1% of the data is needed. It is too resource-intensive to repeatedly pull a dataset of that size, so we will import the data set and tidy it, then save as a CSV for further investigation. Data is current as of 12/1/2020.
+
+Note: the code in this markdown is not active; it has been run once locally, and then deactivated to prevent multiple pulls. 
+
+```{r pull_tidy, eval = FALSE}
+ed_flu = 
+  GET("https://data.cityofnewyork.us/resource/2nwg-uqyg.csv",
+      query = list("$limit" = 4777922)) %>% 
+  content("parsed") 
+
+ed_flu_tidy = 
+  ed_flu %>% 
+  mutate(
+    extract_date = as.Date(extract_date, format = "%m/%d/%Y"),
+    date = as.Date(date, format = "%m/%d/%Y"),
+    mod_zcta = as.factor(mod_zcta), 
+    pct_visits = ili_pne_visits / total_ed_visits,
+    pct_adm = ili_pne_admissions / ili_pne_visits
+  ) %>% 
+  filter(extract_date == "2020-12-01" %>% 
+  arrange(date, mod_zcta)
+
+object.size(ed_flu_tidy)
+```
+
+The size of the tidied file is about 2.89 MB. We can save to CSV for use in future analysis.
+
+```{r save, eval = FALSE}
+write_csv(ed_flu_tidy, "./final_project_large_data/ed_flu_tidy.csv")
+```
+
+
+

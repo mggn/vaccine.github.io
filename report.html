@@ -376,6 +376,15 @@ div.tocify {
       <a href="test_storyboard.html">Exploratory Analysis II: BRFSS dashboard</a>
     </li>
     <li>
+      <a href="ed_visit_file_prep.html">Flu-like Illness ED Visits: Dataset Prep</a>
+    </li>
+    <li>
+      <a href="vax_locations_nyc.html">Flu Vaccine Locations in NYC</a>
+    </li>
+    <li>
+      <a href="flu_like_visits_eda.html">Flu-like Illness ED Visits: Analysis</a>
+    </li>
+    <li>
       <a href="qual.html">Qualitative exploration</a>
     </li>
   </ul>
@@ -459,7 +468,7 @@ Project Report</h1>
 </div>
 <div id="twitter" class="section level4">
 <h4>Twitter</h4>
-<p>Using rverst, data were scraped from the <a href="https://twitter.com">website.</a></p>
+<p>Using rtweet, data were scraped from the <a href="https://twitter.com">website.</a></p>
 </div>
 </div>
 <div id="overview-of-research-design" class="section level3">
@@ -529,7 +538,7 @@ Project Report</h1>
 <h3>Analytical methods</h3>
 <p>Analytical methods for the project can be obtained by visiting the page below.</p>
 <p><a href="stat.html">Statistical information from National Health Survey</a></p>
-<p><strong>Adam can you add a few sentences or paragraph here of the steps you took? below is a guide of what you might want to briefly address</strong> <strong>Analytical Methods: Specify the types of methods that you are going to use to analyze your data (e.g., logistic regression, historical trends, and content analysis) and the reasons for your selection. Describe how these methods address specific aims. </strong></p>
+<p>Because we are interested in the binary outcome of whether an individual received an influenza vaccine or not, we will be primarily analyzing the data using logistic regression. We hypothesize that an individual’s health insurance status is an important predictor of their decision to obtain a flu shot, so we will consider this our main effect variable. We will also include other important covariates, and attempt to build a parsimonious model that explains this relationship in a clear way. We also will look at the distribution of demogrpahic and health variables in our data set.</p>
 </div>
 <div id="ethical-concerns-and-protection-of-human-subjects" class="section level3">
 <h3>Ethical concerns and protection of human subjects</h3>
@@ -541,7 +550,8 @@ Project Report</h1>
 <p>Results for the project can be obtained by visiting the pages below.</p>
 <p><a href="methods.html">National Health Survey Results</a></p>
 <p><a href="test_storyboard.html">Behavioral Risk Factor Surveillance System Results</a></p>
-<p><strong>link adam’s map</strong></p>
+<p><a href="vax_locations_nyc.html">NYC influenza vaccination locations</a></p>
+<p><a href="flu_like_visits_eda.html">Flu-like illness and pneumonia ED visits in NYC, March to December 2020</a></p>
 <p><a href="qual.html">Twitter Results</a></p>
 </div>
 <div id="discussion" class="section level2">
@@ -564,7 +574,7 @@ Project Report</h1>
 <ul>
 <li>National Health Survey
 <ul>
-<li>Biological sex appears to have a significant association with flu shot engagement</li>
+<li>Biological sex appears to have a significant association with flu shot engagement, among other variables</li>
 </ul></li>
 <li>Behavioral Risk Factor Surveillance System
 <ul>
@@ -572,7 +582,7 @@ Project Report</h1>
 </ul></li>
 <li>NYC Open Data
 <ul>
-<li></li>
+<li>Flu shot locations are distributed throughout NYC, but that doesn’t mean all New Yorkers get vaccinated</li>
 </ul></li>
 <li>Twitter
 <ul>
@@ -586,6 +596,7 @@ Project Report</h1>
 <li>A unique Twitter data frame that will later be used for a semantic analysis using an appropriate lexicon package</li>
 <li>An interactive display of facilities that offer flu shots within the NYC metro area</li>
 <li>An awesome website, with an even better Spotify playlist</li>
+<li>Long-lasting memories and friendships, and a mutual love of data &lt;3</li>
 </ul>
 </div>
 </div>

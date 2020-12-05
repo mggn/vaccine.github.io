@@ -53,7 +53,7 @@ Access data set [here](https://data.cityofnewyork.us/Health/Emergency-Department
 
 
 #### Twitter
-Using rverst, data were scraped from the [website.](https://twitter.com) 
+Using rtweet, data were scraped from the [website.](https://twitter.com) 
 
 
 ###	Overview of research design
@@ -116,12 +116,12 @@ The process of tidying data began with the import of the collected data sets.  C
 Twitter data was easily scraped from the web using the rtweet package and the command "search_tweets," where search terms can be specified. rtweet connects to twitter's API through a web-based app, and API access tokens are limited to once per hour. As a result, two separate .csv files were generated using the "write_as_csv" function within the package to limit the number of "calls" being made to request twitter data. Further information and code examples can be found [here](qual.html)
 
 ###	Analytical methods
+
 Analytical methods for the project can be obtained by visiting the page below.
 
 [Statistical information from National Health Survey](stat.html)
 
-**Adam can you add a few sentences or paragraph here of the steps you took? below is a guide of what you might want to briefly address**
-**Analytical Methods: Specify the types of methods that you are going to use to analyze your data (e.g., logistic regression, historical trends, and content analysis) and the reasons for your selection. Describe how these methods address specific aims. **
+Because we are interested in the binary outcome of whether an individual received an influenza vaccine or not, we will be primarily analyzing the data using logistic regression. We hypothesize that an individual's health insurance status is an important predictor of their decision to obtain a flu shot, so we will consider this our main effect variable. We will also include other important covariates, and attempt to build a parsimonious model that explains this relationship in a clear way. We also will look at the distribution of demogrpahic and health variables in our data set.
 
 ###	Ethical concerns and protection of human subjects
 
@@ -138,7 +138,11 @@ Results for the project can be obtained by visiting the pages below.
 [Behavioral Risk Factor Surveillance System Results](test_storyboard.html)
 
 
-**link adam's map**
+[NYC influenza vaccination locations](vax_locations_nyc.html)
+
+
+[Flu-like illness and pneumonia ED visits in NYC, March to December 2020](flu_like_visits_eda.html)
+
 
 [Twitter Results](qual.html)
  
@@ -160,11 +164,11 @@ Although quite satisfied with the quality of the data, we would have greatly app
 #### In conclusion, we used 4 sources of data for our exploratory and statistical analysis. We discovered that…
 
 * National Health Survey
-    + Biological sex appears to have a significant association with flu shot engagement
+    + Biological sex appears to have a significant association with flu shot engagement, among other variables
 *	Behavioral Risk Factor Surveillance System
     + The Western Region of the US has lower frequencies of flu vaccinations
 *	NYC Open Data
-    + 	
+    + Flu shot locations are distributed throughout NYC, but that doesn't mean all New Yorkers get vaccinated
 *	Twitter
     + Vaccines are a hot topic right now on twitter
 
@@ -173,6 +177,7 @@ Although quite satisfied with the quality of the data, we would have greatly app
 *	A unique Twitter data frame that will later be used for a semantic analysis using an appropriate lexicon package
 *	An interactive display of facilities that offer flu shots within the NYC metro area
 *	An awesome website, with an even better Spotify playlist
+* Long-lasting memories and friendships, and a mutual love of data <3 
 
 
 ### Next steps
