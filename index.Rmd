@@ -1,5 +1,5 @@
 ---
-title: <center> "TBD"
+title: <center> "Trends in adult vaccination"
 output: 
   html_document:
     toc: true
@@ -16,6 +16,12 @@ Welcome to our p8105 final project. We (Adam, Maria, Ronaé) looked at data conc
 All the best,
 
 *Adam, Maria, Ronaé*
+
+
+p.s. 
+
+Our working repo is linked [here](https://github.com/mggn/p8105_final_project)
+our website repo is linked [here](https://github.com/mggn/vaccine.github.io)
 
 ## Project inspiration
 

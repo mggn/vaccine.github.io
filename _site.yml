@@ -13,10 +13,10 @@ navbar:
         href: methods.html
       - text: "Exploratory Analysis II: BRFSS dashboard"
         href: test_storyboard.html
+      - text: "Qualitative exploration"
+        href: qual.html
     - text: "Statistical Analysis"
       href: stat.html
-    - text: "Qualitative exploration"
-      href: qual.html
     - text: "Bonus Stuff"
       menu:
       - text: "Team Members"
@@ -24,6 +24,6 @@ navbar:
       - text: "Resources"
         href: resources.html
     - icon: fa-github fa-lg
-      href: http://github.com/<YOUR_GH_NAME>/
+      href: https://github.com/mggn/vaccine.github.io
 output:
   html_document

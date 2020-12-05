@@ -6,7 +6,8 @@ output:
     toc_float: true
     theme: cosmo
 ---
-<img src="images/hongkongflu.jpg" style="width:800px;height:500px" class="center">
+<img src="images/hongkongflu.jpg" style="width:640px;height:400px" class="center">
+
 [**Dr. Joel Gitlit gave flu vaccinations to some 200 seniors at a Board of Health clinic in New York City during 1968 Pandemic**](https://www.nytimes.com/2020/03/20/world/europe/coronavirus-aids-spanish-flu-ebola-epidemics.html)
 
 ## Introduction
@@ -21,13 +22,13 @@ The abstract and introduction for the project can be obtained by visiting [here.
 
 The National Health Interview Survey (NHIS) is one of the major data collection programs of the National Center for Health Statistics (NCHS) which is part of the Centers for Disease Control and Prevention (CDC). While the NHIS has been conducted continuously since 1957, the content of the survey has been updated about every 15-20 years to incorporate advances in survey methodology and coverage of health topics. In January 2019, NHIS launched a redesigned content and structure that differs from its previous questionnaire design. Persons excluded from the sample are those with no fixed household address, military personnel, persons in long-term care institutions, persons in correctional facilities, and U.S. nationals living in foreign countries.  Data collection on the NHIS is continuous, i.e., from January to December each year.
 
-Access data set [here](https://www.cdc.gov/nchs/nhis/2019nhis.htm)
+Access data set [here] (https://www.cdc.gov/nchs/nhis/2019nhis.htm)
 
 #### Behavioral Risk Factor Surveillance System (BRFSS)
 
 The Behavioral Risk Factor Surveillance System (BRFSS) is the nation’s system of health-related telephone surveys that collect state data about U.S. residents regarding their health-related risk behaviors, chronic health conditions, and use of preventive services. Established in 1984 BRFSS completes more than 400,000 adult interviews each year, making it the largest continuously conducted health survey system in the world. The basic philosophy was to collect data on actual behaviors, rather than on attitudes or knowledge, that would be especially useful for planning, initiating, supporting, and evaluating health promotion and disease prevention programs. In addition to age, gender, and race/ethnicity, raking permits more demographic variables to be included in weighting such as education attainment, marital status, tenure (property ownership), and telephone ownership. 
 
-Access data set [here](https://www.cdc.gov/brfss/annual_data/annual_2019.html)
+Access data set [here] (https://www.cdc.gov/brfss/annual_data/annual_2019.html)
 
 #### NYC Open Data 
 
@@ -110,7 +111,7 @@ How did we clean the data?
 
 #### Scraping Twitter
 
-**Maria can you describe the steps you took to scrape the twitter data, any problems that occurred and how you ultimately created a cvs file**
+Twitter data was easily scraped from the web using the rtweet package and the command "search_tweets," where search terms can be specified. rtweet connects to twitter's API through a web-based app, and API access tokens are limited to once per hour. As a result, two separate .csv files were generated using the "write_as_csv" function within the package to limit the number of "calls" being made to request twitter data. Further information and code examples can be found [here] (qual.html)
 
 ###	Analytical methods
 Analytical methods for the project can be obtained by visiting the page below.
