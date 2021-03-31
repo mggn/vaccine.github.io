@@ -27,7 +27,7 @@ We are a group of 2nd year MPH students at Columbia University, proud to present
 
 <h2>Adam, the tidy King </h2>
 
-<img src="images/bob_2.jpg" alt="Avatar" class="avatar">
+<img src="images/Adam.jpg" alt="Avatar" class="avatar">
 
 **Adam Whalen**: Adam is an Epidemiology student with a focus on Applied Biostatistics.  Originally from California, Adam loves to talk about single payer healthcare. He is interested in studying the social and spatial distribution of factors that impact health outcomes, specifically for civilian interactions with the police. In his free time he enjoys playing Settlers of Catan and drinking craft beer. 
 

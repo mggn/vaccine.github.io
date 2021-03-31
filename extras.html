@@ -29,6 +29,15 @@
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
   pre:not([class]) {
@@ -73,6 +82,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -409,13 +419,13 @@ div.tocify {
 </li>
 <li>
   <a href="https://github.com/mggn/vaccine.github.io">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://www.youtube.com/watch?v=dod7nYZTL9A&amp;feature=youtu.be">
-    <span class="fa fa-youtube fa-lg"></span>
+    <span class="fas fa-youtube fa-lg"></span>
      
   </a>
 </li>
@@ -458,7 +468,7 @@ Ronaé, the ggplot Goddess
 <h2>
 Adam, the tidy King
 </h2>
-<p><img src="images/bob_2.jpg" alt="Avatar" class="avatar"></p>
+<p><img src="images/Adam.jpg" alt="Avatar" class="avatar"></p>
 <p><strong>Adam Whalen</strong>: Adam is an Epidemiology student with a focus on Applied Biostatistics. Originally from California, Adam loves to talk about single payer healthcare. He is interested in studying the social and spatial distribution of factors that impact health outcomes, specifically for civilian interactions with the police. In his free time he enjoys playing Settlers of Catan and drinking craft beer.</p>
 </div>
 <div id="fun" class="section level2">
@@ -494,7 +504,7 @@ Adam, the tidy King
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
